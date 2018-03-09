@@ -73,6 +73,16 @@ public class PdfListado extends Thread{
     private String nombreVendedor;
     private String domicilioCliente;
     private String localidadCliente;
+    private String telefonoCliente;
+
+    public String getTelefonoCliente() {
+        return telefonoCliente;
+    }
+
+    public void setTelefonoCliente(String telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+    
 
     public String getLocalidadCliente() {
         return localidadCliente;
@@ -464,7 +474,7 @@ public class PdfListado extends Thread{
                     cb.showText("Saldo Cta Cte: 0.00");
                 }
                 cb.setTextMatrix(160,renglon);
-                cb.showText(pdf.getDomicilioCliente());
+                cb.showText(pdf.getDomicilioCliente()+" - "+pdf.getLocalidadCliente());
 
                 cb.setTextMatrix(270,renglon);
                 cb.showText(pdf.getLeyenda1());
@@ -480,7 +490,7 @@ public class PdfListado extends Thread{
                 cb.showText("Revision: "+pdf.getIdRevision());
 
                 cb.setTextMatrix(160,renglon);
-                cb.showText(pdf.getLocalidadCliente());
+                cb.showText(pdf.getTelefonoCliente());
                 cb.setTextMatrix(270,renglon);
                 cb.showText(pdf.getLeyenda2());
                 bf = BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);

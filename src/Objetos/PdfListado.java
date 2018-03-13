@@ -390,6 +390,7 @@ public class PdfListado extends Thread{
             //cb.add(imagen);
             cb.setFontAndSize(bf,10);
             cb.setTextMatrix(40, 810);
+            //String kk=String.valueOf(Math.round(this.getKilos() * 100.0) / 100.0);
             cb.showText("Total Kg.: "+this.getKilos());
             cb.setTextMatrix(370,810);
             cb.showText("Vehiculo: "+this.getVehiculo());

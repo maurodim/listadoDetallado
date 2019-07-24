@@ -757,6 +757,7 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
         
         Comprobantes comprobante=new Comprobantes();
         comprobante.setFe(true);
+        comprobante.setImpacta(true);
         comprobante.setCliente(cliT);
         comprobante.setTipoMovimiento(1);
         comprobante.setTipoComprobante(comprobanteTipo);

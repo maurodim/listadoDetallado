@@ -189,7 +189,11 @@ public class BbsGestion {
                 }
                 if(dias < 0 ){
                     JOptionPane.showMessageDialog(null, "Fecha de Licencia CADUCADA, Por favor Renueve Licencia!!");
-                    System.exit(0);
+                    if(licencia.getId()==1){
+                        
+                    }else{
+                        System.exit(0);
+                    }
                 }
 //ACA DEBERÍA PONER LAS ALERTAS PARA QUE CARGUEN UNA NUEVA LICENCIA
                 

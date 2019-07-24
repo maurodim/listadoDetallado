@@ -7,11 +7,10 @@ package Proveedores;
 
 import Conversores.Numeros;
 import Proveedores.objetos.Impuestos;
-import com.sun.glass.events.KeyEvent;
 import interfaces.Componable;
 import interfaces.Personalizable;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *

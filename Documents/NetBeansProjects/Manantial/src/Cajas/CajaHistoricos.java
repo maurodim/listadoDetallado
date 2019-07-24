@@ -301,13 +301,13 @@ public class CajaHistoricos extends javax.swing.JInternalFrame {
         //lista=Cajas.getListadoCajas();
         int posic = this.jTable1.getSelectedRow();
         Cajas caaj = new Cajas();
-        caaj = (Cajas) Cajas.getListadoCajas().get(posic);
+        caaj = (Cajas) listadoC.get(posic);
         modelo = cajea.LeerComprobante(caaj.getNumeroDeComprobante(), caaj.getTipoDeComprobante(), caaj.getTipoMovimiento());
-        String descripcionF=caaj.getDescripcionForma1();
-        if(caaj.getIdForma1()==0){
-            descripcionF="CTA CTE";
+        String descripcionF = caaj.getDescripcionForma1();
+        if (caaj.getIdForma1() == 0) {
+            descripcionF = "CTA CTE";
         }
-        ListadoComprobantes listadoDeArticulos = new ListadoComprobantes(caaj.getNumeroDeComprobante(), caaj.getTipoMovimiento(), caaj.getTipoDeComprobante(),descripcionF);
+        ListadoComprobantes listadoDeArticulos = new ListadoComprobantes(caaj.getNumeroDeComprobante(), caaj.getTipoMovimiento(), caaj.getTipoDeComprobante(), descripcionF);
         listadoDeArticulos.jList1.setModel(modelo);
         listadoDeArticulos.setVisible(true);
         int posicion = listadoDeArticulos.jList1.getSelectedIndex();

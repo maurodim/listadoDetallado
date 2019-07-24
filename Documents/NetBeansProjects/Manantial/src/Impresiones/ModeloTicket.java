@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Impresiones;
 
 import ConfiguracionR.Propiedades;
@@ -34,7 +29,8 @@ public class ModeloTicket {
 
     // Encabezado
     private FormatoComerciante formatoComerciante;
-
+    //Pie de cierre de caja
+    private FormatoPie formatoPie;
     // Datos Comprador
     private FormatoCliente formatoCliente;
 
@@ -54,6 +50,14 @@ public class ModeloTicket {
     //identificado de tipo de comprobante
     private int idComprobante;
 
+    public FormatoPie getFormatoPie() {
+        return formatoPie;
+    }
+
+    public void setFormatoPie(FormatoPie formatoPie) {
+        this.formatoPie = formatoPie;
+    }
+    
     public void setIdComprobante(int idComprobante) {
         this.idComprobante = idComprobante;
     }
@@ -288,7 +292,7 @@ public class ModeloTicket {
                 + "DIR.:$com.direccion                      \n"
                 + "COND IVA:$com.condicion                  \n"
                 + "=========================================\n"
-                + "TIQUE FACTURA          Nro. $fact.nro    \n"
+                + "TIQUE FACTURA         Nro. $fact.nro    \n"
                 + "                       Fecha: $fact.fecha\n"
                 + "                       Hora:  $fact.hora \n"
                 + "=========================================\n"
@@ -323,28 +327,28 @@ public class ModeloTicket {
                 contenido = contenido.replace("TIQUE FACTURA", "FACTURA A    ");
                 break;
             case 2:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA DEBITO A ");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA DEBITO A ");
                 break;
             case 3:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA CREDITO A");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA CREDITO A");
                 break;
             case 6:
                 contenido = contenido.replace("TIQUE FACTURA", "FACTURA B    ");
                 break;
             case 7:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA DEBITO B ");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA DEBITO B ");
                 break;
             case 8:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA CREDITO B");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA CREDITO B");
                 break;
             case 11:
                 contenido = contenido.replace("TIQUE FACTURA", "FACTURA C    ");
                 break;
             case 12:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA DEBITO C ");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA DEBITO C ");
                 break;
             case 13:
-                contenido = contenido.replace("TIQUE FACTURA", "NTA CREDITO C");
+                contenido = contenido.replace("TIQUE FACTURA", "NOTA CREDITO C");
                 break;
         }
         System.out.println("contenido fc B\n"+contenido);
@@ -355,11 +359,81 @@ public class ModeloTicket {
 
         return null;
     }
+    
+    private String formatoRetiros() {
+        String contenido
+                = "                $com.local               \n"
+                + "                                         \n"
+                + "CUIT Nro.: $com.cuit                     \n"
+                + "$com.ingresos                            \n"
+                + "$com.telefono                            \n"
+                + "$com.direccion                           \n"
+                + "$com.razon_social                        \n"
+                + "=========================================\n"
+                + "           RETIRO DE EFECTIVO            \n"
+                + "                       Nro. $fact.nro    \n"
+                + "                       Fecha: $fact.fecha\n"
+                + "                       Hora:  $fact.hora \n"
+                + "                       Caja:  $fact.caja \n"
+                + "=========================================\n"
+                + "                                         \n"
+                + "TOTAL                           $fact.tot\n"
+                + "                                         \n"
+                + "                                         \n"
+                + "                                         \n"
+                + "\n";
+        //System.out.println("contenido ticket1 \n"+contenido);
+        return contenido;
+    }
+    
+    private String formatoCierreCaja() {
+        String contenido
+                = "                $com.local               \n"
+                + "                                         \n"
+                + "CUIT Nro.: $com.cuit                     \n"
+                + "$com.ingresos                            \n"
+                + "$com.telefono                            \n"
+                + "$com.direccion                           \n"
+                + "$com.razon_social                        \n"
+                + "=========================================\n"
+                + "        RESUMEN DE CIERRE DE CAJA        \n"
+                + "                       Fecha: $fact.fecha\n"
+                + "                       Hora:  $fact.hora \n"
+                + "                       Caja:  $fact.caja \n"
+                + "=========================================\n"
+                + "Num. Comprobante                         \n"
+                + "Descripcion                       IMPORTE\n"
+                + "=========================================\n"
+                + "$productos                               \n"
+                + "                                         \n"
+                + "=========================================\n"
+                + "SALDO INICIAL:               $cli.saldoin\n"
+                + "TOTAL VENTAS:                $cli.totalve\n"
+                + "TOTAL GASTOS:                $cli.gastos \n"
+                + "TOTAL RETIROS EFECTIVO:      $cli.retiros\n"
+                + "TOTAL PAGOS A PROVEEDORES:   $cli.pagos  \n"
+                + "                                         \n"
+                + "                                         \n"
+                + "                                         \n"
+                + "                                         \n"
+                + "\n";
+        //System.out.println("contenido ticket1 \n"+contenido);
+        return contenido;
+    }
+    
+    private String estructuracionArticulosCierre() {
+        return this.articulos.stream()
+                .map(items -> items.getDescripcion()
+                + "    $ "
+                + items.getMontoTotal()
+                + "\n"
+                ).collect(Collectors.joining(""));
 
+    }
     private String estructuracionArticulos() {
         return this.articulos.stream()
                 .map(items -> items.getCantidad()
-                + " X "
+                + " X $ "
                 + items.getPrecioUnitario() + " (" + items.getPorcientoIva()
                 + ")"
                 + "\n"
@@ -606,6 +680,59 @@ public class ModeloTicket {
 
         return contenido;
     }
+    
+    private String procesamientoRetiro(String contenido) {
+
+        contenido = contenido.replace("$com.local", formatoComerciante.getNombreDelLocal());
+        
+        contenido = contenido.replace("$com.cuit", formatoComerciante.getCuitLocal());
+        contenido = contenido.replace("$com.ingresos", formatoComerciante.getIngresosBrutos());
+        contenido = contenido.replace("$com.telefono", formatoComerciante.getTelefono());
+        contenido = contenido.replace("$com.direccion", formatoComerciante.getDireccion());
+        contenido = contenido.replace("$com.razon_social", formatoComerciante.getRazonSocial());
+        //contenido = contenido.replace("$com.condicion", formatoComerciante.getCondicionIva());
+
+        contenido = contenido.replace("$fact.nro", formatoFactura.getNroFactura());
+        contenido = contenido.replace("$fact.fecha", formatoFactura.getFecha());
+        contenido = contenido.replace("$fact.hora", formatoFactura.getHora());
+        contenido = contenido.replace("$fact.caja", formatoFactura.getSuPago());
+        
+        contenido = contenido.replace("$fact.tot", "$ "+formatoFactura.getTotal());
+        
+        //System.out.println(contenido);
+
+        return contenido;
+    }
+    private String procesamientoCierre(String contenido) {
+
+        contenido = contenido.replace("$com.local", formatoComerciante.getNombreDelLocal());
+        
+        contenido = contenido.replace("$com.cuit", formatoComerciante.getCuitLocal());
+        contenido = contenido.replace("$com.ingresos", formatoComerciante.getIngresosBrutos());
+        contenido = contenido.replace("$com.telefono", formatoComerciante.getTelefono());
+        contenido = contenido.replace("$com.direccion", formatoComerciante.getDireccion());
+        contenido = contenido.replace("$com.razon_social", formatoComerciante.getRazonSocial());
+        
+
+        contenido = contenido.replace("$fact.caja", formatoFactura.getSuPago());
+        contenido = contenido.replace("$fact.fecha", formatoFactura.getFecha());
+        contenido = contenido.replace("$fact.hora", formatoFactura.getHora());
+        
+
+        contenido = contenido.replace("$productos", this.estructuracionArticulosCierre());
+        
+        contenido = contenido.replace("$cli.saldoin", formatoPie.getSaldoInicial());
+        contenido = contenido.replace("$cli.totalve", formatoPie.getTotalVentas());
+        contenido = contenido.replace("$cli.gastos", formatoPie.getTotlaGastos());
+        contenido = contenido.replace("$cli.retiros", formatoPie.getRetiros());
+        contenido = contenido.replace("$cli.pagos", formatoPie.getPagos());
+        
+        
+        
+        //System.out.println(contenido);
+
+        return contenido;
+    }
 
     public String procesarTicket(int modelo) {
         String procesado = null;
@@ -621,6 +748,14 @@ public class ModeloTicket {
                 break;
             case 28:
                 procesado = this.procesamiento(this.formatoTicketPresu());
+                //this.mostrarCodigoBarra();
+                break;
+            case 50:
+                procesado = this.procesamientoRetiro(this.formatoRetiros());
+                //this.mostrarCodigoBarra();
+                break;
+                case 55:
+                procesado = this.procesamientoCierre(this.formatoCierreCaja());
                 //this.mostrarCodigoBarra();
                 break;
             default:

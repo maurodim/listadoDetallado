@@ -536,6 +536,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
 
             Comprobantes comprobante = new Comprobantes();
             comprobante.setFe(true);
+            comprobante.setImpacta(true);
             comprobante.setCliente(cliT);
             comprobante.setTipoMovimiento(1);
             comprobante.setTipoComprobante(comprobanteTipo);
@@ -910,6 +911,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
                 articul.setIva(arti.getIva());
                 articul.setCoeficienteIva(arti.getCoeficienteIva());
                 articul.setTipoIva(arti.getTipoIva());
+                articul.setPrecioSubTotal(arti.getPrecioSubTotal());
 
                 Comparables comparar = new Articulos();
                 Double precio = 1.00;//comparar.comparaConCotizaciones(cliT.getCodigoId(),arti.getNumeroId(),cliT.getCoeficienteListaDeprecios());
@@ -1154,9 +1156,13 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
                 }
                 if (noFacturar == 0) {
                     Facturar fat = new Comprobantes();
-                    comprobante = (Comprobantes) fat.guardar(comprobante);
+                    if (JOptionPane.showConfirmDialog(null, "Confirma que éste PRESUPUESTO impacta en CAJA?", "Emisión de Prsupuesto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 1) {
+                        comprobante.setImpacta(false);
+                    }else{
+                        comprobante.setImpacta(true);
                     // aqui hago el envio a factura  electronica, si aprueba no imprime
-
+                    }
+                    comprobante = (Comprobantes) fat.guardar(comprobante);
                     try {
                         if (Propiedades.getTIQUEADORA() == 0) {
                             ImprimirFactura imprimir = new ImprimirFactura();
@@ -1191,6 +1197,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
                     this.jTextField2.setText("");
                     //jTextField1.setText("");
                     jTextField1.requestFocus();
+                    
                 } else {
                     JOptionPane.showMessageDialog(this, "El cliente supera el límite de crédito, debe abonar la venta");
                     noFacturar = 0;
@@ -1346,18 +1353,22 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
 
             fila[0] = codig;
             fila[1] = desc;
-            Double precioUnitario = pedidos.getPrecioUnitarioNeto();
+            Double precioUnitario =pedidos.getPrecioSubTotal(); //pedidos.getPrecioUnitarioNeto();
 
             //precioUnitario=precioUnitario * cliT.getCoeficienteListaDeprecios();
+            
             Double valor = precioUnitario * pedidos.getCantidad();
             //precioUnitario= pedidos.getPrecioUnitario() * cliT.getCoeficienteListaDeprecios();
             //Double valor=(pedidos.getCantidad() * precioUnitario);
             //valor=valor * cliT.getCoeficienteListaDeprecios();
-            pedidos.setPrecioUnitario(valor);
-            String val = Numeros.ConvertirNumero(valor);
+            Double coefiIva=pedidos.getCoeficienteIva() / 100.0;
+            Double ivaIndividual=Numeros.Redondear((precioUnitario * coefiIva) * pedidos.getCantidad());
+            Double totIndividual=Numeros.Redondear(valor + ivaIndividual);
+            pedidos.setPrecioUnitario(totIndividual);
+            String val = Numeros.ConvetirNumeroDosDigitos(valor);
             valor = Numeros.Redondear(valor);
-            montoTotal = montoTotal + valor;
-            Double subb = Numeros.CalcularSubTotal(valor, pedidos.getCoeficienteIva());
+            montoTotal = montoTotal + totIndividual;
+            Double subb = valor;//Numeros.CalcularSubTotal(valor, pedidos.getCoeficienteIva());
             subTotal = subTotal + subb;
             double ivaa = Numeros.CalcularIva(subb, pedidos.getCoeficienteIva());
             montoIva = montoIva + ivaa;
@@ -1382,13 +1393,13 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
             Double pFinal = valor;
             pFinal = Numeros.Redondear(pFinal);
             fila[5] = val;
-            fila[3] = Numeros.ConvertirNumero(precioSIva);
-            fila[2] = Numeros.ConvertirNumero(Numeros.Redondear(pedidos.getPrecioDeCosto()));
+            fila[3] = Numeros.ConvetirNumeroDosDigitos(precioSIva);
+            fila[2] = Numeros.ConvetirNumeroDosDigitos(Numeros.Redondear(pedidos.getPrecioDeCosto()));
             //Double iva=valor / 1.21;//valor * 0.21;
-            fila[6] = Numeros.ConvertirNumero(ivaa);
+            fila[6] = Numeros.ConvetirNumeroDosDigitos(ivaa);
             fila[4] = cant;
 
-            fila[7] = Numeros.ConvertirNumero(pFinal);
+            fila[7] = Numeros.ConvetirNumeroDosDigitos(pFinal);
             busC.addRow(fila);
         }
         if (porcentajeDescuento > 0.00) {
@@ -1426,7 +1437,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
         fila[4] = "";
         fila[5] = "";
         fila[6] = "";
-        fila[7] = "<html><strong>" + Numeros.ConvertirNumero(subTotal) + "</strong></html>";
+        fila[7] = "<html><strong>" + Numeros.ConvetirNumeroDosDigitos(subTotal) + "</strong></html>";
 
         busC.addRow(fila);
         fila[0] = "";
@@ -1436,7 +1447,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
         fila[4] = "";
         fila[5] = "";
         fila[6] = "";
-        fila[7] = "<html><strong> - " + Numeros.ConvertirNumero(montoDescuento) + "</strong></html>";
+        fila[7] = "<html><strong> - " + Numeros.ConvetirNumeroDosDigitos(montoDescuento) + "</strong></html>";
         busC.addRow(fila);
         fila[0] = "";
         fila[1] = "<html><strong>TOTAL</strong></html>";
@@ -1445,7 +1456,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
         fila[4] = "";
         fila[5] = "";
         fila[6] = "";
-        fila[7] = "<html><strong>" + Numeros.ConvertirNumero(montoTotal) + "</strong></html>";
+        fila[7] = "<html><strong>" + Numeros.ConvetirNumeroDosDigitos(montoTotal) + "</strong></html>";
         busC.addRow(fila);
         columnaCodigo = this.jTable1.getColumn("CODIGO");
         columnaCodigo.setPreferredWidth(40);
@@ -1473,11 +1484,11 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
 
     private void montrarMonto() {
         //System.err.println("DESCUENTO :"+cliT.getDescuento());
-        String total1 = Numeros.ConvertirNumero(montoTotal);
+        String total1 = Numeros.ConvetirNumeroDosDigitos(montoTotal);
         String total = "";
         if (cliT.getTipoIva() == 1) {
-            String bruto = Numeros.ConvertirNumero(subTotal);
-            String iva = Numeros.ConvertirNumero(montoIva);
+            String bruto = Numeros.ConvetirNumeroDosDigitos(subTotal);
+            String iva = Numeros.ConvetirNumeroDosDigitos(montoIva);
             total = "<html>Bruto :" + bruto + " <br>IVA " + iva + " <br>Neto " + total1 + "</html>";
         } else {
             total = "<html>Neto " + total1 + "</html>";
@@ -1527,6 +1538,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
             articul.setPrecioDeCosto(arti.getPrecioDeCosto());
             articul.setPrecioUnitario(arti.getPrecioUnitarioNeto());
             articul.setPrecioUnitarioNeto(arti.getPrecioUnitarioNeto());
+            articul.setPrecioSubTotal(arti.getPrecioSubTotal());
             articul.setIdCombo(arti.getIdCombo());
             articul.setCombo(arti.getCombo());
             articul.setSubTotal(arti.getSubTotal());

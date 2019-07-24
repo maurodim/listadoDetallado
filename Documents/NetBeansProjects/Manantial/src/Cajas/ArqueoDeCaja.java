@@ -8,6 +8,8 @@ import Conversores.Numeros;
 import Excel.InformeDiarioStock;
 import Impresiones.Impresora;
 import Cajas.Cajas;
+import ConfiguracionR.Propiedades;
+import Impresiones.ImprimirComprobantes;
 import interfaceGraficasManantial.Inicio;
 import interfacesPrograma.Cajeables;
 import java.sql.SQLException;
@@ -19,14 +21,16 @@ import java.util.logging.Logger;
  * @author mauro
  */
 public class ArqueoDeCaja extends javax.swing.JInternalFrame {
+
     private Double totalB;
+
     /**
      * Creates new form ArqueoDeCaja
      */
     public ArqueoDeCaja() {
         initComponents();
-        totalB=0.00;
-        
+        totalB = 0.00;
+
     }
 
     /**
@@ -101,25 +105,24 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
          * 4- ESE VA A SER EL SALDO FINAL
          * 
          */
-        
-        Double saldoInicial=0.00;
-        Double saldoFinal=0.00;
-        Double diferencia=0.00;
-        Double entrega=0.00;
-        saldoInicial=Inicio.sucursal.getCaja().getSaldoInicial();
-        
-        Cajeables caj=new Cajas();
-        Cajas cajas=new Cajas();
-        cajas=(Cajas)caj.ArquearCaja(Inicio.sucursal.getCaja());
-        Double totalMovimientos=(Double)cajas.getSaldoFinal();
-        totalB=cajas.getTotalVentas();
-        saldoFinal=totalB - saldoInicial;
-        diferencia=saldoFinal - totalMovimientos;
+        Double saldoInicial = 0.00;
+        Double saldoFinal = 0.00;
+        Double diferencia = 0.00;
+        Double entrega = 0.00;
+        saldoInicial = Inicio.sucursal.getCaja().getSaldoInicial();
+
+        Cajeables caj = new Cajas();
+        Cajas cajas = new Cajas();
+        cajas = (Cajas) caj.ArquearCaja(Inicio.sucursal.getCaja());
+        Double totalMovimientos = (Double) cajas.getSaldoFinal();
+        totalB = cajas.getTotalVentas();
+        saldoFinal = totalB - saldoInicial;
+        diferencia = saldoFinal - totalMovimientos;
         //cajas.setMontoMovimiento(diferencia);
-        entrega=0.00;
+        entrega = 0.00;
         //entrega=entrega * -1;
         cajas.setMontoMovimiento(entrega);
-        diferencia=0.00;
+        diferencia = 0.00;
         cajas.setSaldoFinal(totalB);
         /*
          * OJO ACA ES DONDE ESTA CALCULANDO MAL, EN ALGUN PUNTO ME ESTA SUMANDO AL SALDO EN CAJA
@@ -127,27 +130,32 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
          * PUEDE QUE SEA EL - QUE BA PUESTO, LO CAMBIE POR UN +
          * 
          */
-        
-        Double quedaEnCaja=0.00;//totalB + entrega;
-        
+
+        Double quedaEnCaja = 0.00;//totalB + entrega;
+
         cajas.setCambioEnCaja(quedaEnCaja);
-        
+
         cajas.setTotalVentas(totalB);
-        
-        
+
         caj.CerrarCaja(cajas);
         caj.ArquearCaja(Inicio.caja);
-        Impresora impresion=new Impresora();
-        impresion.ImprimirCierreDeCaja(Cajas.getListadoCajas());
+        if (Propiedades.getTIQUEADORA() == 1) {
+            ImprimirComprobantes imprime=new ImprimirComprobantes();
+            imprime.ImprimirCierreDeCaja(Cajas.getListadoCajas());
+
+        } else {
+            Impresora impresion = new Impresora();
+            impresion.ImprimirCierreDeCaja(Cajas.getListadoCajas());
+        }
         this.dispose();
         //ACA DEBE EMITIR EL INFORME DE STOCK PARA CONTROL Y MANDAR EL MAIL CON EL MISMO INFORME
-        InformeDiarioStock info=new InformeDiarioStock();
+        InformeDiarioStock info = new InformeDiarioStock();
         try {
             info.GenerrarInformeStock();
         } catch (SQLException ex) {
             Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         System.exit(1);
     }//GEN-LAST:event_jButton1ActionPerformed
 

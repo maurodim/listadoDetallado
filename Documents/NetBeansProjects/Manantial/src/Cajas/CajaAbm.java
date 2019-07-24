@@ -9,6 +9,8 @@ import Proveedores.Proveedores;
 import Conversores.Numeros;
 import Impresiones.Impresora;
 import Cajas.Cajas;
+import ConfiguracionR.Propiedades;
+import Impresiones.ImprimirComprobantes;
 import facturacion.clientes.Clientes;
 import interfaceGraficasManantial.Inicio;
 import interfaces.Adeudable;
@@ -48,7 +50,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
 
         initComponents();
         this.jLabel5.setText("Saldo Inicial de Caja:" + Inicio.caja.getSaldoInicial());
-
+        this.jPanel4.setVisible(false);
     }
 
     private void AgregarRenglonTabla() {
@@ -62,13 +64,22 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         Cajas cajj = new Cajas();
         jTable1.setModel(tablaCaja);
         tablaCaja.addColumn("COMPROBANTE");
+        tablaCaja.addColumn("TIPO");
         tablaCaja.addColumn("MOVIMIENTO");
         tablaCaja.addColumn("MONTO");
-        Object[] fila = new Object[3];
+        Object[] fila = new Object[4];
         while (itC.hasNext()) {
             cajj = (Cajas) itC.next();
             fila[0] = cajj.getNumeroDeComprobante();
-            fila[1] = cajj.getDescripcionMovimiento();
+            System.out.println("TIPOS DE MOVIMIENTOSSSS "+cajj.getTipoMovimiento());
+            if (cajj.getTipoMovimiento()==1) {
+                
+                    fila[1] = cajj.getDescripcion();
+                
+            } else {
+                fila[1] = "";
+            }
+            fila[2] = cajj.getDescripcionMovimiento();
             if (cajj.getTipoMovimiento() == 1 || cajj.getTipoMovimiento() == 7 || cajj.getTipoMovimiento() == 13) {
                 totalVentas = totalVentas + cajj.getMontoMovimiento();
             } else {
@@ -80,11 +91,11 @@ public class CajaAbm extends javax.swing.JInternalFrame {
                 }
             }
 
-            fila[2] = cajj.getMontoMovimiento();
+            fila[3] = cajj.getMontoMovimiento();
             tablaCaja.addRow(fila);
         }
-        System.out.println("labels "+cajj.getTotalVentas()+" gtos "+cajj.getTotalGastos()+" efect "+cajj.getTotalEfectivo()+" pagos "+cajj.getTotalOtrosPagos());
-        
+        System.out.println("labels " + cajj.getTotalVentas() + " gtos " + cajj.getTotalGastos() + " efect " + cajj.getTotalEfectivo() + " pagos " + cajj.getTotalOtrosPagos());
+
         ModificarLabels(cajj.getTotalVentas(), cajj.getTotalGastos(), cajj.getTotalEfectivo(), cajj.getTotalOtrosPagos());
 
     }
@@ -156,12 +167,21 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         Cajas cajj=new Cajas();
         tablaCaja.addColumn("COMPROBANTE");
         tablaCaja.addColumn("MOVIMIENTO");
+        tablaCaja.addColumn("TIPO");
         tablaCaja.addColumn("MONTO");
-        Object[] fila=new Object[3];
+        Object[] fila=new Object[4];
         while(itC.hasNext()){
             cajj=(Cajas)itC.next();
             fila[0]=cajj.getNumeroDeComprobante();
-            fila[1]=cajj.getDescripcionMovimiento();
+            System.out.println("TIPOS DE MOVIMIENTOSSSS "+cajj.getTipoMovimiento());
+            if (cajj.getTipoMovimiento()==1) {
+
+                fila[1] = cajj.getDescripcion();
+
+            } else {
+                fila[1] = "";
+            }
+            fila[2]=cajj.getDescripcionMovimiento();
             if(cajj.getTipoMovimiento()==1 || cajj.getTipoMovimiento()==7 || cajj.getTipoMovimiento()==13){
                 totalVentas=totalVentas + cajj.getMontoMovimiento();
             }else{
@@ -173,7 +193,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
                 }
             }
 
-            fila[2]=cajj.getMontoMovimiento();
+            fila[3]=cajj.getMontoMovimiento();
             tablaCaja.addRow(fila);
         }
 
@@ -497,12 +517,17 @@ public class CajaAbm extends javax.swing.JInternalFrame {
                 Inicio.caja.setMontoMovimiento(monto);
 
                 caj.NuevoGasto(Inicio.caja);
+                if(Propiedades.getTIQUEADORA()==1){
+                    ImprimirComprobantes impre=new ImprimirComprobantes();
+                    impre.ImprimirRetiroEfectivo(Inicio.caja);
+                }else{
                 Impresora impresora = new Impresora();
                 try {
                     impresora.ImprimirRetiroDeEfectivo(Inicio.caja);
                     //this.jLabel8.setText("Total Efect en Caja :"+Inicio.caja.getSaldoFinal());
                 } catch (IOException ex) {
                     Logger.getLogger(CajaAbm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 }
                 break;
             case 7:
@@ -533,6 +558,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         this.jTable1.removeAll();
+        this.jPanel4.setVisible(true);
         MiModeloTablaArticulos tablaCaja = new MiModeloTablaArticulos();
         this.jPanel2.setVisible(false);
         Iterator itC = Cajas.getListadoCajas().listIterator();
@@ -542,14 +568,23 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         totalOtros = 0.00;
         Cajas cajj = new Cajas();
         tablaCaja.addColumn("COMPROBANTE");
+        tablaCaja.addColumn("TIPO");
         tablaCaja.addColumn("MOVIMIENTO");
         tablaCaja.addColumn("MONTO");
         //tablaCaja.addColumn("FORMA DE PAGO");
-        Object[] fila = new Object[3];
+        Object[] fila = new Object[4];
         while (itC.hasNext()) {
             cajj = (Cajas) itC.next();
             fila[0] = cajj.getNumeroDeComprobante();
-            fila[1] = cajj.getDescripcionMovimiento();
+            System.out.println("TIPOS DE MOVIMIENTOSSSS "+cajj.getTipoMovimiento());
+            if (cajj.getTipoMovimiento()==1) {
+                
+                    fila[1] = cajj.getDescripcion();
+                
+            } else {
+                fila[1] = "";
+            }
+            fila[2] = cajj.getDescripcionMovimiento();
             if (cajj.getTipoMovimiento() == 1 || cajj.getTipoMovimiento() == 7 || cajj.getTipoMovimiento() == 13) {
                 totalVentas = totalVentas + cajj.getMontoMovimiento();
                 if (cajj.getIdForma1() != 1) {
@@ -567,7 +602,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
                 }
             }
 
-            fila[2] = cajj.getMontoMovimiento();
+            fila[3] = cajj.getMontoMovimiento();
             //fila[3]=cajj.getIdForma();
             tablaCaja.addRow(fila);
         }
@@ -579,7 +614,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         this.jLabel7.setText("T. EGRESOS " + totalGtos);
         totalEfect = Inicio.caja.getSaldoInicial() + totalVentas + totalGastos - totalOtros;
         this.jLabel8.setText("T. EFECT EN CAJA " + totalEfect);
-        this.jLabel9.setText("TOTAL OTROS PAGOS: "+totalOtros);
+        this.jLabel9.setText("TOTAL OTROS PAGOS: " + totalOtros);
     }
 
     private void ListarProveedores() {
@@ -594,7 +629,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
             this.jComboBox2.addItem(fact.getNombre());
         }
         this.jLabel2.setText("Seleccione Proveedor");
-        this.jLabel3.setText("Monto Adeudado");
+        this.jLabel3.setText("Monto A Pagar");
         this.jButton2.setText("PAGAR");
         this.jLabel4.setVisible(false);
         this.jTextField2.setVisible(false);
@@ -612,7 +647,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
             this.jComboBox2.addItem(fact.getRazonSocial());
         }
         this.jLabel2.setText("Seleccione Proveedor");
-        this.jLabel3.setText("Monto Adeudado");
+        this.jLabel3.setText("Monto A Pagar");
         this.jButton2.setText("PAGAR");
         this.jLabel4.setVisible(false);
         this.jTextField2.setVisible(false);
@@ -628,11 +663,11 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         Cajas caaj = new Cajas();
         caaj = (Cajas) Cajas.getListadoCajas().get(posic);
         modelo = cajea.LeerComprobante(caaj.getNumeroDeComprobante(), caaj.getTipoDeComprobante(), caaj.getTipoMovimiento());
-        String descripcionF=caaj.getDescripcionForma1();
-        if(caaj.getIdForma1()==0){
-            descripcionF="CTA CTE";
+        String descripcionF = caaj.getDescripcionForma1();
+        if (caaj.getIdForma1() == 0) {
+            descripcionF = "CTA CTE";
         }
-        ListadoComprobantes listadoDeArticulos = new ListadoComprobantes(caaj.getNumeroDeComprobante(), caaj.getTipoMovimiento(), caaj.getTipoDeComprobante(),descripcionF);
+        ListadoComprobantes listadoDeArticulos = new ListadoComprobantes(caaj.getNumeroDeComprobante(), caaj.getTipoMovimiento(), caaj.getTipoDeComprobante(), descripcionF);
         listadoDeArticulos.jList1.setModel(modelo);
         listadoDeArticulos.setVisible(true);
         int posicion = listadoDeArticulos.jList1.getSelectedIndex();

@@ -23,4 +23,5 @@ public interface FacturableE {
     public void eliminar(Object fe);
     public String reimprimir(Object fe);
     public String imprimir(Object fe);
+    public ArrayList listarPorProveedorYFecha(Integer estado,String fecha);
 }

@@ -852,7 +852,7 @@ public class Cajas extends Sucursales implements Cajeables{
         Cajas cajas=(Cajas)caja;
         Cajas cajass=null;
         Double saldoFinal=cajas.saldoInicial;
-        String sql="select numeroComprobante,idcaja,tipomovimiento,pagado,monto,tipocomprobante,idforma1,monto1,idforma2,monto2,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma1) as descForma1,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma2) as descForma2 from movimientoscaja where idCaja="+cajas.numero;
+        String sql="select numeroComprobante,idcaja,tipomovimiento,pagado,monto,tipocomprobante,idforma1,monto1,idforma2,monto2,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma1) as descForma1,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma2) as descForma2,(select descripcion from tipocomprobantes where tipocomprobantes.numeroafip=movimientoscaja.tipocomprobante and tipocomprobantes.numeroafip > 0)as nombrecomprobante from movimientoscaja where idCaja="+cajas.numero;
         Transaccionable tra=null;
         try {
             tra = new Conecciones();
@@ -873,6 +873,7 @@ public class Cajas extends Sucursales implements Cajeables{
             while(rs.next()){
                 cajass=new Cajas();
                 //incluir=0;
+                
                 cajass.setNumero(cajas.numero);
                 cajass.setNumeroDeComprobante(rs.getInt("numeroComprobante"));
                 cajass.setTipoMovimiento(rs.getInt("tipoMovimiento"));
@@ -895,6 +896,7 @@ public class Cajas extends Sucursales implements Cajeables{
                         
                         cajass.setMonto2(rs.getDouble("monto2"));
                         cajass.setDescripcionForma2(rs.getString("descForma2"));
+                        cajass.setDescripcion(rs.getString("nombrecomprobante"));
                 
                 saldoFinal= saldoFinal + rs.getDouble("monto");
                 cajass.setTipoDeComprobante(rs.getInt("tipoComprobante"));
@@ -1230,14 +1232,43 @@ public class Cajas extends Sucursales implements Cajeables{
         //Cajas cajas=(Cajas)caja;
         Cajas cajass=null;
         //Double saldoFinal=cajas.saldoInicial;
-        String sql="select * from movimientoscaja where fecha  between '"+fecha+" 00:00:00.000' and '"+hasta+" 00:00:00.000'";
-        System.out.println(sql);
         
+        String sql="select numero,numeroComprobante,idcaja,tipomovimiento,pagado,monto,tipocomprobante,idforma1,monto1,idforma2,monto2,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma1) as descForma1,(select descripcion from formasdepago where formasdepago.id=movimientoscaja.idforma2) as descForma2,(select descripcion from tipocomprobantes where tipocomprobantes.numeroafip=movimientoscaja.tipocomprobante and tipocomprobantes.numeroafip > 0)as nombrecomprobante from movimientoscaja where fecha  between '"+fecha+" 00:00:00.000' and '"+hasta+" 00:00:00.000'";
+        System.out.println(sql);
+        Double mmonto=0.00;
         try {
             Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
             while(rs.next()){
                 cajass=new Cajas();
+                
+                
+                cajass.setNumero(rs.getInt("numero"));
+                cajass.setNumeroDeComprobante(rs.getInt("numeroComprobante"));
+                cajass.setTipoMovimiento(rs.getInt("tipoMovimiento"));
+                mmonto=rs.getDouble("monto");
+                
+                
+                //if(cajass.getTipoMovimiento()==12 || cajass.getTipoMovimiento()==4 || cajass.getTipoMovimiento()==11)gtos=gtos + rs.getDouble("monto");
+                cajass.setMontoMovimiento(mmonto);
+                cajass.setIdForma1(rs.getInt("idforma1"));
+                        
+                        cajass.setMonto1(rs.getDouble("monto1"));
+                        cajass.setDescripcionForma1(rs.getString("descForma1"));
+                        cajass.setIdForma2(rs.getInt("idforma2"));
+                        
+                        cajass.setMonto2(rs.getDouble("monto2"));
+                        cajass.setDescripcionForma2(rs.getString("descForma2"));
+                        cajass.setDescripcion(rs.getString("nombrecomprobante"));
+                
+                //saldoFinal= saldoFinal + rs.getDouble("monto");
+                cajass.setTipoDeComprobante(rs.getInt("tipoComprobante"));
+                int pos=cajass.getTipoMovimiento() -1;
+                Operaciones operacion=(Operaciones)listOperaciones.get(pos);
+                 String desc=operacion.getDescripcion();
+                cajass.setDescripcionMovimiento(desc);
+                
+                /*
                 cajass.setNumero(rs.getInt("idCaja"));
                 cajass.setNumeroDeComprobante(rs.getInt("numeroComprobante"));
                 cajass.setTipoMovimiento(rs.getInt("tipoMovimiento"));
@@ -1249,6 +1280,7 @@ public class Cajas extends Sucursales implements Cajeables{
                 Operaciones operacion=(Operaciones)listOperaciones.get(pos);
                  String desc=operacion.getDescripcion();
                 cajass.setDescripcionMovimiento(desc);
+                */
                 listadoCajas.add(cajass);
                 
             }

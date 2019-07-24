@@ -227,7 +227,7 @@ public class MovimientosClientes implements Facturable, Movible, Editables {
     @Override
     public Object cargarEncabezadoFactura(Integer idPed, Integer tipo) {
         MovimientosClientes factura = new MovimientosClientes();
-        String sql = "select id,estado,fecha,idcliente,idpedido,idremito,idusuario,numerofactura,tipo,total,subtotal,descuento,porcentajeD,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.id=facturas.tipo)as descripcionTipo from facturas where numerofactura=" + idPed + " and tipo=" + tipo;
+        String sql = "select id,estado,fecha,idcliente,idpedido,idremito,idusuario,numerofactura,tipo,total,subtotal,descuento,porcentajeD,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.numeroafip=facturas.tipo)as descripcionTipo from facturas where numerofactura=" + idPed + " and tipo=" + tipo;
         
         try {
             Transaccionable tra = new Conecciones();
@@ -448,7 +448,7 @@ public class MovimientosClientes implements Facturable, Movible, Editables {
     @Override
     public ArrayList ListarMovimientos(Integer id) {
         ArrayList listado = new ArrayList();
-        String sql = "SELECT movimientosclientes.*,tipocomprobantes.descripcion,pedidos.saldo,pedidos.idfactura,facturas.numerofactura, facturas.tipo FROM movimientosclientes left join tipocomprobantes on tipocomprobantes.id=movimientosclientes.tipocomprobante left join pedidos on pedidos.id=movimientosclientes.idpedido left JOIN facturas on facturas.id=pedidos.idfactura where movimientosclientes.numeroproveedor=" + id;
+        String sql = "SELECT movimientosclientes.*,tipocomprobantes.descripcion,pedidos.saldo,pedidos.idfactura,facturas.numerofactura, facturas.tipo FROM movimientosclientes left join tipocomprobantes on tipocomprobantes.numeroafip=movimientosclientes.tipocomprobante left join pedidos on pedidos.id=movimientosclientes.idpedido left JOIN facturas on facturas.id=pedidos.idfactura where movimientosclientes.numeroproveedor=" + id;
         System.out.println(sql);
         
         try {
@@ -548,7 +548,7 @@ public class MovimientosClientes implements Facturable, Movible, Editables {
     @Override
     public ArrayList ListarMovimientosPorFechas(Integer id, String desde, String hasta) {
         ArrayList listado = new ArrayList();
-        String sql = "SELECT movimientosclientes.*,clientes.razon_soci,tipocomprobantes.descripcion,pedidos.saldo,pedidos.idfactura,facturas.numerofactura, facturas.tipo FROM movimientosclientes left join tipocomprobantes on tipocomprobantes.id=movimientosclientes.tipocomprobante left join pedidos on pedidos.id=movimientosclientes.idpedido left JOIN facturas on facturas.id=pedidos.idfactura join clientes on clientes.id=MOVIMIENTOSCLIENTES.NUMEROPROVEEDOR where movimientosclientes.fecha between '" + desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000'";
+        String sql = "SELECT movimientosclientes.*,clientes.razon_soci,tipocomprobantes.descripcion,pedidos.saldo,pedidos.idfactura,facturas.numerofactura, facturas.tipo FROM movimientosclientes left join tipocomprobantes on tipocomprobantes.numeroafip=movimientosclientes.tipocomprobante left join pedidos on pedidos.id=movimientosclientes.idpedido left JOIN facturas on facturas.id=pedidos.idfactura join clientes on clientes.id=MOVIMIENTOSCLIENTES.NUMEROPROVEEDOR where movimientosclientes.fecha between '" + desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000'";
         System.out.println(sql);
         
         try {

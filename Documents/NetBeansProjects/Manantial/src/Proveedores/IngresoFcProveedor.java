@@ -11,7 +11,9 @@ import Proveedores.Interfaces.FacturableE;
 import Proveedores.objetos.MovimientoProveedores;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import objetosCiti.Comprasfiscal;
@@ -36,6 +38,7 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
     private double montoGravado;
     private double montoIva;
     private String detIva;
+    private Boolean nuevoM;
 
     public IngresoFcProveedor(Proveedores clienteTango) {
         //cliT=new Clientes();
@@ -52,23 +55,55 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
         compras = new Comprasfiscal();
         controlador = new ComprasfiscalJpaController();
         detIva="";
+        nuevoM=true;
 
     }
 
     public IngresoFcProveedor(MovimientoProveedores ped, Proveedores clienteTango) {
-        //factura=new Facturas();
+        
+
+        initComponents();
+        lsstIva=new ArrayList();
+        lstTiposV=new ArrayList();
+        lstTiposV.add(new TiposIva(5,0.0,0.0,21));
+        lstTiposV.add(new TiposIva(4,0.0,0.0,10.5));
+        lstTiposV.add(new TiposIva(6,0.0,0.0,27));
+        compras = new Comprasfiscal();
+        controlador = new ComprasfiscalJpaController();
+        detIva="";
         MovimientoProveedores pedido = new MovimientoProveedores();
         ArrayList listadoPed = new ArrayList();
         pedido = (MovimientoProveedores) ped;
         Date dia=Numeros.ConvertirStringEnDate(pedido.getFecha());
-        this.fecha_cmb.setSelectedDate(Numeros.ConvertirStringEnCalendar(dia));
-        detIva="";
-        
-        
-        
-        //alicuotaIva="0005";
-
-        initComponents();
+        Calendar ffecha=Numeros.ConvertirStringEnCalendar(dia);
+        this.fecha_cmb.setSelectedDate(ffecha);
+        nuevoM=false;
+        compras=controlador.CargarCompra(pedido.getIdComprobante());
+        this.punto_txt.setText(compras.getPto());
+        this.numero_txt.setText(compras.getNumero());
+        this.montoGravado_txt.setText(Numeros.ConvertirNumero(compras.getGravado()));
+        this.montoIva_txt.setText(Numeros.ConvertirNumero(compras.getIva()));
+        this.netoNoGravado_txt.setText(Numeros.ConvertirNumero(compras.getNetonogravado()));
+        this.exento_txt.setText(Numeros.ConvertirNumero(compras.getExentas()));
+        this.percepcionIva_txt.setText(Numeros.ConvertirNumero(compras.getPercepcioniva()));
+        this.impuestosNacionales_txt.setText(Numeros.ConvertirNumero(compras.getImpuestosnacionales()));
+        this.impuestosInternos_txt.setText(Numeros.ConvertirNumero(compras.getImpinternos()));
+        this.percepcionIB_txt.setText(Numeros.ConvertirNumero(compras.getPercepcionib()));
+        this.impuestosMunicipales_txt.setText(Numeros.ConvertirNumero(compras.getImpmunicipales()));
+        this.otros_txt.setText(Numeros.ConvertirNumero(compras.getOtrostributos()));
+        Iterator it=compras.getLstAlicuotas().listIterator();
+        TiposIva tipI;
+        while(it.hasNext()){
+            tipI=(TiposIva) it.next();
+            
+        detIva=detIva+"<br>Monto Gravado: $ "+Numeros.ConvertirNumero(tipI.getBaseImponible())+" Monto Iva: $"+Numeros.ConvertirNumero(tipI.getImporte())+" "+tipI.getDescripcion();
+            this.detalle_iva_lbl.setText("<html>"+detIva+"</html>");
+        }
+        String total = "Total Comprobante : $ " + Numeros.ConvertirNumero(pedido.getMonto());
+        this.total_lbl.setText(total);
+       this.jLabel1.setVisible(false);
+       this.jButton2.setVisible(false);
+       
 
     }
 
@@ -672,8 +707,11 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
         movi.setSaldo(mon);
         movi.setIdComprobante(id);
         FacturableE factu=new MovimientoProveedores();
-        factu.guardar(movi);
-        
+        if(nuevoM){
+            factu.guardar(movi);
+        }else{
+            factu.modificar(movi);
+        }
         this.dispose();
         //JOptionPane.showMessageDialog(null, resultado);
 

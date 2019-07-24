@@ -39,6 +39,16 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
     private Integer idSucursal;
     private static Integer numeroRecibo;
     private static Integer numeroFacturaP;
+    private String observaciones;
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+    
 
     public Integer getIdSucursal() {
         return idSucursal;
@@ -267,7 +277,29 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
 
     @Override
     public Object leerComprobante(Integer numero) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        FacturaProveedor factu = null;
+        try {
+            Transaccionable tra=new Conecciones();
+            String sql="select * from movimientosproveedores where id="+numero;
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+            while(rs.next()){
+                factu=new FacturaProveedor();
+                factu.setId(rs.getInt("id"));
+                factu.setNumeroProveedor(rs.getInt("numeroproveedor"));
+                factu.setFecha(rs.getDate("fecha"));
+                factu.setMontoFinal(rs.getDouble("monto"));
+                factu.setNumero(rs.getString("numerocomprobante"));
+                factu.setObservaciones(rs.getString("observaciones"));
+            }
+            rs.close();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return factu;
     }
 
     @Override
@@ -428,7 +460,7 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
         try {
             tra = new Conecciones();
         
-       String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito,pagado,idcaja,fechapago,numerofactura,numeroremito,subtotal,saldo,idcomprobante,porcentajedescuento) values ("+factProv.getNumeroProveedor()+","+factProv.getMontoFinal()+",'"+numeroRecibo+"',"+factProv.getIdUsuario()+",11,"+factProv.getIdSucursal()+",0,1,"+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"','00','00',"+factProv.getMontoFinal()+",0.00,0,0.00)";
+       String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito,pagado,idcaja,fechapago,numerofactura,numeroremito,subtotal,saldo,idcomprobante,porcentajedescuento,observaciones) values ("+factProv.getNumeroProveedor()+","+factProv.getMontoFinal()+",'"+numeroRecibo+"',"+factProv.getIdUsuario()+",11,"+factProv.getIdSucursal()+",0,1,"+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"','00','00',"+factProv.getMontoFinal()+",0.00,0,0.00,'EFECTIVO')";
        //String sql="update movimientosproveedores set pagado=1,numeroComprobante="+numeroRecibo+",idCaja="+Inicio.caja.getNumero()+",fechaPago='"+fech+"',idSucursal="+Inicio.sucursal.getNumero()+" where id="+factProv.getId();
        //System.out.println("VEAMOS "+sql);
        tra.guardarRegistro(sql);
@@ -466,6 +498,33 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
     @Override
     public Object cargarPorCodigoAsignadoFacturacion(Integer id, double coeficiente) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object PagarConOtrosMedios(Object objeto) {
+        FacturaProveedor factProv=(FacturaProveedor)objeto;
+       numeroActualRecibo();
+       numeroRecibo++;
+       String fech=Numeros.ConvertirDateAString(factProv.getFecha())+" 00:00:00.000";
+       Transaccionable tra=null;
+        try {
+            tra = new Conecciones();
+        
+       String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito,pagado,idcaja,fechapago,numerofactura,numeroremito,subtotal,saldo,idcomprobante,porcentajedescuento,observaciones,fecha) values ("+factProv.getNumeroProveedor()+","+factProv.getMontoFinal()+",'"+numeroRecibo+"',"+factProv.getIdUsuario()+",11,"+factProv.getIdSucursal()+",0,1,"+Inicio.caja.getNumero()+",'"+fech+"','00','00',"+factProv.getMontoFinal()+",0.00,0,0.00,'"+factProv.getObservaciones()+"','"+fech+"')";
+       //String sql="update movimientosproveedores set pagado=1,numeroComprobante="+numeroRecibo+",idCaja="+Inicio.caja.getNumero()+",fechaPago='"+fech+"',idSucursal="+Inicio.sucursal.getNumero()+" where id="+factProv.getId();
+       System.out.println("VEAMOS "+sql);
+       tra.guardarRegistro(sql);
+       String ttx="PAGO A PROVEEDOR "+factProv.getNombreProveedor();
+       
+       GuardarNumeroRecibo();
+       } catch (InstantiationException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FacturaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return factProv;
     }
     
     

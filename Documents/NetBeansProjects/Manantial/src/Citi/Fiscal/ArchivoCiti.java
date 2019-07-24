@@ -133,7 +133,7 @@ public class ArchivoCiti {
 //        String sql="select Concat(lpad(fecha,8,'0'),lpad(CONVERT(tipo USING utf8),3,'0'),lpad(pto,5,'0'),lpad(numero,20,'0'),lpad(numero,20,'0'),lpad(tipoClienteId,2,'0'),lpad(cuit,20,convert('0' using utf8)),lpad(razon,30,convert(' ' using utf8)),lpad(REPLACE(format(total,2),'.',''),15,'0'),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('000000000000000' USING utf8),CONVERT('PES' USING utf8),CONVERT('0001000000' USING utf8),CONVERT('1' USING utf8),CONVERT('0' USING utf8)," +
 //"CONVERT('000000000000000' USING utf8),lpad(CONVERT('0' USING utf8),8,'0')) as dato from fiscal where fecha like '201607%' group by numero order by fecha";
 */        
-sql="select * from fiscal where fechaRegistro between '"+fechaDesde+" 00:00:00.000' and '"+fechaHasta+" 00:00:00.000'";
+sql="select * from fiscal where numero not like 'null' fechaRegistro between '"+fechaDesde+" 00:00:00.000' and '"+fechaHasta+" 00:00:00.000'";
         System.out.println(sql);
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         //FileWriter fichero=null;

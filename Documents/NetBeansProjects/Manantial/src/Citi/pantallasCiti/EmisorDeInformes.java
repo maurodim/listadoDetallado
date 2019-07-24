@@ -44,7 +44,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         dateChooserCombo8 = new datechooser.beans.DateChooserCombo();
         jLabel1 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
@@ -54,7 +53,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         dateChooserCombo10 = new datechooser.beans.DateChooserCombo();
         jLabel2 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
 
         setClosable(true);
@@ -89,14 +87,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/ventas.png"))); // NOI18N
         jLabel1.setText("<html><strong>Ventas</strong></html>");
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/eliminar.png"))); // NOI18N
-        jButton8.setText("Eliminar Registros ");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/excel.png"))); // NOI18N
         jButton10.setText("Generar Excel Iva Ventas");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -125,8 +115,7 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(dateChooserCombo7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dateChooserCombo8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(dateChooserCombo8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -149,10 +138,8 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
-                .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/nuevo.png"))); // NOI18N
@@ -179,14 +166,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/compras.png"))); // NOI18N
         jLabel2.setText("<html><strong>Compras</strong></html>");
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/eliminar.png"))); // NOI18N
-        jButton9.setText("Eliminar Registros");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/excel.png"))); // NOI18N
         jButton11.setText("Generar Excel Iva Compras");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +184,7 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createSequentialGroup()
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -213,9 +192,8 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
                             .addGap(18, 18, 18)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(dateChooserCombo9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(dateChooserCombo10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(dateChooserCombo10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -236,10 +214,8 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
                 .addGap(18, 18, 18)
-                .addComponent(jButton9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton11)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -302,36 +278,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        JOptionPane.showConfirmDialog(null, "Desea Eliminar Los Registros de VENTAS en el rango de fechas?", "Warning", dialogButton);
-
-        if (dialogButton == JOptionPane.YES_OPTION) { //The ISSUE is here
-        
-        ArchivoCiti citi = new ArchivoCiti();
-        String fDesde = Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo7.getSelectedDate());
-        String fHasta = Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo8.getSelectedDate());
-        if (citi.EliminarRegistrosVentas(fDesde, fHasta)) {
-            this.jButton8.setEnabled(false);
-        }
-        } 
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        JOptionPane.showConfirmDialog(null, "Desea Eliminar Los Registros de Compras en el rango de fechas?", "Warning", dialogButton);
-
-        if (dialogButton == JOptionPane.YES_OPTION) { //The ISSUE is here
-
-            ArchivoCiti citi = new ArchivoCiti();
-            String fDesde = Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo9.getSelectedDate());
-            String fHasta = Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo10.getSelectedDate());
-            if (citi.EliminarRegistrosCompras(fDesde, fHasta)) {
-                this.jButton9.setEnabled(false);
-            }
-        }
-    }//GEN-LAST:event_jButton9ActionPerformed
-
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         IvaVentas iva=new IvaVentas();
         String fDesde=Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo7.getSelectedDate());
@@ -370,8 +316,6 @@ public class EmisorDeInformes extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

@@ -62,6 +62,16 @@ public class Comprobantes implements Facturar {
     private double monto1;
     private double monto2;
     private Integer numeroRegistro;
+    private Boolean impacta;
+
+    public Boolean getImpacta() {
+        return impacta;
+    }
+
+    public void setImpacta(Boolean impacta) {
+        this.impacta = impacta;
+    }
+    
 
     public Integer getNumeroRegistro() {
         return numeroRegistro;
@@ -454,7 +464,7 @@ public class Comprobantes implements Facturar {
         comp.setIdFactura(factura.getId());
         DetalleFacturas detalle = new DetalleFacturas();
         Facturable ffD = new DetalleFacturas();
-        Boolean impacta = true;
+        //impacta = true;
         Boolean verif = false;
         String sql = "";
         while (iComp.hasNext()) {
@@ -480,20 +490,12 @@ public class Comprobantes implements Facturar {
             ffD.nuevaFactura(detalle);
 
             sql = "insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,fechaComprobante,numeroUsuario,precioDeVenta,precioServicio,preciodecosto,idcaja,estado) values (" + comp.getTipoMovimiento() + "," + articulo.getNumeroId() + "," + cantidad + "," + Inicio.deposito.getNumero() + "," + comp.getTipoComprobante() + "," + numeroComprobante + "," + comp.getCliente().getCodigoId() + ",'" + comp.getFechaEmision() + "'," + comp.getUsuarioGenerador() + "," + articulo.getPrecioUnitario() + "," + articulo.getPrecioServicio() + "," + articulo.getPrecioDeCosto() + "," + Inicio.caja.getNumero() + ",0)";
-            if (comp.getTipoComprobante() == 28 && Propiedades.getPRESUPUESTOS() == 0) {
-
-            } else {
-                if (comp.getTipoComprobante() == 28) {
-                    if (JOptionPane.showConfirmDialog(null, "Confirma que éste PRESUPUESTO impacta en CAJA?", "Emisión de Prsupuesto", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 1) {
-                        impacta = false;
-                    } else {
-                        impacta = true;
-                        tra.guardarRegistro(sql);
-                    }
-                } else {
+            
+                if(comp.impacta){
                     tra.guardarRegistro(sql);
                 }
-            }
+                
+            
             System.out.println(sql);
 
         }
@@ -501,10 +503,8 @@ public class Comprobantes implements Facturar {
         if (comp.getPagado() == 0) {
             forma = 0;
         }
-        if (comp.getTipoComprobante() == 28 && Propiedades.getPRESUPUESTOS() == 0) {
-
-        } else {
-            if (impacta) {
+        
+            if (comp.impacta) {
 
                 sql = "insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado,idforma1,monto1,idforma2,monto2) values (" + comp.getUsuarioGenerador() + "," + comp.getIdSucursal() + "," + numeroComprobante + "," + comp.getTipoComprobante() + "," + comp.getMontoTotal() + "," + comp.getTipoMovimiento() + "," + Inicio.caja.getNumero() + "," + comp.getCliente().getCodigoId() + ",1," + comp.getPagado() + "," + forma + "," + comp.getMonto1() + "," + comp.getIdForma2() + "," + comp.getMonto2() + ")";
                 System.out.println(sql);
@@ -522,7 +522,7 @@ public class Comprobantes implements Facturar {
                 System.out.println(sql);
                 tra.guardarRegistro(sql);
             }
-        }
+        
         System.out.println("SE RECEPCIONO BARBARO");
         sql = "update tipocomprobantes set numeroActivo=" + numeroComprobante + " where id=" + idComp;
         try {

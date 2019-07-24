@@ -24,6 +24,8 @@ import javax.imageio.ImageIO;
 import ConfiguracionR.Propiedades;
 import Conversores.NumberToLetterConverter;
 import interfaces.Personalizable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import objetosR.Localidades;
 
 /**
@@ -59,13 +61,10 @@ public class ImprimirFactura {
 
     }
 
-    /**
-     * ******************************************************************
-     * A continuación el método "imprimir(String)", el encargado de * colocar en
-     * el objeto gráfico la cadena que se le pasa como * parámetro y se imprime.
-     * *
-	*******************************************************************
-     */
+    public ImprimirFactura(Integer idCotizacion, Integer tipo){
+        this.AbriPdf(idCotizacion, tipo);
+    }
+    
     public void ImprimirFactura(Integer idCotizacion, Integer tipo) throws IOException {
         Facturable cotizable = new MovimientosClientes();
         MovimientosClientes cotizacion = new MovimientosClientes();
@@ -150,8 +149,9 @@ public class ImprimirFactura {
             pagina.drawString("CODIGO", 20, 130);
             pagina.drawString("DESCRIPCION", 160, 130);
             //pagina.drawString("DESCUENTO", 330, 130);
-            pagina.drawString("CANTIDAD", 400, 130);
-            pagina.drawString("P. UNITARIO", 500, 130);
+            pagina.drawString("CANTIDAD", 350, 130);
+            pagina.drawString("P. UNITARIO", 430, 130);
+            pagina.drawString("TOTAL", 530, 130);
             int renglon = 145;
             Iterator it = listadoDetalle.listIterator();
             String unitario = "";
@@ -181,11 +181,11 @@ public class ImprimirFactura {
                 }
                 //pagina.drawString(descuento, 350, renglon);
 
-                pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()), 420, renglon);
-
+                pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()), 350, renglon);
+                pagina.drawString(Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario()), 430,renglon);
                 unitario = Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario() * detalleDeCotizacion.getCantidad());
 
-                pagina.drawString(unitario, 520, renglon);
+                pagina.drawString(unitario, 540, renglon);
                 renglon = renglon + 10;
             }
             //formulario derecho
@@ -365,6 +365,51 @@ public class ImprimirFactura {
             System.out.println("LA IMPRESION HA SIDO CANCELADA..." + e);
         }
 
+    }
+    private void AbriPdf(Integer idCotizacion, Integer tipo){
+        String arch;
+        String descripcionTipo = null;
+        switch(tipo){
+            case 1:
+                descripcionTipo="tcFacturaA";
+                break;
+            case 2:
+                descripcionTipo="tcNotaDebitoA";
+                break;
+            case 3:
+                descripcionTipo="tcNotaCreditoA";
+                break;
+            case 6:
+                descripcionTipo="tcFacturaB";
+                break;
+            case 7:
+                descripcionTipo="tcNotaDebitoB";
+                break;
+            case 8:
+                descripcionTipo="tcNotaCreditoB";
+                break;
+            case 11:
+                descripcionTipo="tcFacturaC";
+                break;
+            case 12:
+                descripcionTipo="tcNotaDebitoC";
+                break;
+            case 13:
+                descripcionTipo="tcNotaCreditoC";
+                break;
+        }
+        arch = "Facturas Electronicas\\" + idCotizacion + "_" + descripcionTipo + ".pdf";
+        System.out.println("archivo "+arch);
+        File f = new File(arch);
+            if (f.exists()) {
+                
+                    try {
+                        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + arch);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImprimirFactura.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                
+    }
     }
 
 }//FIN DE LA CLASE Impresora

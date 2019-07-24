@@ -208,7 +208,7 @@ public class ListasDePreciosAbm extends javax.swing.JInternalFrame {
         this.jTextField1.setText(listaDePrecios.getDesccripcion());
         Double porc=listaDePrecios.getCoeficiente();
         if(porc < 1){
-            porc=1 - porc;   
+            porc=(1 - porc) * -1;   
         }else{
             porc=porc - 1;
         }

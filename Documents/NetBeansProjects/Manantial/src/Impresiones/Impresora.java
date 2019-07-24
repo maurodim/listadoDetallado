@@ -82,8 +82,8 @@ public class Impresora {
         
         pagina = pj.getGraphics();
         try{
-        BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
-        pagina.drawImage(imagen,63,20,174,93,null);
+        //BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
+        //pagina.drawImage(imagen,63,20,174,93,null);
         pagina.setFont(fuente6);
         pagina.setColor(Color.black);
         pagina.drawString("COMPROBANTE N° 00"+Inicio.sucursal.getNumero()+"-000"+caja.getNumeroDeComprobante(),20,130);
@@ -101,7 +101,7 @@ public class Impresora {
         pagina.drawString("RETIRO DE EFECTIVO ", 50,280);
         //formulario derecho
         
-        pagina.drawImage(imagen,363,20,174,93,null);
+        //pagina.drawImage(imagen,363,20,174,93,null);
         pagina.setFont(fuente6);
         pagina.setColor(Color.black);
         pagina.drawString("COMPROBANTE N° 00"+Inicio.sucursal.getNumero()+"-000"+caja.getNumeroDeComprobante(),320,130);
@@ -231,8 +231,8 @@ public class Impresora {
         ArrayList articList=new ArrayList();
         pagina = pj.getGraphics();
         try{
-        BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
-        pagina.drawImage(imagen,123,20,174,93,null);
+        //BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
+        //pagina.drawImage(imagen,123,20,174,93,null);
         pagina.setFont(fuente6);
         pagina.setColor(Color.black);
         pagina.drawString("COMPROBANTE N° 00"+Inicio.deposito.getNumero()+"-000"+caja.getNumero(),20,130);
@@ -276,7 +276,7 @@ public class Impresora {
         pagina = pj.getGraphics();
         // aqui comienza el control interno
         //BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
-        pagina.drawImage(imagen,123,20,174,93,null);
+        //pagina.drawImage(imagen,123,20,174,93,null);
         pagina.setFont(fuente6);
         pagina.setColor(Color.black);
         pagina.drawString("COMPROBANTE N° 00"+Inicio.deposito.getNumero()+"-000"+caja.getNumero(),20,130);

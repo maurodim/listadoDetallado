@@ -917,9 +917,16 @@ public class pdfsJavaGenerador {
             bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf, 9);
             renglon = renglon - 10;
+            
             cb.setTextMatrix(380, renglon);
             cb.showText(vencimiento);
             renglon = renglon - 10;
+            cb.setTextMatrix(170,renglon);
+            if(Propiedades.getACLARACIONPIE()==0){
+               cb.setFontAndSize(bf, 7);
+                cb.showText("Factura electrónica emitida con manantialgestion.com");
+            cb.setFontAndSize(bf, 9);
+        }
             cb.setTextMatrix(380, renglon);
             cb.showText(vencimiento1);
             cb.setTextMatrix(20, renglon);

@@ -32,24 +32,25 @@ import objetosActualizador.Iva;
  * @author Usuario
  */
 public class Configuracion extends javax.swing.JInternalFrame {
+
     ConfiguracionGeneral confi;
     ConfiguracionControlador control;
     Iva iva;
     ArrayList lstIva;
-   
+
     public Configuracion() {
         initComponents();
-        control=new ConfiguracionControlador();
-        confi=control.CargarConfiguracion();
-        iva=new Iva();
-        lstIva=new ArrayList();
-        lstIva=iva.Listar();
+        control = new ConfiguracionControlador();
+        confi = control.CargarConfiguracion();
+        iva = new Iva();
+        lstIva = new ArrayList();
+        lstIva = iva.Listar();
         this.condicion_cmb.setModel(iva.MostrarEnCombo(lstIva));
-        int posicion=0;
-        Iterator it=lstIva.listIterator();
-        while(it.hasNext()){
-            iva=(Iva) it.next();
-            if(iva.getId()==confi.getCondicionIva()){
+        int posicion = 0;
+        Iterator it = lstIva.listIterator();
+        while (it.hasNext()) {
+            iva = (Iva) it.next();
+            if (iva.getId() == confi.getCondicionIva()) {
                 this.condicion_cmb.setSelectedIndex(posicion);
             }
             posicion++;
@@ -64,27 +65,35 @@ public class Configuracion extends javax.swing.JInternalFrame {
         this.clave_txt.setText(confi.getClave());
         this.puerto_txt.setText(String.valueOf(confi.getPuerto()));
         this.usuario_txt.setText(confi.getMail());
-        
+
         //this.condicion_cmb.setSelectedIndex(Integer.parseInt(Propiedades.getCONDICIONIVA()));
         this.cuit_txt.setText(confi.getCuit());
         this.brutos_txt.setText(confi.getIngresosBrutos());
-        this.inicio_txt.setText(confi.getInicioActividades());
-        if(confi.getElectronica()==1){
+        if (confi.getInicioActividades() != null) {
+            this.inicio_txt.setText(confi.getInicioActividades());
+        } else {
+            this.inicio_txt.setText("");
+        }
+        if (confi.getElectronica() == 1) {
             this.bloquear_btn.setVisible(true);
             this.habilitar_btn.setVisible(false);
-        }else{
+        } else {
             this.bloquear_btn.setVisible(false);
             this.habilitar_btn.setVisible(true);
         }
-        if(confi.getPresupuestos()==1)this.presu_si_rdo.setSelected(true);
-        if(confi.getTiqueadora()==1)this.tique_si_rdo1.setSelected(true);
-        LicenciasControl licencia=new LicenciasControl();
-        Licencias licen=(Licencias) licencia.LeerActualLocal(Propiedades.getIDLICENCIA());
+        if (confi.getPresupuestos() == 1) {
+            this.presu_si_rdo.setSelected(true);
+        }
+        if (confi.getTiqueadora() == 1) {
+            this.tique_si_rdo1.setSelected(true);
+        }
+        LicenciasControl licencia = new LicenciasControl();
+        Licencias licen = (Licencias) licencia.LeerActualLocal(Propiedades.getIDLICENCIA());
         this.descripcion_lbl.setText(licen.getDescripcion());
         this.vencimiento_lbl.setText(licen.getFechadeVencimiento());
-        this.fc_lbl.setText(String.valueOf(licen.getActualFc())+" de "+licen.getCantidadFc());
-        this.presu_lbl.setText(String.valueOf(licen.getActualPresupuestos())+" de "+licen.getCantidadPresupuestos());
-        
+        this.fc_lbl.setText(String.valueOf(licen.getActualFc()) + " de " + licen.getCantidadFc());
+        this.presu_lbl.setText(String.valueOf(licen.getActualPresupuestos()) + " de " + licen.getCantidadPresupuestos());
+
     }
 
     /**
@@ -617,17 +626,17 @@ public class Configuracion extends javax.swing.JInternalFrame {
         confi.setClave(this.clave_txt.getText());
         confi.setServidor(this.servidor_txt.getText());
         confi.setPuerto(Integer.parseInt(this.puerto_txt.getText()));
-        if(this.presu_no_rdo.isSelected()){
+        if (this.presu_no_rdo.isSelected()) {
             confi.setPresupuestos(0);
-        }else{
+        } else {
             confi.setPresupuestos(1);
         }
-        if(this.tique_no_rdo1.isSelected()){
+        if (this.tique_no_rdo1.isSelected()) {
             confi.setTiqueadora(0);
-        }else{
+        } else {
             confi.setTiqueadora(1);
         }
-        
+
         control.ActualizarConfiguracion(confi);
         ActualizarCampos();
         JOptionPane.showMessageDialog(null, "Para que los cambios tengan efecto debe Salir del Sistema. Gracias");
@@ -638,13 +647,13 @@ public class Configuracion extends javax.swing.JInternalFrame {
         confi.setCuit(this.cuit_txt.getText());
         confi.setIngresosBrutos(this.brutos_txt.getText());
         confi.setInicioActividades(this.inicio_txt.getText());
-        int posi=this.condicion_cmb.getSelectedIndex();
-        iva=(Iva) lstIva.get(posi);
+        int posi = this.condicion_cmb.getSelectedIndex();
+        iva = (Iva) lstIva.get(posi);
         confi.setCondicionIva(iva.getId());
-        int tipo=this.tipo_cmb.getSelectedIndex();
-        if(tipo==0){
+        int tipo = this.tipo_cmb.getSelectedIndex();
+        if (tipo == 0) {
             confi.setTipoDeVenta(1);
-        }else{
+        } else {
             confi.setTipoDeVenta(2);
         }
         control.ActualizarConfiguracion(confi);
@@ -653,41 +662,41 @@ public class Configuracion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void habilitar_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_habilitar_btnActionPerformed
-       confi.setElectronica(1);
-       control.ActualizarConfiguracion(confi);
+        confi.setElectronica(1);
+        control.ActualizarConfiguracion(confi);
         ActualizarCampos();
     }//GEN-LAST:event_habilitar_btnActionPerformed
 
     private void nombre_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.razon_txt.selectAll();
             this.razon_txt.requestFocus();
         }
     }//GEN-LAST:event_nombre_txtKeyPressed
 
     private void razon_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_razon_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.direccion_txt.selectAll();
             this.direccion_txt.requestFocus();
         }
     }//GEN-LAST:event_razon_txtKeyPressed
 
     private void direccion_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccion_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.telefono_txt.selectAll();
             this.telefono_txt.requestFocus();
         }
     }//GEN-LAST:event_direccion_txtKeyPressed
 
     private void telefono_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telefono_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.mail_txt.selectAll();
             this.mail_txt.requestFocus();
         }
     }//GEN-LAST:event_telefono_txtKeyPressed
 
     private void mail_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mail_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.usuario_txt.setText(this.mail_txt.getText());
             this.clave_txt.selectAll();
             this.clave_txt.requestFocus();
@@ -695,42 +704,42 @@ public class Configuracion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_mail_txtKeyPressed
 
     private void clave_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clave_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.servidor_txt.selectAll();
             this.servidor_txt.requestFocus();
         }
     }//GEN-LAST:event_clave_txtKeyPressed
 
     private void servidor_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_servidor_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.puerto_txt.selectAll();
             this.puerto_txt.requestFocus();
         }
     }//GEN-LAST:event_servidor_txtKeyPressed
 
     private void puerto_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_puerto_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.nombre_txt.selectAll();
             this.nombre_txt.requestFocus();
         }
     }//GEN-LAST:event_puerto_txtKeyPressed
 
     private void punto_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_punto_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.cuit_txt.selectAll();
             this.cuit_txt.requestFocus();
         }
     }//GEN-LAST:event_punto_txtKeyPressed
 
     private void cuit_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuit_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.brutos_txt.selectAll();
             this.brutos_txt.requestFocus();
         }
     }//GEN-LAST:event_cuit_txtKeyPressed
 
     private void brutos_txtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_brutos_txtKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.inicio_txt.selectAll();
             this.inicio_txt.requestFocus();
         }
@@ -738,11 +747,11 @@ public class Configuracion extends javax.swing.JInternalFrame {
 
     private void bloquear_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloquear_btnActionPerformed
         confi.setElectronica(0);
-       control.ActualizarConfiguracion(confi);
+        control.ActualizarConfiguracion(confi);
         ActualizarCampos();
     }//GEN-LAST:event_bloquear_btnActionPerformed
-private void ActualizarCampos(){
-    this.nombre_txt.setText(confi.getNombre());
+    private void ActualizarCampos() {
+        this.nombre_txt.setText(confi.getNombre());
         this.razon_txt.setText(confi.getRazon());
         this.direccion_txt.setText(confi.getDireccion());
         this.telefono_txt.setText(confi.getTelefono());
@@ -756,16 +765,18 @@ private void ActualizarCampos(){
         this.cuit_txt.setText(confi.getCuit());
         this.brutos_txt.setText(confi.getIngresosBrutos());
         this.inicio_txt.setText(confi.getInicioActividades());
-        if(confi.getElectronica()==1){
+        if (confi.getElectronica() == 1) {
             this.bloquear_btn.setVisible(true);
             this.habilitar_btn.setVisible(false);
-        }else{
+        } else {
             this.bloquear_btn.setVisible(false);
             this.habilitar_btn.setVisible(true);
         }
-        if(confi.getPresupuestos()==1)this.presu_si_rdo.setSelected(true);
+        if (confi.getPresupuestos() == 1) {
+            this.presu_si_rdo.setSelected(true);
+        }
 
-}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bloquear_btn;

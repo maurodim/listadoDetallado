@@ -2003,6 +2003,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 String nom = rr.getString("NOMBRE");
                 articulo.setIdCombo(rr.getInt("idcombo"));
                 articulo.setSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
+                articulo.setPrecioSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
                     articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
                     articulo.setTipoIva(rr.getInt("tipoiva"));
                     switch(rr.getInt("tipoiva")){

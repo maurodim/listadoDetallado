@@ -1116,5 +1116,10 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public Object cargarPorCodigoAsignadoFacturacion(Integer id, double coeficiente) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Object PagarConOtrosMedios(Object objeto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
         
 }

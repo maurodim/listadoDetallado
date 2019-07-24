@@ -34,7 +34,19 @@ public class ListadoComprobantes extends javax.swing.JDialog {
         tipoMov = tipoMovimiento;
         idMov = idMovimiento;
         initComponents();
+        if (tipoMovimiento > 1) {
+            this.jButton1.setVisible(false);
+            this.jButton2.setVisible(false);
+        }
+        
+            if (idMov == 28) {
+                this.jButton2.setVisible(false);
+            } else {
+                this.jButton1.setVisible(false);
+            }
+        
         this.setTitle("Comprobante pagado con " + formaDePago);
+
     }
 
     /**
@@ -50,6 +62,7 @@ public class ListadoComprobantes extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -64,6 +77,14 @@ public class ListadoComprobantes extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/pdf.png"))); // NOI18N
+        jButton2.setText("PDF");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -74,15 +95,19 @@ public class ListadoComprobantes extends javax.swing.JDialog {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 4, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -114,21 +139,26 @@ public class ListadoComprobantes extends javax.swing.JDialog {
                 if (idMov == 28) {
 
                     ImprimirFactura imprimir = new ImprimirFactura();
-                    imprimir.ImprimirFactura(tipoMov, idMov);
-                } else {
-                    ImprimirFactura imprimir = new ImprimirFactura();
-                    imprimir.ImprimirFactura(idComp, tipoMov);
+                    //imprimir.ImprimirFactura(tipoMov, idMov);
+                    imprimir.ImprimirFactura(idComp, idMov);
                 }
             } else {
                 ImprimirComprobantes ticket = new ImprimirComprobantes();
-                ticket.ImprimirPresupuesto(idMov, tipoMov);
+                if (idMov == 28) {
+                    ticket.ImprimirPresupuesto(idComp, idMov);
+                } 
 
+                //ticket.ImprimirPresupuesto(idMov, tipoMov);
             }
         } catch (IOException ex) {
             Logger.getLogger(ListadoComprobantes.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ImprimirFactura imprimir = new ImprimirFactura(idComp, idMov);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,6 +203,7 @@ public class ListadoComprobantes extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     public static javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

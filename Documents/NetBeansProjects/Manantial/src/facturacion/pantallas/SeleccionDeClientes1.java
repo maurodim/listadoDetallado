@@ -85,7 +85,7 @@ public class SeleccionDeClientes1 extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setText("SELECCIONAR");
+        jButton1.setText("BUSCAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

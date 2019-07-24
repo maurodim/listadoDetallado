@@ -461,7 +461,7 @@ public class FacturaElectronica implements FacturableE, Instalable {
                 }
                 if (!wsfev1.autorizar(ptoVta, (TipoComprobante) this.tipoComp)) {
                     System.out.println(wsfev1.errorDesc());
-                    JOptionPane.showMessageDialog(null, wsfev1.errorDesc());
+                    JOptionPane.showMessageDialog(null, "ERRO DE AFIP:"+wsfev1.errorDesc());
                 } else {
                     if (wsfev1.sfResultado(0).equals("A")) {
                         //JOptionPane.showMessageDialog(null,"Felicitaciones! Si ve este mensaje instalo correctamente FEAFIP. CAE y Vencimiento: " + wsfev1.sfcae(0) + " " + wsfev1.sfVencimiento(0)+" numero comprobante "+nro);

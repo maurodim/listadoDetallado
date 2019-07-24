@@ -13,6 +13,7 @@ import Recibos.Recidable;
 import facturacion.clientes.ListasDePrecios;
 import interfaceGraficasManantial.Inicio;
 import ClientesPantallas.NuevoCliente;
+import Conversores.Numeros;
 import Proveedores.Interfaces.FacturableE;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;
@@ -128,37 +129,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         this.jTextField3.setText(cliTa.getCuit());
         modificacion=1;
         this.setTitle("PERFIL DEL PROVEEDOR");
-        /*
-        this.jTextField6.setText(cliTa.getDireccionDeEntrega());
-        this.jTextField7.setText(cliTa.getResponsable());
-        this.jTextField8.setText(cliTa.getFantasia());
-        this.jTextField9.setText(cliTa.getCelular());
-        this.jTextField10.setText(cliTa.getDireccionFantasia());
-        this.jTextField11.setText(cliTa.getFax());
-        this.jTextField12.setText(cliTa.getEmail());
         
-        modificacion=1;
-        //this.setTitle("MODIFICACION DATOS DEL CLIENTE");
-        Cotizable cotizable=new Cotizacion();
-        Cotizacion cotizacion=new Cotizacion();
-        listadoCot=cotizable.listarPorEstado(cliTa.getCodigoId(),0);
-        modelo=cotizable.mostrarListado(listadoCot);
-        if(Inicio.usuario.getNumeroId()==2){
-            this.jButton5.setVisible(false);
-            this.jButton8.setVisible(false);
-        }
-        this.jTable1.setModel(modelo);
-        Pedable pedable=new Pedidos();
-        Pedidos pedidos=new Pedidos();
-        listadoPed=pedable.listarPorEstado(cliTa.getCodigoId(),0);
-        modelo1=pedable.mostrarListado(listadoPed);
-        this.jTable2.setModel(modelo1);
-        Facturable ff=new Facturas();
-        Facturas factura=new Facturas();
-        listadoFac=ff.listarPorClienteNoRemitidas(cliTa.getCodigoId());
-        modelo2=ff.mostrarListado(listadoFac);
-        this.jTable3.setModel(modelo2);
-        */
     }
     
 
@@ -199,6 +170,12 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        dateChooserCombo1 = new datechooser.beans.DateChooserCombo();
 
         setClosable(true);
         setMaximizable(true);
@@ -400,7 +377,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         jScrollPane3.setViewportView(jTable3);
 
         jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/eliminar_des.png"))); // NOI18N
-        jButton15.setText("Eliminar Factura");
+        jButton15.setText("Eliminar Movimiento");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -418,6 +395,40 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         jLabel7.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel7.setText("Saldo: $");
 
+        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/filtrar.png"))); // NOI18N
+        jButton17.setText("Visualizar Factura");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+
+        jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/cierreCaja.png"))); // NOI18N
+        jButton18.setText("Ingresar Pago");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
+        jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/filtrar.png"))); // NOI18N
+        jButton19.setText("Visualizar Recibo");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
+
+        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/nuevos/filtrar.png"))); // NOI18N
+        jButton20.setText("Filtar Por Fecha Desde");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Seleccione Fecha Desde");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -425,27 +436,49 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1489, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton16)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton15))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(dateChooserCombo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButton17)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton18)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton19))
+                            .addComponent(jButton20))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 326, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton15)
-                        .addComponent(jButton16)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton15)
+                    .addComponent(jButton16)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton17)
+                    .addComponent(jButton18)
+                    .addComponent(jButton19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(dateChooserCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -549,7 +582,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
             movimiento=(MovimientoProveedores) itL.next();
             saldoTotal=saldoTotal + movimiento.getMonto();
         }
-        this.jLabel7.setText("Saldo: $"+saldoTotal);
+        this.jLabel7.setText("Saldo: $"+Numeros.ConvertirNumero(saldoTotal));
         /*
         IngresoFcProveedor factu=new IngresoFcProveedor(comprobante,cliTa);
         Inicio.jDesktopPane1.add(factu);
@@ -596,7 +629,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
             movimiento=(MovimientoProveedores) itL.next();
             saldoTotal=saldoTotal + movimiento.getMonto();
         }
-        this.jLabel7.setText("Saldo: $"+saldoTotal);
+        this.jLabel7.setText("Saldo: $"+Numeros.ConvertirNumero(saldoTotal));
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
@@ -626,6 +659,46 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
     private void jTextField12KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER)this.jTextArea1.requestFocus();
     }//GEN-LAST:event_jTextField12KeyPressed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        int posicion=this.jTable3.getSelectedRow();
+        movimiento=(MovimientoProveedores) listadoCot.get(posicion);
+        
+        IngresoFcProveedor abmP=new IngresoFcProveedor(movimiento,cliTa);
+        Inicio.jDesktopPane1.add(abmP);
+        abmP.setVisible(true);
+        abmP.toFront();
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        AbmRecibos recibo=new AbmRecibos(cliTa);
+        Inicio.jDesktopPane1.add(recibo);
+        recibo.setVisible(true);
+        recibo.pack();
+        recibo.toFront();
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        MovimientoProveedores comprobante=new MovimientoProveedores();
+        int posicion=this.jTable3.getSelectedRow();
+        comprobante=(MovimientoProveedores)listadoCot.get(posicion);
+        AbmRecibos recibo=new AbmRecibos(cliTa,comprobante);
+        Inicio.jDesktopPane1.add(recibo);
+        recibo.setVisible(true);
+        recibo.pack();
+        recibo.toFront();
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        
+        String fecha=Numeros.ConvertirFechaLeidaDeDateChooser(this.dateChooserCombo1.getSelectedDate())+" 00:00:00.000";
+        
+        listadoCot.clear();
+        FacturableE factu=new MovimientoProveedores();
+        
+        listadoCot=factu.listarPorProveedorYFecha(cliTa.getNumero(),fecha);
+        this.jTable3.setModel(factu.mostrarListado(listadoCot));
+    }//GEN-LAST:event_jButton20ActionPerformed
     private void ControlaInstancia(JInternalFrame inter){
         /*
         boolean mostrar=true;
@@ -639,9 +712,14 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         */
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
+    private javax.swing.JButton jButton20;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -653,6 +731,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

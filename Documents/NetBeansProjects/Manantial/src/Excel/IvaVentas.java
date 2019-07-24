@@ -56,7 +56,7 @@ public class IvaVentas {
             fuente.setFontName(fuente.FONT_ARIAL);
             fuente.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
             String form=null;
-            String sql="SELECT fecha,tipo,numero,razon,(gravado) as gravadoR,(impuesto) as impuestoR,(total) as totalR FROM fiscal where fechaRegistro between '"+desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000' order by numero";
+            String sql="SELECT fecha,tipo,numero,razon,(gravado) as gravadoR,(impuesto) as impuestoR,(total) as totalR,tipocomprobantes.DESCRIPCION as tipodescripcion FROM fiscal join tipocomprobantes on tipocomprobantes.NUMEROAFIP=cast(fiscal.TIPO as int) where numero not like 'null' and fechaRegistro between '"+desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000' order by numero";
             //String sql="SELECT *,round(gravado,2)as gravadoR,round(impuesto,2)as impuestoR,round(total,2)as totalR FROM fiscal where fecha like '201607%' group by numero order by numero";
             System.out.println(sql);
             Transaccionable tra=new Conecciones();
@@ -112,7 +112,7 @@ public class IvaVentas {
                 celda1=fila.createCell(1);
                 ttx=ttx;
                 celda1.setCellType(HSSFCell.CELL_TYPE_STRING);
-                celda1.setCellValue(rs.getInt("tipo"));
+                celda1.setCellValue(rs.getString("tipodescripcion"));
                 celda2=fila.createCell(2);
                 celda2.setCellType(HSSFCell.CELL_TYPE_STRING);
                 String numero=rs.getString("numero").replaceFirst("80","00");

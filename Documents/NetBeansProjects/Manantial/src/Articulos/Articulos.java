@@ -85,8 +85,6 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
     public void setCoeficienteIva(double coeficienteIva) {
         this.coeficienteIva = coeficienteIva;
     }
-    
-    
 
     public Double getPrecioSubTotal() {
         return precioSubTotal;
@@ -95,8 +93,6 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
     public void setPrecioSubTotal(Double precioSubTotal) {
         this.precioSubTotal = precioSubTotal;
     }
-    
-    
 
     public Double getSubTotal() {
         return subTotal;
@@ -121,8 +117,6 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
     public void setTipoIva(int tipoIva) {
         this.tipoIva = tipoIva;
     }
-    
-    
 
     public static ConcurrentHashMap getListadoBarr() {
         return listadoBarr;
@@ -927,7 +921,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                     articulo.setSubTotal(rr.getDouble("subtotal"));
                     articulo.setIva(rr.getDouble("iva"));
                     articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
+                    switch (rr.getInt("tipoiva")) {
                         case 1:
                             articulo.setCoeficienteIva(0.00);
                             break;
@@ -954,7 +948,6 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
             } catch (SQLException ex) {
                 Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
 
         } catch (InstantiationException ex) {
             Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
@@ -1009,32 +1002,32 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 String nom = rr.getString("NOMBRE");
                 articulo.setIdCombo(rr.getInt("idcombo"));
                 articulo.setSubTotal(rr.getDouble("subtotal"));
-                    articulo.setIva(rr.getDouble("iva"));
-                    articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
-                        case 1:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 2:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 3:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 4:
-                            articulo.setCoeficienteIva(10.5);
-                            break;
-                        case 5:
-                            articulo.setCoeficienteIva(21.0);
-                            break;
-                        case 6:
-                            articulo.setCoeficienteIva(27.0);
-                            break;
-                    }
+                articulo.setIva(rr.getDouble("iva"));
+                articulo.setTipoIva(rr.getInt("tipoiva"));
+                switch (rr.getInt("tipoiva")) {
+                    case 1:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 2:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 3:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 4:
+                        articulo.setCoeficienteIva(10.5);
+                        break;
+                    case 5:
+                        articulo.setCoeficienteIva(21.0);
+                        break;
+                    case 6:
+                        articulo.setCoeficienteIva(27.0);
+                        break;
+                }
                 if (articulo.getIdCombo() > 0) {
                     articulo.setCombo(CargarCombo(articulo.getNumeroId()));
                 }
-                
+
                 listado.add(articulo);
             }
             rr.close();
@@ -1087,28 +1080,28 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 String nom = rr.getString("NOMBRE");
                 articulo.setIdCombo(rr.getInt("idcombo"));
                 articulo.setSubTotal(rr.getDouble("subtotal"));
-                    articulo.setIva(rr.getDouble("iva"));
-                    articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
-                        case 1:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 2:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 3:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 4:
-                            articulo.setCoeficienteIva(10.5);
-                            break;
-                        case 5:
-                            articulo.setCoeficienteIva(21.0);
-                            break;
-                        case 6:
-                            articulo.setCoeficienteIva(27.0);
-                            break;
-                    }
+                articulo.setIva(rr.getDouble("iva"));
+                articulo.setTipoIva(rr.getInt("tipoiva"));
+                switch (rr.getInt("tipoiva")) {
+                    case 1:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 2:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 3:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 4:
+                        articulo.setCoeficienteIva(10.5);
+                        break;
+                    case 5:
+                        articulo.setCoeficienteIva(21.0);
+                        break;
+                    case 6:
+                        articulo.setCoeficienteIva(27.0);
+                        break;
+                }
 
             }
             rr.close();
@@ -1128,7 +1121,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
         Articulos articulo = (Articulos) objeto;
         Boolean ch = false;
         //String sql="insert into articulos (NOMBRE='"+articulo.getDescripcionArticulo()+"',SERVICIO="+articulo.getPrecioServicio()+",COSTO="+articulo.getPrecioDeCosto()+",PRECIO="+articulo.getPrecioUnitarioNeto()+",MINIMO="+articulo.getStockMinimo()+",BARRAS ='"+articulo.getCodigoDeBarra()+"',modificaPrecio="+articulo.getModificaPrecio()+" where ID="+articulo.getNumeroId();
-        String sql = "insert into articulos (NOMBRE,SERVICIO,COSTO,PRECIO,MINIMO,BARRAS,SERVICIO1,idcombo,actualizacion,idrubro,idsubrubro,stock,subtotal,iva,tipoiva) values ('" + articulo.getDescripcionArticulo() + "'," + articulo.getPrecioServicio() + "," + articulo.getPrecioDeCosto() + "," + articulo.getPrecioUnitarioNeto() + "," + articulo.getStockMinimo() + ",'" + articulo.getCodigoDeBarra() + "'," + articulo.getPrecioServicio1() + "," + articulo.getIdCombo() + ",3," + articulo.getRubroId() + "," + articulo.getIdSubRubro() + ",0,"+articulo.getSubTotal()+","+articulo.getIva()+","+articulo.getTipoIva()+")";
+        String sql = "insert into articulos (NOMBRE,SERVICIO,COSTO,PRECIO,MINIMO,BARRAS,SERVICIO1,idcombo,actualizacion,idrubro,idsubrubro,stock,subtotal,iva,tipoiva) values ('" + articulo.getDescripcionArticulo() + "'," + articulo.getPrecioServicio() + "," + articulo.getPrecioDeCosto() + "," + articulo.getPrecioUnitarioNeto() + "," + articulo.getStockMinimo() + ",'" + articulo.getCodigoDeBarra() + "'," + articulo.getPrecioServicio1() + "," + articulo.getIdCombo() + ",3," + articulo.getRubroId() + "," + articulo.getIdSubRubro() + ",0," + articulo.getSubTotal() + "," + articulo.getIva() + "," + articulo.getTipoIva() + ")";
         System.out.println(sql);
         Integer ultimoArt = 0;
         try {
@@ -1182,7 +1175,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
         if (articulo.getModificaPrecio()) {
             modP = 1;
         }
-        sql = "update articulos set NOMBRE='" + articulo.getDescripcionArticulo() + "',COSTO=" + articulo.getPrecioDeCosto() + ",PRECIO=" + articulo.getPrecioUnitarioNeto() + ",MINIMO=" + articulo.getStockMinimo() + ",BARRAS ='" + articulo.getCodigoDeBarra() + "',modificaPrecio=" + modP + ",modificaServicio=0,actualizacion=2,idcombo=" + articulo.getIdCombo() + ",idrubro=" + articulo.getRubroId() + ",idsubrubro=" + articulo.getIdSubRubro() + ",subtotal="+articulo.getSubTotal()+",iva="+articulo.getIva()+",tipoiva="+articulo.getTipoIva()+" where ID=" + articulo.getNumeroId();
+        sql = "update articulos set NOMBRE='" + articulo.getDescripcionArticulo() + "',COSTO=" + articulo.getPrecioDeCosto() + ",PRECIO=" + articulo.getPrecioUnitarioNeto() + ",MINIMO=" + articulo.getStockMinimo() + ",BARRAS ='" + articulo.getCodigoDeBarra() + "',modificaPrecio=" + modP + ",modificaServicio=0,actualizacion=2,idcombo=" + articulo.getIdCombo() + ",idrubro=" + articulo.getRubroId() + ",idsubrubro=" + articulo.getIdSubRubro() + ",subtotal=" + articulo.getSubTotal() + ",iva=" + articulo.getIva() + ",tipoiva=" + articulo.getTipoIva() + " where ID=" + articulo.getNumeroId();
         System.out.println(sql);
         try {
             tra = new Conecciones();
@@ -1282,28 +1275,28 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 articulo.setRubroId(rr.getInt("idrubro"));
                 articulo.setIdSubRubro(rr.getInt("idsubrubro"));
                 articulo.setSubTotal(rr.getDouble("subtotal"));
-                    articulo.setIva(rr.getDouble("iva"));
-                    articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
-                        case 1:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 2:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 3:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 4:
-                            articulo.setCoeficienteIva(10.5);
-                            break;
-                        case 5:
-                            articulo.setCoeficienteIva(21.0);
-                            break;
-                        case 6:
-                            articulo.setCoeficienteIva(27.0);
-                            break;
-                    }
+                articulo.setIva(rr.getDouble("iva"));
+                articulo.setTipoIva(rr.getInt("tipoiva"));
+                switch (rr.getInt("tipoiva")) {
+                    case 1:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 2:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 3:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 4:
+                        articulo.setCoeficienteIva(10.5);
+                        break;
+                    case 5:
+                        articulo.setCoeficienteIva(21.0);
+                        break;
+                    case 6:
+                        articulo.setCoeficienteIva(27.0);
+                        break;
+                }
                 //resultado.add(articulo);
             }
         } catch (SQLException ex) {
@@ -1761,7 +1754,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
     public void cargarMovimientoDeAjuste(Object articulo) {
         try {
             Articulos arti = (Articulos) articulo;
-            Transaccionable tra=new Conecciones();
+            Transaccionable tra = new Conecciones();
             String sql = "insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,numeroUsuario,precioDeCosto,precioDeVenta,precioServicio,idcaja,fechaComprobante,estado) values (14," + arti.getNumeroId() + "," + arti.getCantidad() + ",1,0,0,0," + Inicio.usuario.getNumeroId() + ",0.00,0.00,0.00," + Inicio.caja.getNumero() + ",'" + Inicio.fechaDia + "',0)";
             tra.guardarRegistro(sql);
         } catch (InstantiationException ex) {
@@ -1859,7 +1852,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
             }
             sql = "update articulos set barras=cast(id as char(10)) where barras=''";
             tra.guardarRegistro(sql);
-            sql="update articulos set subtotal=(precio / 1.21),iva=(subtotal * 0.21) where subtotal=0";
+            sql = "update articulos set subtotal=(precio / 1.21),iva=(subtotal * 0.21) where subtotal=0";
             tra.guardarRegistro(sql);
         } catch (InstantiationException ex) {
             Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
@@ -1929,7 +1922,7 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                     articulo.setSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
                     articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
                     articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
+                    switch (rr.getInt("tipoiva")) {
                         case 1:
                             articulo.setCoeficienteIva(0.00);
                             break;
@@ -1956,7 +1949,6 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
             } catch (SQLException ex) {
                 Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
 
         } catch (InstantiationException ex) {
             Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
@@ -2004,28 +1996,28 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 articulo.setIdCombo(rr.getInt("idcombo"));
                 articulo.setSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
                 articulo.setPrecioSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
-                    articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
-                    articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
-                        case 1:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 2:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 3:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 4:
-                            articulo.setCoeficienteIva(10.5);
-                            break;
-                        case 5:
-                            articulo.setCoeficienteIva(21.0);
-                            break;
-                        case 6:
-                            articulo.setCoeficienteIva(27.0);
-                            break;
-                    }
+                articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
+                articulo.setTipoIva(rr.getInt("tipoiva"));
+                switch (rr.getInt("tipoiva")) {
+                    case 1:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 2:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 3:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 4:
+                        articulo.setCoeficienteIva(10.5);
+                        break;
+                    case 5:
+                        articulo.setCoeficienteIva(21.0);
+                        break;
+                    case 6:
+                        articulo.setCoeficienteIva(27.0);
+                        break;
+                }
 
             }
             rr.close();
@@ -2080,28 +2072,28 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
                 articulo.setRubroId(rr.getInt("idrubro"));
                 articulo.setIdSubRubro(rr.getInt("idsubrubro"));
                 articulo.setSubTotal(Numeros.Redondear(rr.getDouble("subtotal") * coeficiente));
-                    articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
-                    articulo.setTipoIva(rr.getInt("tipoiva"));
-                    switch(rr.getInt("tipoiva")){
-                        case 1:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 2:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 3:
-                            articulo.setCoeficienteIva(0.00);
-                            break;
-                        case 4:
-                            articulo.setCoeficienteIva(10.5);
-                            break;
-                        case 5:
-                            articulo.setCoeficienteIva(21.0);
-                            break;
-                        case 6:
-                            articulo.setCoeficienteIva(27.0);
-                            break;
-                    }
+                articulo.setIva(Numeros.Redondear(rr.getDouble("iva") * coeficiente));
+                articulo.setTipoIva(rr.getInt("tipoiva"));
+                switch (rr.getInt("tipoiva")) {
+                    case 1:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 2:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 3:
+                        articulo.setCoeficienteIva(0.00);
+                        break;
+                    case 4:
+                        articulo.setCoeficienteIva(10.5);
+                        break;
+                    case 5:
+                        articulo.setCoeficienteIva(21.0);
+                        break;
+                    case 6:
+                        articulo.setCoeficienteIva(27.0);
+                        break;
+                }
                 //resultado.add(articulo);
             }
         } catch (SQLException ex) {
@@ -2115,6 +2107,11 @@ public class Articulos implements Facturar, Editables, Comparables, ModificableA
         }
 
         return articulo;
+    }
+
+    @Override
+    public void eliminarComprobante(Integer numeroCompro, Integer tipoCompro) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

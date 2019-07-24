@@ -721,6 +721,7 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LicenciasControl control1=new LicenciasControl();
             Licencias lice=(Licencias) control1.LeerActualLocal(Propiedades.getIDLICENCIA());
+            Boolean correcto=true;
             if(lice.getActualFc()> 0){
         
         String cadena=cliT.getCodigoCliente()+" - "+cliT.getRazonSocial()+"\n"+cliT.getDireccion();
@@ -946,11 +947,24 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
                         }else{
                            formaP=(FormasDePago) formaP.CargarForma(1);
                         }
-                Integer numeFc=0;
+                String numeFc;
         numeFc=fact.generar(conexion, condicion, Propiedades.getARCHIVOKEY(), Propiedades.getARCHIVOCRT(), cliT.getCodigoId(), cliT.getNumeroDeCuit(), tipoComp, montoTotal, subTotal, montoIva, ptoVta, Propiedades.getCUIT(), tipoVta, listadoIvaD, listadoTrib, cliT.getRazonSocial(), cliT.getDireccion(), String.valueOf(cliT.getTipoIva()), listadoDetalle,idPed,Propiedades.getNOMBRECOMERCIO(),Propiedades.getRAZONSOCIAL(),"resp inscripto",Propiedades.getDIRECCION(),Propiedades.getTELEFONO(),Propiedades.getINGBRUTOS(),Propiedades.getINICIOACT(),cliT.getEmail(),formaP.getNumeroFormaDePago());
-        comprobante.GuardarNumeroFiscalEnCaja(numeFc, comprobante.getNumeroRegistro(),tipoComp);
-        LicenciasControl licencia=new LicenciasControl();
-                    licencia.RestarFc();
+        
+        System.out.println("numero devuelto " + numeFc);
+                        if (numeFc != null) {
+                            try {
+                                Integer fcNum = Integer.parseInt(numeFc);
+                                comprobante.GuardarNumeroFiscalEnCaja(fcNum, comprobante.getNumeroRegistro(), tipoComp);
+                                LicenciasControl licencia = new LicenciasControl();
+                                licencia.RestarFc();
+                            } catch (java.lang.NumberFormatException exx) {
+                                System.out.println("comprobante a eliminar " + comprobante.getNumero() + " tipo " + comprobante.getTipoComprobante());
+                                fat.eliminarComprobante(comprobante.getNumero(), comprobante.getTipoComprobante());
+                                correcto = false;
+                            }
+                        } else {
+                            System.out.println("comprobante a eliminar " + comprobante.getNumero() + " tipo " + comprobante.getTipoComprobante());
+                        }
             } catch (InstantiationException ex) {
                 Logger.getLogger(NotaDeCredito.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
@@ -994,6 +1008,7 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
                 */
                 //comp.setTipoComprobante(comprobanteTipo);
                 //comp.setMontoTotal(montoTotal);
+                if(correcto){
                 detalleDelPedido.clear();
                 agregarRenglonTabla();
                 this.jCheckBox2.setSelected(true);
@@ -1006,6 +1021,7 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
                 this.jTextField2.setText("");
                 jTextField1.setText("");
                 jTextField1.requestFocus();
+                }
         
         }else{
             JOptionPane.showMessageDialog(this,"El cliente supera el límite de crédito, debe abonar la venta");

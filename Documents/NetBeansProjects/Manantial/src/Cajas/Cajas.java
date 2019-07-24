@@ -900,9 +900,21 @@ public class Cajas extends Sucursales implements Cajeables{
                 
                 saldoFinal= saldoFinal + rs.getDouble("monto");
                 cajass.setTipoDeComprobante(rs.getInt("tipoComprobante"));
-                int pos=cajass.getTipoMovimiento() -1;
-                Operaciones operacion=(Operaciones)listOperaciones.get(pos);
-                 String desc=operacion.getDescripcion();
+                String desc = null;
+                Operaciones operacion;
+                        Iterator itOp;
+                
+                if(cajass.getTipoMovimiento()==9){
+                    desc="SALDO INICIAL";
+                }else{
+                int pos=cajass.getTipoMovimiento();
+                    itOp=listOperaciones.listIterator();
+                    while(itOp.hasNext()){
+                        operacion=(Operaciones) itOp.next();
+                        if(pos==operacion.getId())desc=operacion.getDescripcion().toUpperCase();
+                    }
+                    
+                }
                 cajass.setDescripcionMovimiento(desc);
                 
                 listadoCajas.add(cajass);

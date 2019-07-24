@@ -4,7 +4,6 @@
  */
 package facturacion.clientes;
 
-
 import ConfiguracionR.Propiedades;
 import Conversores.Numeros;
 import interfaceGraficasManantial.Inicio;
@@ -24,58 +23,58 @@ import java.util.logging.Logger;
 import objetosR.Comprobantes;
 import objetosR.Conecciones;
 
-
 /**
  *
  * @author Administrador
  */
-public class Clientes implements Busquedas,Facturar,Adeudable{
-        private String codigoCliente;
-        private String razonSocial;
-        private Double saldo;
-        private Integer condicionDePago;
-        private Date fechaActualizacion;
-        private String direccion;
-        private String localidad;
-        private String telefono;
-        private String observaciones;
-        private Boolean contactado;
-        private Date fechaPedido;
-        private String numeroPedido;
-        private Date fechaListado;
-        private Integer numeroListado;
-        private Date fechaHdr;
-        private Integer numeroHdr;
-        private String numeroDeCuit;
-        private String empresa;
-        private Integer condicionDeVenta;
-        private Integer listaDePrecios;
-        private Double descuento;
-        private String condicionIva;
-        private Double coeficienteListaDeprecios;
-        private Integer codigoId;
-        private Double cupoDeCredito;
-        private Double saldoActual;
-        private Integer tipoIva;
-        private String celular;
-        private String fax;
-        private String codigoPostal;
-        private static Integer numeroRecibo;
-        private String fantasia;
-        private static ConcurrentHashMap listadoClientes=new ConcurrentHashMap();
-        private static ConcurrentHashMap listadoPorNom=new ConcurrentHashMap();
-        private static ConcurrentHashMap listadoPorContacto=new ConcurrentHashMap();
-        private static ConcurrentHashMap listadoPorFantasia=new ConcurrentHashMap();
-        private static int signal=0;
-        private String responsable;
-        private String direccionFantasia;
-        private String email;
-        private Integer tipoComprobante;
-        private String direccionDeEntrega;
-        private static Transaccionable tra;
-        
-        private static ResultSet rs;
-        private Integer idTransporte;
+public class Clientes implements Busquedas, Facturar, Adeudable {
+
+    private String codigoCliente;
+    private String razonSocial;
+    private Double saldo;
+    private Integer condicionDePago;
+    private Date fechaActualizacion;
+    private String direccion;
+    private String localidad;
+    private String telefono;
+    private String observaciones;
+    private Boolean contactado;
+    private Date fechaPedido;
+    private String numeroPedido;
+    private Date fechaListado;
+    private Integer numeroListado;
+    private Date fechaHdr;
+    private Integer numeroHdr;
+    private String numeroDeCuit;
+    private String empresa;
+    private Integer condicionDeVenta;
+    private Integer listaDePrecios;
+    private Double descuento;
+    private String condicionIva;
+    private Double coeficienteListaDeprecios;
+    private Integer codigoId;
+    private Double cupoDeCredito;
+    private Double saldoActual;
+    private Integer tipoIva;
+    private String celular;
+    private String fax;
+    private String codigoPostal;
+    private static Integer numeroRecibo;
+    private String fantasia;
+    private static ConcurrentHashMap listadoClientes = new ConcurrentHashMap();
+    private static ConcurrentHashMap listadoPorNom = new ConcurrentHashMap();
+    private static ConcurrentHashMap listadoPorContacto = new ConcurrentHashMap();
+    private static ConcurrentHashMap listadoPorFantasia = new ConcurrentHashMap();
+    private static int signal = 0;
+    private String responsable;
+    private String direccionFantasia;
+    private String email;
+    private Integer tipoComprobante;
+    private String direccionDeEntrega;
+    private static Transaccionable tra;
+
+    private static ResultSet rs;
+    private Integer idTransporte;
 
     public Integer getIdTransporte() {
         return idTransporte;
@@ -84,7 +83,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setIdTransporte(Integer idTransporte) {
         this.idTransporte = idTransporte;
     }
-        
 
     public String getCodigoPostal() {
         return codigoPostal;
@@ -94,7 +92,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         this.codigoPostal = codigoPostal;
     }
 
-        
     public String getDireccionDeEntrega() {
         return direccionDeEntrega;
     }
@@ -102,8 +99,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setDireccionDeEntrega(String direccionDeEntrega) {
         this.direccionDeEntrega = direccionDeEntrega;
     }
-        
-        
 
     public Integer getTipoComprobante() {
         return tipoComprobante;
@@ -112,7 +107,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setTipoComprobante(Integer tipoComprobante) {
         this.tipoComprobante = tipoComprobante;
     }
-        
 
     public String getDireccionFantasia() {
         return direccionFantasia;
@@ -129,8 +123,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setEmail(String email) {
         this.email = email;
     }
-        
-        
 
     public String getCelular() {
         return celular;
@@ -148,7 +140,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         this.fax = fax;
     }
 
-        
     public String getFantasia() {
         return fantasia;
     }
@@ -157,8 +148,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         this.fantasia = fantasia;
     }
 
-        
-        
     public String getResponsable() {
         return responsable;
     }
@@ -166,8 +155,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
-        
-        
 
     public Integer getTipoIva() {
         return tipoIva;
@@ -176,9 +163,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setTipoIva(Integer tipoIva) {
         this.tipoIva = tipoIva;
     }
-        
-        
-        
 
     public Double getCupoDeCredito() {
         return cupoDeCredito;
@@ -195,7 +179,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setSaldoActual(Double saldoActual) {
         this.saldoActual = saldoActual;
     }
-        
 
     public Integer getCodigoId() {
         return codigoId;
@@ -204,43 +187,41 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setCodigoId(Integer codigoId) {
         this.codigoId = codigoId;
     }
-    public static void cargarMap(){
-              
-            
-            
-            String sql=null;
-            
-            
-            try{
-                if(signal==1){
-                tra=new Conecciones();
-                sql="select *,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.LISTADEPRECIO)as coeficiente,(select sum(movimientosclientes.monto) from movimientosclientes where pagado=0 and movimientosclientes.numeroProveedor=clientes.id)as saldo from clientes";    
+
+    public static void cargarMap() {
+
+        String sql = null;
+
+        try {
+            if (signal == 1) {
+                tra = new Conecciones();
+                sql = "select *,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.LISTADEPRECIO)as coeficiente,(select sum(movimientosclientes.monto) from movimientosclientes where pagado=0 and movimientosclientes.numeroProveedor=clientes.id)as saldo from clientes";
                 //System.err.println("LEER CLIENTES - "+sql);
                 //signal=0;
-                Inicio.coneccionRemota=true;
-            }else{
-             
-                tra=new Conecciones();
-                sql="select id,idtransporte,clientes.email,clientes.fax,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes order by RAZON_SOCI";
+                Inicio.coneccionRemota = true;
+            } else {
+
+                tra = new Conecciones();
+                sql = "select id,idtransporte,clientes.email,clientes.fax,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes order by RAZON_SOCI";
             }
             //sql="select *,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.NRO_LISTA)as coeficiente,(select sum(movimientosclientes.monto) from movimientosclientes where pagado=0 and movimientosclientes.numeroProveedor=clientes.id)as saldo from clientes";
             //System.out.println("CLIENTES "+sql);
             //String sql="select pedidos_carga1.COD_CLIENT,pedidos_carga1.RAZON_SOC,pedidos_carga1.NRO_PEDIDO,pedidos_carga1.numero,pedidos_carga1.LEYENDA_2 from pedidos_carga1 where RAZON_SOC like '"+cliente+"%' group by COD_CLIENT order by RAZON_SOC";
-            rs=tra.leerConjuntoDeRegistros(sql);
-                listadoClientes.clear();
-                listadoPorNom.clear();
-                listadoPorContacto.clear();
-                listadoPorFantasia.clear();
-                String codigo="";
-                String nombre="";
-                String sql1="";
-                String responsable="";
-                String fantasia="";
-                Transaccionable rat=new Conecciones();
-                
-                ResultSet rr=null;
-            while(rs.next()){               
-                Clientes cli=new Clientes();
+            rs = tra.leerConjuntoDeRegistros(sql);
+            listadoClientes.clear();
+            listadoPorNom.clear();
+            listadoPorContacto.clear();
+            listadoPorFantasia.clear();
+            String codigo = "";
+            String nombre = "";
+            String sql1 = "";
+            String responsable = "";
+            String fantasia = "";
+            Transaccionable rat = new Conecciones();
+
+            ResultSet rr = null;
+            while (rs.next()) {
+                Clientes cli = new Clientes();
                 cli.setCodigoId(rs.getInt("id"));
                 cli.setCodigoCliente(rs.getString("id"));
                 cli.setRazonSocial(rs.getString("RAZON_SOCI"));
@@ -266,82 +247,80 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setTipoComprobante(rs.getInt("tipocomprobante"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
                 cli.setEmail(rs.getString("email"));
-               // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes);
-                
-                
-            /*    
+
+                /*    
             }else{
                 cli.setSaldo(rs.getDouble("saldo"));
                 cli.setSaldoActual(rs.getDouble("saldo"));    
                 }
-                    */
+                 */
                 //cli.setNumeroPedido(rs.getString(3));
                 //cli.setObservaciones(rs.getString(5));
                 //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
-                codigo=cli.getCodigoCliente();
-                nombre=cli.getRazonSocial();
-                responsable=cli.getResponsable();
-                fantasia=cli.getFantasia();
-                listadoClientes.putIfAbsent(codigo,cli);
-                listadoPorNom.putIfAbsent(nombre,cli);
-                listadoPorContacto.putIfAbsent(responsable,cli);
+                codigo = cli.getCodigoCliente();
+                nombre = cli.getRazonSocial();
+                responsable = cli.getResponsable();
+                fantasia = cli.getFantasia();
+                listadoClientes.putIfAbsent(codigo, cli);
+                listadoPorNom.putIfAbsent(nombre, cli);
+                listadoPorContacto.putIfAbsent(responsable, cli);
                 listadoPorFantasia.putIfAbsent(fantasia, cli);
             }
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-        }   catch (InstantiationException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(signal==1){
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (signal == 1) {
             //if(Inicio.coneccionRemota)BackapearClientes();
-            signal=0;
-            Inicio.coneccionRemota=false;
-            }else{
-            
-            }
-    }   
+            signal = 0;
+            Inicio.coneccionRemota = false;
+        } else {
+
+        }
+    }
 
     public Clientes(String codigoCliente) {
-        Clientes clientesTango=(Clientes)listadoClientes.get(codigoCliente);
-                    
-                    this.codigoId=clientesTango.getCodigoId();
-                    this.codigoCliente=clientesTango.getCodigoCliente();
-                    this.razonSocial=clientesTango.getRazonSocial();
-                    this.direccion=clientesTango.getDireccion();
-                    this.condicionDeVenta=clientesTango.getCondicionDeVenta();
-                    this.listaDePrecios=clientesTango.getListaDePrecios();
-                    Double descuent=clientesTango.getDescuento();                
-                    this.descuento=descuent;
-                    this.numeroDeCuit=clientesTango.getNumeroDeCuit();
-                    this.empresa=clientesTango.getEmpresa();
-                    this.condicionIva=clientesTango.getCondicionIva();
-                    this.telefono=clientesTango.getTelefono();
-                    this.localidad=clientesTango.getLocalidad();
-                    this.coeficienteListaDeprecios=clientesTango.getCoeficienteListaDeprecios();
-                    this.cupoDeCredito=clientesTango.getCupoDeCredito();
-                    this.saldoActual=clientesTango.getSaldoActual();
-                    this.saldo=clientesTango.getSaldo();
-                    this.direccionDeEntrega=clientesTango.getDireccionDeEntrega();
-                    this.tipoIva=clientesTango.getTipoIva();
-                    this.email=clientesTango.getEmail();
-                    if(Propiedades.getCONDICIONIVA().equals("4")){
-                        this.tipoComprobante=1;
-                    }
-                    this.tipoComprobante=1;
-                    //cli.setNumeroPedido(rs.getString(3));
-                    //cli.setObservaciones(rs.getString(5));
-                    //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
-                    //ped.add(cli);
-            
+        Clientes clientesTango = (Clientes) listadoClientes.get(codigoCliente);
+
+        this.codigoId = clientesTango.getCodigoId();
+        this.codigoCliente = clientesTango.getCodigoCliente();
+        this.razonSocial = clientesTango.getRazonSocial();
+        this.direccion = clientesTango.getDireccion();
+        this.condicionDeVenta = clientesTango.getCondicionDeVenta();
+        this.listaDePrecios = clientesTango.getListaDePrecios();
+        Double descuent = clientesTango.getDescuento();
+        this.descuento = descuent;
+        this.numeroDeCuit = clientesTango.getNumeroDeCuit();
+        this.empresa = clientesTango.getEmpresa();
+        this.condicionIva = clientesTango.getCondicionIva();
+        this.telefono = clientesTango.getTelefono();
+        this.localidad = clientesTango.getLocalidad();
+        this.coeficienteListaDeprecios = clientesTango.getCoeficienteListaDeprecios();
+        this.cupoDeCredito = clientesTango.getCupoDeCredito();
+        this.saldoActual = clientesTango.getSaldoActual();
+        this.saldo = clientesTango.getSaldo();
+        this.direccionDeEntrega = clientesTango.getDireccionDeEntrega();
+        this.tipoIva = clientesTango.getTipoIva();
+        this.email = clientesTango.getEmail();
+        if (Propiedades.getCONDICIONIVA().equals("4")) {
+            this.tipoComprobante = 1;
+        }
+        this.tipoComprobante = 1;
+        //cli.setNumeroPedido(rs.getString(3));
+        //cli.setObservaciones(rs.getString(5));
+        //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
+        //ped.add(cli);
+
     }
 
     public Clientes() {
     }
-    
 
     public Double getCoeficienteListaDeprecios() {
         return coeficienteListaDeprecios;
@@ -366,7 +345,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setDescuento(Double descuento) {
         this.descuento = descuento;
     }
-        
 
     public Integer getCondicionDeVenta() {
         return condicionDeVenta;
@@ -381,12 +359,10 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     }
 
     public void setListaDePrecios(Integer listaDePrecios) {
-        
-            this.listaDePrecios = listaDePrecios;
-        
+
+        this.listaDePrecios = listaDePrecios;
+
     }
-        
-        
 
     public String getNumeroDeCuit() {
         return numeroDeCuit;
@@ -491,7 +467,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-        
 
     public Date getFechaActualizacion() {
         return fechaActualizacion;
@@ -500,8 +475,6 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setFechaActualizacion(Date fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
     }
-        
-
 
     public String getCodigoCliente() {
         return codigoCliente;
@@ -534,95 +507,102 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
-    public void agregarNuevo(Clientes cli) throws SQLException{
-        
-        String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa,dentrega,idtransporte) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial()+"','"+cli.getDireccion()+"','SANTA FE','"+cli.getTelefono()+"',"+cli.getCondicionIva()+",'"+cli.getNumeroDeCuit()+"',1,1,'"+cli.getEmpresa()+"','"+cli.getDireccionDeEntrega()+"',"+cli.getIdTransporte()+")";
-        if(tra.guardarRegistro(sql)){
-            
-        }else{
-            
+
+    public void agregarNuevo(Clientes cli) throws SQLException {
+
+        String sql = "insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa,dentrega,idtransporte) values ('" + cli.getCodigoCliente() + "','" + cli.getRazonSocial() + "','" + cli.getDireccion() + "','SANTA FE','" + cli.getTelefono() + "'," + cli.getCondicionIva() + ",'" + cli.getNumeroDeCuit() + "',1,1,'" + cli.getEmpresa() + "','" + cli.getDireccionDeEntrega() + "'," + cli.getIdTransporte() + ")";
+        if (tra.guardarRegistro(sql)) {
+
+        } else {
+
         }
-        
+
     }
-    public void ajustarSaldo(Clientes cli,Double ajuste){
+
+    public void ajustarSaldo(Clientes cli, Double ajuste) {
         numeroActualRecibo();
-       numeroRecibo++;
-        
-        String sql="insert into movimientosclientes (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito) values ("+cli.getCodigoId()+","+ajuste+","+numeroRecibo+","+Inicio.usuario.getNumeroId()+",15,"+Inicio.sucursal.getNumero()+",0)";
+        numeroRecibo++;
+
+        String sql = "insert into movimientosclientes (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito) values (" + cli.getCodigoId() + "," + ajuste + "," + numeroRecibo + "," + Inicio.usuario.getNumeroId() + ",15," + Inicio.sucursal.getNumero() + ",0)";
         tra.guardarRegistro(sql);
-        
+
     }
-    public ArrayList listarPorVehiculo(int numeroVehiculo,String fecha) throws SQLException{
-        ArrayList lista=new ArrayList();
+
+    public ArrayList listarPorVehiculo(int numeroVehiculo, String fecha) throws SQLException {
+        ArrayList lista = new ArrayList();
         //String sql="select * from clientes where RAZON_SOCI like";
-        String sql="select pedidos_carga1.COD_CLIENT,pedidos_carga1.RAZON_SOC,pedidos_carga1.listado,pedidos_carga1.LEYENDA_2,pedidos_carga1.NRO_PEDIDO,(select clientes.DOMICILIO from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as domicilio,(select clientes.TELEFONO_1 from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as telefono,(select clientes.LOCALIDAD from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as localidad,if((select contactos.contactado from contactos where contactos.numerocliente like pedidos_carga1.COD_CLIENT and contactos.numeroListado=pedidos_carga1.listado)=1,true,false)as contactado from pedidos_carga1 where vehiculo="+numeroVehiculo+" and entrega like '"+fecha+"%' group by RAZON_SOC";
-                // and entregaConv like '"+fecha+"'";
-        
+        String sql = "select pedidos_carga1.COD_CLIENT,pedidos_carga1.RAZON_SOC,pedidos_carga1.listado,pedidos_carga1.LEYENDA_2,pedidos_carga1.NRO_PEDIDO,(select clientes.DOMICILIO from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as domicilio,(select clientes.TELEFONO_1 from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as telefono,(select clientes.LOCALIDAD from clientes where clientes.COD_CLIENT like pedidos_carga1.COD_CLIENT and clientes.RAZON_SOCI like pedidos_carga1.RAZON_SOC group by RAZON_SOC)as localidad,if((select contactos.contactado from contactos where contactos.numerocliente like pedidos_carga1.COD_CLIENT and contactos.numeroListado=pedidos_carga1.listado)=1,true,false)as contactado from pedidos_carga1 where vehiculo=" + numeroVehiculo + " and entrega like '" + fecha + "%' group by RAZON_SOC";
+        // and entregaConv like '"+fecha+"'";
+
         return lista;
     }
-    public static void BackapearClientes(){
+
+    public static void BackapearClientes() {
         //if(listadoPorNom.size()==0){
-        if(signal==0){
-            signal=1;
+        if (signal == 0) {
+            signal = 1;
             cargarMap();
             //signal=0;
         }
         //}
-        ArrayList listado=new ArrayList();
-        Busquedas bus=new Clientes();
-        Clientes cli=new Clientes();
-        listado=bus.listar("");
-        Iterator ilC=listado.listIterator();
-        Transaccionable tt=null;
-            try {
-                tt = new Conecciones();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        String sql="delete from clientes";
+        ArrayList listado = new ArrayList();
+        Busquedas bus = new Clientes();
+        Clientes cli = new Clientes();
+        listado = bus.listar("");
+        Iterator ilC = listado.listIterator();
+        Transaccionable tt = null;
+        try {
+            tt = new Conecciones();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String sql = "delete from clientes";
         //tt.guardarRegistro(sql);
-        while(ilC.hasNext()){
-            cli=(Clientes)ilC.next();
-            
-            sql="insert into clientes (id,cod_client,razon_soci,domicilio,telefono_1,cond_vta,listadeprecio,numerodecuit,empresa,coeficiente,cupodecredito,saldo,saldoactual,tipo_iva) values ("+cli.getCodigoId()+",'"+cli.getCodigoCliente()+"','"+cli.getRazonSocial()+"','"+cli.getDireccion()+"','"+cli.getTelefono()+"',"+cli.getCondicionDeVenta()+","+cli.getListaDePrecios()+",'"+cli.getNumeroDeCuit()+"','"+cli.getEmpresa()+"',"+cli.getCoeficienteListaDeprecios()+","+cli.getCupoDeCredito()+","+cli.getSaldo()+","+cli.getSaldoActual()+",1)";
+        while (ilC.hasNext()) {
+            cli = (Clientes) ilC.next();
+
+            sql = "insert into clientes (id,cod_client,razon_soci,domicilio,telefono_1,cond_vta,listadeprecio,numerodecuit,empresa,coeficiente,cupodecredito,saldo,saldoactual,tipo_iva) values (" + cli.getCodigoId() + ",'" + cli.getCodigoCliente() + "','" + cli.getRazonSocial() + "','" + cli.getDireccion() + "','" + cli.getTelefono() + "'," + cli.getCondicionDeVenta() + "," + cli.getListaDePrecios() + ",'" + cli.getNumeroDeCuit() + "','" + cli.getEmpresa() + "'," + cli.getCoeficienteListaDeprecios() + "," + cli.getCupoDeCredito() + "," + cli.getSaldo() + "," + cli.getSaldoActual() + ",1)";
             //System.out.println("CLIENTES TANGO - "+sql);
             tt.guardarRegistro(sql);
         }
     }
-    private static void numeroActualRecibo(){
-        
-        String sql="select * from tipocomprobantes where id=11";
-        rs=tra.leerConjuntoDeRegistros(sql);
+
+    private static void numeroActualRecibo() {
+
+        String sql = "select * from tipocomprobantes where id=11";
+        rs = tra.leerConjuntoDeRegistros(sql);
         try {
-            while(rs.next()){
-            numeroRecibo=rs.getInt("numeroActivo");
-                
+            while (rs.next()) {
+                numeroRecibo = rs.getInt("numeroActivo");
+
             }
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void GuardarNumeroRecibo(){
-        
-        String sql="update tipocomprobantes set numeroActivo="+numeroRecibo+" where id=11";
+
+    private void GuardarNumeroRecibo() {
+
+        String sql = "update tipocomprobantes set numeroActivo=" + numeroRecibo + " where id=11";
         tra.guardarRegistro(sql);
     }
+
     @Override
     public ArrayList listar(String cliente) {
-        ArrayList ped=new ArrayList();
-            Clientes cli=null;
-            
-            String sql="select id,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,(select sum(monto) from movimientosclientes where movimientosclientes.NUMEROPROVEEDOR=clientes.id and movimientosclientes.pagado=0) as saldocli,clientes.TIPO_IVA,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes where razon_soci like '%"+cliente+"%' or responsable like '%"+cliente+"%' or fantasia like '%"+cliente+"%' order by razon_soci";
-            System.out.println("sleccion de cliente "+sql);
-            rs=tra.leerConjuntoDeRegistros(sql);
-            try {
-                while(rs.next()){
-                  cli=new Clientes();
+        ArrayList ped = new ArrayList();
+        Clientes cli = null;
+
+        String sql = "select id,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,(select sum(monto) from movimientosclientes where movimientosclientes.NUMEROPROVEEDOR=clientes.id and movimientosclientes.pagado=0) as saldocli,clientes.TIPO_IVA,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes where razon_soci like '%" + cliente + "%' or responsable like '%" + cliente + "%' or fantasia like '%" + cliente + "%' order by razon_soci";
+        System.out.println("sleccion de cliente " + sql);
+        rs = tra.leerConjuntoDeRegistros(sql);
+        try {
+            while (rs.next()) {
+                cli = new Clientes();
                 cli.setCodigoId(rs.getInt("id"));
                 cli.setCodigoCliente(rs.getString("id"));
                 cli.setRazonSocial(rs.getString("RAZON_SOCI"));
@@ -635,12 +615,19 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setNumeroDeCuit(rs.getString("IDENTIFTRI"));
                 cli.setEmpresa(rs.getString("empresa"));
                 cli.setTipoIva(rs.getInt("tipo_iva"));
-                if(cli.getTipoIva()==1)cli.setCondicionIva("RESP INSCRIPTO");
-                if(cli.getTipoIva()==4)cli.setCondicionIva("SUJETO EXENTO");
-                if(cli.getTipoIva()==5)cli.setCondicionIva("CONS FINAL");
-                if(cli.getTipoIva()==6)cli.setCondicionIva("RESP MONOTRIBUTO");
-                
-                
+                if (cli.getTipoIva() == 1) {
+                    cli.setCondicionIva("RESP INSCRIPTO");
+                }
+                if (cli.getTipoIva() == 4) {
+                    cli.setCondicionIva("SUJETO EXENTO");
+                }
+                if (cli.getTipoIva() == 5) {
+                    cli.setCondicionIva("CONS FINAL");
+                }
+                if (cli.getTipoIva() == 6) {
+                    cli.setCondicionIva("RESP MONOTRIBUTO");
+                }
+
                 cli.setTelefono(rs.getString("TELEFONO_1"));
                 cli.setLocalidad(rs.getString("localidad1"));
                 cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
@@ -656,71 +643,27 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setCodigoPostal(rs.getString("postal"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
                 cli.setSaldo(rs.getDouble("saldocli"));
-               // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
                 ped.add(cli);
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return ped;
-    } 
-        @Override
-    public ArrayList listarPorContacto(String cliente) {
-        ArrayList ped=new ArrayList();
-            Clientes cli=null;
-            
-            String sql="select id,idtransporte,clientes.fax,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable from clientes where responsable like '%"+cliente+"%' order by razon_soci";
-            rs=tra.leerConjuntoDeRegistros(sql);
-            try {
-                while(rs.next()){
-                  cli=new Clientes();
-                cli.setCodigoId(rs.getInt("id"));
-                cli.setCodigoCliente(rs.getString("id"));
-                cli.setRazonSocial(rs.getString("RAZON_SOCI"));
-                cli.setDireccion(rs.getString("DOMICILIO"));
-                cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
-                cli.setListaDePrecios(rs.getInt("NRO_LISTA"));
-                //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
-                cli.setDescuento(rs.getDouble("descuento"));
-                //cli.setDescuento(descuento);
-                cli.setNumeroDeCuit(rs.getString("IDENTIFTRI"));
-                cli.setEmpresa(rs.getString("empresa"));
-                cli.setCondicionIva(rs.getString("TIPO_IVA2"));
-                cli.setTipoIva(rs.getInt("tipo_iva"));
-                cli.setTelefono(rs.getString("TELEFONO_1"));
-                cli.setLocalidad(rs.getString("localidad1"));
-                cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
-                cli.setCupoDeCredito(rs.getDouble("CUPO_CREDI"));
-                cli.setResponsable(rs.getString("responsable"));
-                cli.setFantasia(rs.getString("fantasia"));
-                cli.setCelular(rs.getString("celular"));
-                cli.setFax(rs.getString("fax"));
-                cli.setDireccionFantasia(rs.getString("direccionfantasia"));
-                cli.setEmail(rs.getString("email"));
-                cli.setTipoComprobante(rs.getInt("tipocomprobante"));
-                cli.setIdTransporte(rs.getInt("idtransporte"));
-               // if(Inicio.usuario.getNivelDeAutorizacion()==1){
-                //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
-                ped.add(cli);
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return ped;
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ped;
     }
-        @Override
-    public ArrayList listarPorFantasia(String cliente) {
-        ArrayList ped=new ArrayList();
-            Clientes cli=null;
-            
-            String sql="select id,idtransporte,clientes.fax,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable from clientes where fantasia like '%"+cliente+"%' order by razon_soci";
-            rs=tra.leerConjuntoDeRegistros(sql);
-            try {
-                while(rs.next()){
-                  cli=new Clientes();
+
+    @Override
+    public ArrayList listarPorContacto(String cliente) {
+        ArrayList ped = new ArrayList();
+        Clientes cli = null;
+
+        String sql = "select id,idtransporte,clientes.fax,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable from clientes where responsable like '%" + cliente + "%' order by razon_soci";
+        rs = tra.leerConjuntoDeRegistros(sql);
+        try {
+            while (rs.next()) {
+                cli = new Clientes();
                 cli.setCodigoId(rs.getInt("id"));
                 cli.setCodigoCliente(rs.getString("id"));
                 cli.setRazonSocial(rs.getString("RAZON_SOCI"));
@@ -746,15 +689,61 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setEmail(rs.getString("email"));
                 cli.setTipoComprobante(rs.getInt("tipocomprobante"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
-               // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
                 ped.add(cli);
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return ped;
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ped;
+    }
+
+    @Override
+    public ArrayList listarPorFantasia(String cliente) {
+        ArrayList ped = new ArrayList();
+        Clientes cli = null;
+
+        String sql = "select id,idtransporte,clientes.fax,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable from clientes where fantasia like '%" + cliente + "%' order by razon_soci";
+        rs = tra.leerConjuntoDeRegistros(sql);
+        try {
+            while (rs.next()) {
+                cli = new Clientes();
+                cli.setCodigoId(rs.getInt("id"));
+                cli.setCodigoCliente(rs.getString("id"));
+                cli.setRazonSocial(rs.getString("RAZON_SOCI"));
+                cli.setDireccion(rs.getString("DOMICILIO"));
+                cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
+                cli.setListaDePrecios(rs.getInt("NRO_LISTA"));
+                //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
+                cli.setDescuento(rs.getDouble("descuento"));
+                //cli.setDescuento(descuento);
+                cli.setNumeroDeCuit(rs.getString("IDENTIFTRI"));
+                cli.setEmpresa(rs.getString("empresa"));
+                cli.setCondicionIva(rs.getString("TIPO_IVA2"));
+                cli.setTipoIva(rs.getInt("tipo_iva"));
+                cli.setTelefono(rs.getString("TELEFONO_1"));
+                cli.setLocalidad(rs.getString("localidad1"));
+                cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
+                cli.setCupoDeCredito(rs.getDouble("CUPO_CREDI"));
+                cli.setResponsable(rs.getString("responsable"));
+                cli.setFantasia(rs.getString("fantasia"));
+                cli.setCelular(rs.getString("celular"));
+                cli.setFax(rs.getString("fax"));
+                cli.setDireccionFantasia(rs.getString("direccionfantasia"));
+                cli.setEmail(rs.getString("email"));
+                cli.setTipoComprobante(rs.getInt("tipocomprobante"));
+                cli.setIdTransporte(rs.getInt("idtransporte"));
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
+                ped.add(cli);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ped;
     }
 
     @Override
@@ -764,12 +753,12 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
 
     @Override
     public void modificarDatosCliente(Object cliente) {
-        Clientes cli=(Clientes)cliente;
-        Boolean resultado=false;
-        
-        String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa,coeficiente,idtransporte,email) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial().toUpperCase()+"','"+cli.getDireccion()+"','SANTA FE','"+cli.getTelefono()+"',"+cli.getCondicionIva()+",'"+cli.getNumeroDeCuit()+"',1,2,'"+cli.getEmpresa()+"',"+cli.getCoeficienteListaDeprecios()+","+cli.getIdTransporte()+",'"+cli.getEmail()+"')";
-        
-        resultado=tra.guardarRegistro(sql);
+        Clientes cli = (Clientes) cliente;
+        Boolean resultado = false;
+
+        String sql = "insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa,coeficiente,idtransporte,email) values ('" + cli.getCodigoCliente() + "','" + cli.getRazonSocial().toUpperCase() + "','" + cli.getDireccion() + "','SANTA FE','" + cli.getTelefono() + "'," + cli.getCondicionIva() + ",'" + cli.getNumeroDeCuit() + "',1,2,'" + cli.getEmpresa() + "'," + cli.getCoeficienteListaDeprecios() + "," + cli.getIdTransporte() + ",'" + cli.getEmail() + "')";
+
+        resultado = tra.guardarRegistro(sql);
         //return resultado;
     }
 
@@ -820,68 +809,67 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
 
     @Override
     public Integer guardarNuevoCliente(Object cliente) {
-        Clientes cli=(Clientes)cliente;
-        Integer resultado=0;
-        
-        String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,TELEFONO_1,TIPO_IVA,NUMERODECUIT,COND_VTA,LISTADEPRECIO,empresa,cupodecredito,coeficiente,responsable,fantasia,celular,localidad,fax,direccionfantasia,email,dentrega,idtransporte,saldo,saldoactual) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial().toUpperCase()+"','"+cli.getDireccion()+"','"+cli.getTelefono()+"',"+cli.getTipoIva()+",'"+cli.getNumeroDeCuit()+"',1,"+cli.getListaDePrecios()+",'"+cli.getEmpresa()+"',"+cli.getCupoDeCredito()+","+cli.getCoeficienteListaDeprecios()+",'"+cli.getResponsable()+"','"+cli.getFantasia()+"','"+cli.getCelular()+"',1,'"+cli.getFax()+"','"+cli.getDireccionFantasia()+"','"+cli.getEmail()+"','"+cli.getDireccionDeEntrega()+"',0,0.00,0.00)";
+        Clientes cli = (Clientes) cliente;
+        Integer resultado = 0;
+
+        String sql = "insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,TELEFONO_1,TIPO_IVA,NUMERODECUIT,COND_VTA,LISTADEPRECIO,empresa,cupodecredito,coeficiente,responsable,fantasia,celular,localidad,fax,direccionfantasia,email,dentrega,idtransporte,saldo,saldoactual) values ('" + cli.getCodigoCliente() + "','" + cli.getRazonSocial().toUpperCase() + "','" + cli.getDireccion() + "','" + cli.getTelefono() + "'," + cli.getTipoIva() + ",'" + cli.getNumeroDeCuit() + "',1," + cli.getListaDePrecios() + ",'" + cli.getEmpresa() + "'," + cli.getCupoDeCredito() + "," + cli.getCoeficienteListaDeprecios() + ",'" + cli.getResponsable() + "','" + cli.getFantasia() + "','" + cli.getCelular() + "',1,'" + cli.getFax() + "','" + cli.getDireccionFantasia() + "','" + cli.getEmail() + "','" + cli.getDireccionDeEntrega() + "',0,0.00,0.00)";
         System.out.println(sql);
-            try {
-                tra=new Conecciones();
-                tra.guardarRegistro(sql);
-                sql="select id from clientes order by id desc fetch first 1 rows only";
-                ResultSet rs=tra.leerConjuntoDeRegistros(sql);
-                while(rs.next()){
-                    resultado=rs.getInt(("id"));
-                }
-                rs.close();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            tra = new Conecciones();
+            tra.guardarRegistro(sql);
+            sql = "select id from clientes order by id desc fetch first 1 rows only";
+            ResultSet rs = tra.leerConjuntoDeRegistros(sql);
+            while (rs.next()) {
+                resultado = rs.getInt(("id"));
             }
-        
+            rs.close();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         cargarMap();
         return resultado;
     }
 
     @Override
     public Boolean modificarDatosDelCliente(Object cliente) {
-        Clientes cli=(Clientes)cliente;
-        Boolean resultado=false;
-        
-        
+        Clientes cli = (Clientes) cliente;
+        Boolean resultado = false;
+
         //String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial()+"','"+cli.getDireccion()+"','SANTA FE','"+cli.getTelefono()+"',"+cli.getCondicionIva()+",'"+cli.getNumeroDeCuit()+"',1,1,'"+cli.getEmpresa()+"')";
-        String sql="update clientes set RAZON_SOCI='"+cli.getRazonSocial().toUpperCase()+"',idtransporte=0,listadeprecio="+cli.getListaDePrecios()+",DOMICILIO='"+cli.getDireccion()+"',TELEFONO_1='"+cli.getTelefono()+"',localidad=1,responsable='"+cli.getResponsable()+"',numerodecuit='"+cli.getNumeroDeCuit()+"',tipo_iva="+cli.getTipoIva()+",cupodecredito="+cli.getCupoDeCredito()+",coeficiente="+cli.getCoeficienteListaDeprecios()+",fantasia='"+cli.getFantasia()+"',celular='"+cli.getCelular()+"',fax='"+cli.getFax()+"',direccionfantasia='"+cli.getDireccionFantasia()+"',email='"+cli.getEmail()+"',dentrega='"+cli.getDireccionDeEntrega()+"' where id ="+cli.getCodigoId();
-        System.out.println("modificacion "+sql);
-        resultado=tra.guardarRegistro(sql);
+        String sql = "update clientes set RAZON_SOCI='" + cli.getRazonSocial().toUpperCase() + "',idtransporte=0,listadeprecio=" + cli.getListaDePrecios() + ",DOMICILIO='" + cli.getDireccion() + "',TELEFONO_1='" + cli.getTelefono() + "',localidad=1,responsable='" + cli.getResponsable() + "',numerodecuit='" + cli.getNumeroDeCuit() + "',tipo_iva=" + cli.getTipoIva() + ",cupodecredito=" + cli.getCupoDeCredito() + ",coeficiente=" + cli.getCoeficienteListaDeprecios() + ",fantasia='" + cli.getFantasia() + "',celular='" + cli.getCelular() + "',fax='" + cli.getFax() + "',direccionfantasia='" + cli.getDireccionFantasia() + "',email='" + cli.getEmail() + "',dentrega='" + cli.getDireccionDeEntrega() + "' where id =" + cli.getCodigoId();
+        System.out.println("modificacion " + sql);
+        resultado = tra.guardarRegistro(sql);
         cargarMap();
         return resultado;
     }
 
     @Override
     public ArrayList listarClientes(String nombre) {
-             ArrayList ped=new ArrayList();
-            Clientes rs=null;
-            
-            nombre=nombre.toUpperCase();
-            Enumeration<Clientes> elementos=listadoPorNom.elements();
-            while(elementos.hasMoreElements()){
-                rs=(Clientes)elementos.nextElement();
-                Clientes cli=new Clientes();
-                 int pos=rs.getRazonSocial().indexOf(nombre);
-                if(pos==-1){
-                    
-                }else{
-                cli=rs;
+        ArrayList ped = new ArrayList();
+        Clientes rs = null;
+
+        nombre = nombre.toUpperCase();
+        Enumeration<Clientes> elementos = listadoPorNom.elements();
+        while (elementos.hasMoreElements()) {
+            rs = (Clientes) elementos.nextElement();
+            Clientes cli = new Clientes();
+            int pos = rs.getRazonSocial().indexOf(nombre);
+            if (pos == -1) {
+
+            } else {
+                cli = rs;
                 //cli.setNumeroPedido(rs.getString(3));
                 //cli.setObservaciones(rs.getString(5));
                 //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
                 ped.add(cli);
-                }
             }
-            return ped;
+        }
+        return ped;
 
     }
 
@@ -897,71 +885,70 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
 
     @Override
     public Object cargarPorCodigoAsignado(Integer id) {
-        String sql="select id,email,razon_soci,domicilio,cond_vta,listadeprecio,coeficiente,numerodecuit,empresa,tipo_iva,telefono_1,cupodecredito,responsable,fantasia,celular,fax,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion,(SELECT sum(movimientosclientes.monto) from movimientosclientes where movimientosclientes.pagado=0 and movimientosclientes.numeroProveedor=clientes.id)as saldo1 from clientes where id="+id;
+        String sql = "select id,email,razon_soci,domicilio,cond_vta,listadeprecio,coeficiente,numerodecuit,empresa,tipo_iva,telefono_1,cupodecredito,responsable,fantasia,celular,fax,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion,(SELECT sum(movimientosclientes.monto) from movimientosclientes where movimientosclientes.pagado=0 and movimientosclientes.numeroProveedor=clientes.id)as saldo1 from clientes where id=" + id;
         System.out.println(sql);
-        String sql1="";
-        Clientes cli=new Clientes();
-        
-        
-            try {
-                tra=new Conecciones();
-                rs=tra.leerConjuntoDeRegistros(sql);
-                while(rs.next()){
-                    
-                    cli.setCodigoId(rs.getInt("id"));
-                    cli.setCodigoCliente(rs.getString("id"));
-                    cli.setRazonSocial(rs.getString("RAZON_SOCI"));
-                    cli.setDireccion(rs.getString("DOMICILIO"));
-                    cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
-                    cli.setListaDePrecios(rs.getInt("listadeprecio"));
-                    //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
-                    cli.setDescuento(rs.getDouble("coeficiente"));
-                    //cli.setDescuento(descuento);
-                    cli.setNumeroDeCuit(rs.getString("numerodecuit"));
-                    cli.setEmpresa(rs.getString("empresa"));
-                    cli.setCondicionIva(rs.getString("tipocondicion"));
-                    cli.setTipoIva(rs.getInt("tipo_iva"));
-                    cli.setTelefono(rs.getString("TELEFONO_1"));
-                    cli.setLocalidad(rs.getString("localidadD"));
-                    cli.setCodigoPostal(rs.getString("postal"));
-                    cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
-                    cli.setCupoDeCredito(rs.getDouble("cupodecredito"));
-                    cli.setResponsable(rs.getString("responsable"));
-                    cli.setFantasia(rs.getString("fantasia"));
-                    cli.setCelular(rs.getString("celular"));
-                    cli.setFax(rs.getString("fax"));
-                    cli.setTipoComprobante(rs.getInt("tipocomprobante"));
-                    cli.setEmail(rs.getString("email"));
-                    //cli.setIdTransporte(rs.getInt("idtransporte"));
-                    // if(Inicio.usuario.getNivelDeAutorizacion()==1){
-                    System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes);
-                    cli.setSaldo(rs.getDouble("saldo1"));
-                    cli.setSaldoActual(rs.getDouble("saldo1"));
-                    System.out.println("SALDO CLIENTE: "+cli.getSaldo());
-                    /*
+        String sql1 = "";
+        Clientes cli = new Clientes();
+
+        try {
+            tra = new Conecciones();
+            rs = tra.leerConjuntoDeRegistros(sql);
+            while (rs.next()) {
+
+                cli.setCodigoId(rs.getInt("id"));
+                cli.setCodigoCliente(rs.getString("id"));
+                cli.setRazonSocial(rs.getString("RAZON_SOCI"));
+                cli.setDireccion(rs.getString("DOMICILIO"));
+                cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
+                cli.setListaDePrecios(rs.getInt("listadeprecio"));
+                //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
+                cli.setDescuento(rs.getDouble("coeficiente"));
+                //cli.setDescuento(descuento);
+                cli.setNumeroDeCuit(rs.getString("numerodecuit"));
+                cli.setEmpresa(rs.getString("empresa"));
+                cli.setCondicionIva(rs.getString("tipocondicion"));
+                cli.setTipoIva(rs.getInt("tipo_iva"));
+                cli.setTelefono(rs.getString("TELEFONO_1"));
+                cli.setLocalidad(rs.getString("localidadD"));
+                cli.setCodigoPostal(rs.getString("postal"));
+                cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
+                cli.setCupoDeCredito(rs.getDouble("cupodecredito"));
+                cli.setResponsable(rs.getString("responsable"));
+                cli.setFantasia(rs.getString("fantasia"));
+                cli.setCelular(rs.getString("celular"));
+                cli.setFax(rs.getString("fax"));
+                cli.setTipoComprobante(rs.getInt("tipocomprobante"));
+                cli.setEmail(rs.getString("email"));
+                //cli.setIdTransporte(rs.getInt("idtransporte"));
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                System.out.println("ACTUALIZACION :" + Inicio.actualizacionesClientes);
+                cli.setSaldo(rs.getDouble("saldo1"));
+                cli.setSaldoActual(rs.getDouble("saldo1"));
+                System.out.println("SALDO CLIENTE: " + cli.getSaldo());
+                /*
                     }else{
                     cli.setSaldo(rs.getDouble("saldo"));
                     cli.setSaldoActual(rs.getDouble("saldo"));
                     }
-                    */
-                    //cli.setNumeroPedido(rs.getString(3));
-                    //cli.setObservaciones(rs.getString(5));
-                    //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
-                
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+                 */
+                //cli.setNumeroPedido(rs.getString(3));
+                //cli.setObservaciones(rs.getString(5));
+                //System.out.println("CLIENTE "+cli.getRazonSocial() +"COMENTARIO "+cli.getCodigoCliente());
+
             }
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return cli;
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cli;
     }
 
     @Override
@@ -981,83 +968,83 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
 
     @Override
     public Object PagarComprobante(Object objeto) {
-       Comprobantes factProv=(Comprobantes)objeto;
-       numeroActualRecibo();
-       numeroRecibo++;
-       String fech=Numeros.ConvertirFecha(Inicio.fechaVal);
-       
-       Double montt=factProv.getMontoTotal() * -1;
-       String sql="insert into movimientosclientes (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito,pagado,idcaja) values ("+factProv.getCliente().getCodigoId()+","+montt+",'"+numeroRecibo+"',"+factProv.getUsuarioGenerador()+",11,"+factProv.getIdSucursal()+",0,"+factProv.getPagado()+","+Inicio.caja.getNumero()+")";
-       //String sql="update movimientosproveedores set pagado=1,numeroComprobante="+numeroRecibo+",idCaja="+Inicio.caja.getNumero()+",fechaPago='"+fech+"',idSucursal="+Inicio.sucursal.getNumero()+" where id="+factProv.getId();
-       //System.out.println("VEAMOS "+sql);
-       tra.guardarRegistro(sql);
-       //String ttx="PAGO A PROVEEDOR "+factProv.getNombreProveedor();
-       Double monto=factProv.getMontoTotal();
-       sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values ("+Inicio.usuario.getNumeroId()+","+Inicio.sucursal.getNumero()+","+numeroRecibo+",6,"+monto+",13,"+Inicio.caja.getNumero()+","+factProv.getCliente().getCodigoId()+",1,1)";
-       tra.guardarRegistro(sql);
-       GuardarNumeroRecibo();
-       return factProv;
+        Comprobantes factProv = (Comprobantes) objeto;
+        numeroActualRecibo();
+        numeroRecibo++;
+        String fech = Numeros.ConvertirFecha(Inicio.fechaVal);
+
+        Double montt = factProv.getMontoTotal() * -1;
+        String sql = "insert into movimientosclientes (numeroProveedor,monto,numeroComprobante,idUsuario,tipoComprobante,idSucursal,idRemito,pagado,idcaja) values (" + factProv.getCliente().getCodigoId() + "," + montt + ",'" + numeroRecibo + "'," + factProv.getUsuarioGenerador() + ",11," + factProv.getIdSucursal() + ",0," + factProv.getPagado() + "," + Inicio.caja.getNumero() + ")";
+        //String sql="update movimientosproveedores set pagado=1,numeroComprobante="+numeroRecibo+",idCaja="+Inicio.caja.getNumero()+",fechaPago='"+fech+"',idSucursal="+Inicio.sucursal.getNumero()+" where id="+factProv.getId();
+        //System.out.println("VEAMOS "+sql);
+        tra.guardarRegistro(sql);
+        //String ttx="PAGO A PROVEEDOR "+factProv.getNombreProveedor();
+        Double monto = factProv.getMontoTotal();
+        sql = "insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values (" + Inicio.usuario.getNumeroId() + "," + Inicio.sucursal.getNumero() + "," + numeroRecibo + ",6," + monto + ",13," + Inicio.caja.getNumero() + "," + factProv.getCliente().getCodigoId() + ",1,1)";
+        tra.guardarRegistro(sql);
+        GuardarNumeroRecibo();
+        return factProv;
     }
 
     @Override
     public void eliminar(Integer id) {
-        String sql="delete from clientes where id="+id;
+        String sql = "delete from clientes where id=" + id;
         tra.guardarRegistro(sql);
     }
 
     @Override
     public ArrayList ListarPorLocalidad(Integer idLocalidad) {
-        ArrayList listadoP=new ArrayList();
-        String sql="select *,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion from clientes where localidad="+idLocalidad;
-        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        ArrayList listadoP = new ArrayList();
+        String sql = "select *,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion from clientes where localidad=" + idLocalidad;
+        ResultSet rs = tra.leerConjuntoDeRegistros(sql);
         Clientes cli;
-            try {
-                while(rs.next()){
-                    cli=new Clientes();
-                    cli.setCodigoId(rs.getInt("id"));
-                    cli.setCodigoCliente(rs.getString("id"));
-                    cli.setRazonSocial(rs.getString("RAZON_SOCI"));
-                    cli.setDireccion(rs.getString("DOMICILIO"));
-                    cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
-                    cli.setListaDePrecios(rs.getInt("listadeprecio"));
-                    //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
-                    cli.setDescuento(rs.getDouble("coeficiente"));
-                    //cli.setDescuento(descuento);
-                    cli.setNumeroDeCuit(rs.getString("numerodecuit"));
-                    cli.setEmpresa(rs.getString("empresa"));
-                    cli.setCondicionIva(rs.getString("tipocondicion"));
-                    cli.setTipoIva(rs.getInt("tipo_iva"));
-                    cli.setTelefono(rs.getString("TELEFONO_1"));
-                    cli.setLocalidad(rs.getString("localidadD"));
-                    cli.setCodigoPostal(rs.getString("postal"));
-                    cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
-                    cli.setCupoDeCredito(rs.getDouble("cupodecredito"));
-                    cli.setResponsable(rs.getString("responsable"));
-                    cli.setFantasia(rs.getString("fantasia"));
-                    cli.setCelular(rs.getString("celular"));
-                    cli.setFax(rs.getString("fax"));
-                    cli.setTipoComprobante(rs.getInt("tipocomprobante"));
-                    cli.setEmail(rs.getString("email"));
-                    cli.setIdTransporte(rs.getInt("idtransporte"));
-                    listadoP.add(cli);
-                }
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            while (rs.next()) {
+                cli = new Clientes();
+                cli.setCodigoId(rs.getInt("id"));
+                cli.setCodigoCliente(rs.getString("id"));
+                cli.setRazonSocial(rs.getString("RAZON_SOCI"));
+                cli.setDireccion(rs.getString("DOMICILIO"));
+                cli.setCondicionDeVenta(rs.getInt("COND_VTA"));
+                cli.setListaDePrecios(rs.getInt("listadeprecio"));
+                //Double descuento=Double.parseDouble(rs.getString("PORC_DESC"));
+                cli.setDescuento(rs.getDouble("coeficiente"));
+                //cli.setDescuento(descuento);
+                cli.setNumeroDeCuit(rs.getString("numerodecuit"));
+                cli.setEmpresa(rs.getString("empresa"));
+                cli.setCondicionIva(rs.getString("tipocondicion"));
+                cli.setTipoIva(rs.getInt("tipo_iva"));
+                cli.setTelefono(rs.getString("TELEFONO_1"));
+                cli.setLocalidad(rs.getString("localidadD"));
+                cli.setCodigoPostal(rs.getString("postal"));
+                cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
+                cli.setCupoDeCredito(rs.getDouble("cupodecredito"));
+                cli.setResponsable(rs.getString("responsable"));
+                cli.setFantasia(rs.getString("fantasia"));
+                cli.setCelular(rs.getString("celular"));
+                cli.setFax(rs.getString("fax"));
+                cli.setTipoComprobante(rs.getInt("tipocomprobante"));
+                cli.setEmail(rs.getString("email"));
+                cli.setIdTransporte(rs.getInt("idtransporte"));
+                listadoP.add(cli);
             }
-            return listadoP;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listadoP;
     }
 
     @Override
     public ArrayList listarDeudores() {
-        ArrayList ped=new ArrayList();
-            Clientes cli=null;
-            
-            String sql="select id,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,(select sum(monto) from movimientosclientes where movimientosclientes.NUMEROPROVEEDOR=clientes.id and movimientosclientes.pagado=0) as saldocli,clientes.TIPO_IVA,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes where cupodecredito=1 order by razon_soci";
-            rs=tra.leerConjuntoDeRegistros(sql);
-            try {
-                while(rs.next()){
-                  cli=new Clientes();
+        ArrayList ped = new ArrayList();
+        Clientes cli = null;
+
+        String sql = "select id,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,(select sum(monto) from movimientosclientes where movimientosclientes.NUMEROPROVEEDOR=clientes.id and movimientosclientes.pagado=0) as saldocli,clientes.TIPO_IVA,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes where cupodecredito=1 order by razon_soci";
+        rs = tra.leerConjuntoDeRegistros(sql);
+        try {
+            while (rs.next()) {
+                cli = new Clientes();
                 cli.setCodigoId(rs.getInt("id"));
                 cli.setCodigoCliente(rs.getString("id"));
                 cli.setRazonSocial(rs.getString("RAZON_SOCI"));
@@ -1070,12 +1057,19 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setNumeroDeCuit(rs.getString("IDENTIFTRI"));
                 cli.setEmpresa(rs.getString("empresa"));
                 cli.setTipoIva(rs.getInt("tipo_iva"));
-                if(cli.getTipoIva()==1)cli.setCondicionIva("RESP INSCRIPTO");
-                if(cli.getTipoIva()==4)cli.setCondicionIva("SUJETO EXENTO");
-                if(cli.getTipoIva()==5)cli.setCondicionIva("CONS FINAL");
-                if(cli.getTipoIva()==6)cli.setCondicionIva("RESP MONOTRIBUTO");
-                
-                
+                if (cli.getTipoIva() == 1) {
+                    cli.setCondicionIva("RESP INSCRIPTO");
+                }
+                if (cli.getTipoIva() == 4) {
+                    cli.setCondicionIva("SUJETO EXENTO");
+                }
+                if (cli.getTipoIva() == 5) {
+                    cli.setCondicionIva("CONS FINAL");
+                }
+                if (cli.getTipoIva() == 6) {
+                    cli.setCondicionIva("RESP MONOTRIBUTO");
+                }
+
                 cli.setTelefono(rs.getString("TELEFONO_1"));
                 cli.setLocalidad(rs.getString("localidad1"));
                 cli.setCoeficienteListaDeprecios(rs.getDouble("coeficiente"));
@@ -1091,15 +1085,15 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setCodigoPostal(rs.getString("postal"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
                 cli.setSaldo(rs.getDouble("saldocli"));
-               // if(Inicio.usuario.getNivelDeAutorizacion()==1){
+                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 //System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
                 ped.add(cli);
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return ped;
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ped;
     }
 
     @Override
@@ -1121,5 +1115,10 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     public Object PagarConOtrosMedios(Object objeto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-        
+
+    @Override
+    public void eliminarComprobante(Integer numeroCompro, Integer tipoCompro) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

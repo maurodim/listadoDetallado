@@ -329,7 +329,7 @@ public class FacturaElectronica implements FacturableE, Instalable {
         this.afipPlastCbte = afipPlastCbte;
     }
 
-    private Integer guardarEnFiscal() {
+    private String guardarEnFiscal() {
         String fecha = Numeros.ConvertirFechaFiscal();
         //Transaccionable tra=new Conecciones();
 
@@ -365,7 +365,7 @@ public class FacturaElectronica implements FacturableE, Instalable {
         //tra.guardarRegistro(sql);
 
         //sql="insert into facturas (idcliente,total,tipo,idusuario,idpedido,archivo,numerofactura,saldo,subtotal) values ("+this.idCliente+","+this.importeTotal+","+tipo+",1,"+this.idPedido+",'"+this.archivoPdf+"',"+numero+","+this.importeTotal+","+this.importeNeto+")";
-        return Integer.parseInt(numero);
+        return numero;
     }
 
     private Object leer() {
@@ -679,7 +679,7 @@ public class FacturaElectronica implements FacturableE, Instalable {
         }
 
         @Override
-        public Integer generar
+        public String generar
         (Connection conexion, int Condicion, String archivoKey
         , String archivoCrt, Integer idCliente
         , String cuitCliente, int tipoComprobante, Double montoTotal

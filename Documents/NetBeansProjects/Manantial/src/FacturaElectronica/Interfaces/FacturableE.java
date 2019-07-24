@@ -57,6 +57,6 @@ public interface FacturableE {
      * @param condicionVta
      * @return
      */
-    public Integer generar(Connection conexion,int Condicion,String archivoKey,String archivoCrt,Integer idCliente,String cuitCliente,int tipoComprobante,Double montoTotal,Double montoBruto,Double montoIva,int ptoDeVenta,String cuitVendedor,int tipoVenta,ArrayList ivas,ArrayList tributos,String razonSocial,String direccion,String condicionIvaCliente,ArrayList lstDetalle,Integer idPedido,String nombreVendedor,String razonSocialVendedor,String condIvaVendedor,String direccionVendedor,String telefonoVendedor,String ingBrutosVendedor,String inicioActVendedor,String mailCliente,int condicionVta);
+    public String generar(Connection conexion,int Condicion,String archivoKey,String archivoCrt,Integer idCliente,String cuitCliente,int tipoComprobante,Double montoTotal,Double montoBruto,Double montoIva,int ptoDeVenta,String cuitVendedor,int tipoVenta,ArrayList ivas,ArrayList tributos,String razonSocial,String direccion,String condicionIvaCliente,ArrayList lstDetalle,Integer idPedido,String nombreVendedor,String razonSocialVendedor,String condIvaVendedor,String direccionVendedor,String telefonoVendedor,String ingBrutosVendedor,String inicioActVendedor,String mailCliente,int condicionVta);
     public String solicitarCertificado(String cuit);
 }

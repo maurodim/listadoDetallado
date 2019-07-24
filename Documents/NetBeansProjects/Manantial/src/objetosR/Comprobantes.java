@@ -665,4 +665,25 @@ public class Comprobantes implements Facturar {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void eliminarComprobante(Integer numeroCompro, Integer tipoCompro) {
+        try {
+            Transaccionable tra = new Conecciones();
+            String sql = "delete from movimientoscaja where numerocomprobante=" + numeroCompro + " and tipocomprobante=" + tipoCompro;
+            System.out.println(sql);
+            tra.guardarRegistro(sql);
+            String nume=String.valueOf(numeroCompro);
+            sql="delete from movimientosclientes where numerocomprobante='"+nume+"' and tipocomprobante="+tipoCompro;
+            tra.guardarRegistro(sql);
+            sql="delete from movimientosarticulos where numerocomprobante="+numeroCompro+" and tipocomprobante="+tipoCompro;
+            tra.guardarRegistro(sql);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Comprobantes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Comprobantes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Comprobantes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

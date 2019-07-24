@@ -27,5 +27,6 @@ public interface Facturar {
     public ArrayList listadoBusquedaFacturacion(String criterio,Double coeficiente);
     public Object cargarPorCodigoDeBarraFacturacion(String cordigoDeBarra,double coeficiente);
     public Object cargarPorCodigoAsignadoFacturacion(Integer id,double coeficiente);
+    public void eliminarComprobante(Integer numeroCompro,Integer tipoCompro);
     
 }

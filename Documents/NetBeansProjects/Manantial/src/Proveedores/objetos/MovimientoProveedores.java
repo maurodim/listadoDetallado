@@ -434,6 +434,10 @@ public class MovimientoProveedores implements FacturableE {
             String sql = "delete from movimientosproveedores where id=" + movimiento.getId();
             System.out.println(sql);
             tra.guardarRegistro(sql);
+            if(movimiento.getTipoComprobante()==1){
+                sql="delete from movimientoscaja where tipomovimiento="+movimiento.getTipoComprobante()+" and numerocomprobante="+Integer.parseInt(movimiento.getNumeroComprobante());
+                tra.guardarRegistro(sql);
+            }
             sql = "delete from comprasfiscal where id=" + movimiento.getIdComprobante();
             tra.guardarRegistro(sql);
             System.out.println(sql);

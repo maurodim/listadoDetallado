@@ -748,6 +748,7 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
             case 0:
                 gavado=Numeros.ConvertirStringADouble(this.montoGravado_txt.getText());
                 iva=gavado * 0.21;
+                iva=Numeros.Redondear(iva);
                 this.montoIva_txt.setText(String.valueOf(iva));
                 //montrarMonto(gavado);
                 //tipoIva=new TiposIva(5,gavado,)
@@ -757,6 +758,7 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
             case 1:
                 gavado=Numeros.ConvertirStringADouble(this.montoGravado_txt.getText());
                 iva=gavado * 0.105;
+                iva=Numeros.Redondear(iva);
                 this.montoIva_txt.setText(String.valueOf(iva));
                 //montrarMonto(gavado);
                 //alicuotaIva="0004";
@@ -765,6 +767,7 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
             case 2:
                 gavado=Numeros.ConvertirStringADouble(this.montoGravado_txt.getText());
                 iva=gavado * 0.27;
+                iva=Numeros.Redondear(iva);
                 this.montoIva_txt.setText(String.valueOf(iva));
                 //montrarMonto(gavado);
                 //alicuotaIva="0003";

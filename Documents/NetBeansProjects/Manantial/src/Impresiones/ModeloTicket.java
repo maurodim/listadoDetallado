@@ -33,10 +33,15 @@ public class ModeloTicket {
     private FormatoPie formatoPie;
     // Datos Comprador
     private FormatoCliente formatoCliente;
-
+    
+    //datos forma de pago en el cierre
+    
     // Datos Articulos
     private List<FormatoArticulos> articulos;
-
+    
+    //Datos de formas de pago
+    private List<FormatoFormas> formas;
+    
     // Datos extras de la factura
     private FormatoFactura formatoFactura;
 
@@ -50,6 +55,15 @@ public class ModeloTicket {
     //identificado de tipo de comprobante
     private int idComprobante;
 
+    public List<FormatoFormas> getFormas() {
+        return formas;
+    }
+
+    public void setFormas(List<FormatoFormas> formas) {
+        this.formas = formas;
+    }
+    
+    
     public FormatoPie getFormatoPie() {
         return formatoPie;
     }
@@ -412,11 +426,17 @@ public class ModeloTicket {
                 + "TOTAL GASTOS:                $cli.gastos \n"
                 + "TOTAL RETIROS EFECTIVO:      $cli.retiros\n"
                 + "TOTAL PAGOS A PROVEEDORES:   $cli.pagos  \n"
+                + "=========================================\n"
+                + "Detalle Formas de Pago                   \n"
+                + "Descripcion                       IMPORTE\n"
+                + "=========================================\n"
+                + "$formas                                  \n"
                 + "                                         \n"
                 + "                                         \n"
                 + "                                         \n"
                 + "                                         \n"
                 + "\n";
+        
         //System.out.println("contenido ticket1 \n"+contenido);
         return contenido;
     }
@@ -429,6 +449,12 @@ public class ModeloTicket {
                 + "\n"
                 ).collect(Collectors.joining(""));
 
+    }
+    private String estructuracionFormasCierre(){
+        return this.formas.stream().map(items->items.getDescripcion()
+                + "    $ "
+                +items.getMonto()
+                +"\n").collect(Collectors.joining(""));
     }
     private String estructuracionArticulos() {
         return this.articulos.stream()
@@ -726,6 +752,8 @@ public class ModeloTicket {
         contenido = contenido.replace("$cli.gastos", formatoPie.getTotlaGastos());
         contenido = contenido.replace("$cli.retiros", formatoPie.getRetiros());
         contenido = contenido.replace("$cli.pagos", formatoPie.getPagos());
+        
+        contenido = contenido.replace("$formas", this.estructuracionFormasCierre());
         
         
         

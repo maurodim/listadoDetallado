@@ -60,6 +60,7 @@ public class BbsGestion {
         File bases = new File("Facturas Electronicas");
         File fiscal=new File("Fiscal");
         File configuracion = new File("Configuracion");
+        File etiquetas=new File("Etiquetas");
         //File imagenes=new File("C:\\Gestion\\imagenes\\saynomore.jpg");
         File bk;
         //FileInputStream fregis = new FileInputStream("C:\\Users\\mauro\\Pictures\\Camera Uploads\\snm.jpg"); 
@@ -86,6 +87,9 @@ public class BbsGestion {
         }
         if(!fiscal.isDirectory()){
             fiscal.mkdirs();
+        }
+        if(!etiquetas.isDirectory()){
+            etiquetas.mkdirs();
         }
         /*
         if(!imagenes.isFile()){

@@ -552,6 +552,7 @@ public class ImprimirComprobantes {
     }
 
     public void ReImprimirFiscalB(Integer idCotizacion, Integer tipo) {
+        
         Facturable cotizable = new MovimientosClientes();
         MovimientosClientes cotizacion = new MovimientosClientes();
         cotizacion = (MovimientosClientes) cotizable.cargarEncabezadoFactura(idCotizacion, tipo);

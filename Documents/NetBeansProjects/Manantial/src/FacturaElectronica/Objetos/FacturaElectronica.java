@@ -765,7 +765,11 @@ public class FacturaElectronica implements FacturableE, Instalable {
             fE.listadoTributos = lstT;
             fE.razonSocial = razonSocial;
             fE.direccionCliente = direccion;
+            if(condicionIvaCliente !=null){
             fE.condicionIvaCliente = condicionIvaCliente;
+            }else{
+                fE.condicionIvaCliente = "CONSUMIDOR FINAL";
+            }
             fE.listadoDetalle = lstDetalle;
             //if (fE.condicionIvaVendedor.equals("1") || fE.condicionIvaVendedor.equals("4")) { //segun tabla de tipos de contribuyentes - resp inscripto
 

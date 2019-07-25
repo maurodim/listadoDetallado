@@ -102,6 +102,8 @@ public class NotaDeDebito extends javax.swing.JInternalFrame implements KeyListe
         //cliT=(ClientesTango)oob;
         //comp.setCliente(cliT);
         initComponents();
+        lista = new ListasDePrecios(cliT.getListaDePrecios());
+        cliT.setCoeficienteListaDeprecios(lista.getCoeficiente());
         tgp = new TablaGenericaProductos();
         listadoFormas = new ArrayList();
         porcentajeDescuento = 0.00;

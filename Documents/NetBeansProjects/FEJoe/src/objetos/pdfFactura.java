@@ -6,6 +6,7 @@
 package objetos;
 
 import Configuracion.Propiedades;
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Chunk;
@@ -24,7 +25,10 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import conversiones.NumberToLetterConverter;
 import conversiones.Numeros;
+import fejoe.FEJoe;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -77,6 +82,11 @@ public class pdfFactura {
     private String iBrutos;
     private String incioActividades;
     private String razonSocialVendedor;
+    
+    
+    //valores comprobantes encabezados
+    private String letra;
+    private String descComprobante;
 
     // Fonts definitions (Definición de fuentes).
     
@@ -131,7 +141,7 @@ public class pdfFactura {
         nume = nume - 2;
         num = num.substring(0, nume);
         String arch = "Facturas Electronicas\\" + num + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
-
+        String nombreArch=num + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
         File fich = new File(arch);
         while (fich.exists()) {
             i++;
@@ -155,9 +165,67 @@ public class pdfFactura {
             writer = PdfWriter.getInstance(documento, fichero);
             cb=new PdfContentByte(writer);
             documento.open();
+            
+            String ano1 = doc.getCaeVto().substring(0, 4);
+            String mm = doc.getCaeVto().substring(4, 6);
+            String dd = doc.getCaeVto().substring(6);
+            vencimiento = "C.A.E. Nº: " + doc.getCae();
+            vencimiento1 = "Fecha de Vto. C.A.E.: " + dd + "/" + mm + "/" + ano1;
+            
+            //determinamso el tipo de comprobante
+            
+            comF = 0;
+            if (doc.getTipoComprobante().equals("tcFacturaA")) {
+                comF = 1;
+                letra="A";
+                descComprobante="FACTURA "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaDebitoA")) {
+                comF = 2;
+                letra="A";
+                descComprobante="NOTA DE DEBITO "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaCreditoA")) {
+                comF = 3;
+                letra="A";
+                descComprobante="NOTA DE CREDITO "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcFacturaB")) {
+                comF = 6;
+                letra="B";
+                descComprobante="FACTURA "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaDebitoB")) {
+                comF = 7;
+                letra="B";
+                descComprobante="NOTA DE DEBITO "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaCreditoB")) {
+                comF = 8;
+                letra="B";
+                descComprobante="NOTA DE CREDITO "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcFacturaC")) {
+                comF = 11;
+                letra="C";
+                descComprobante="FACTURA "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaDebitoC")) {
+                comF = 12;
+                letra="C";
+                descComprobante="NOTA DE DEBITO "+letra;
+            }
+            if (doc.getTipoComprobante().equals("tcNotaCreditoC")) {
+                comF = 13;
+                letra="C";
+                descComprobante="NOTA DE CREDITO "+letra;
+            }
+            
+            
+            
             // We add metadata to PDF
             // Añadimos los metadatos del PDF
-            documento.addTitle("FACTURA ELECTRÓNICA");
+            documento.addTitle(descComprobante+" ELECTRÓNICA");
             documento.addSubject("FACTURA ELECTRÓNICA - AFIP");
             documento.addKeywords("Web Service Afip");
             documento.addAuthor("Bambusoft");
@@ -259,13 +327,15 @@ public class pdfFactura {
                         celda.setBorderWidthRight(1);
                         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph("A", categoryFont);
+                        parrafo = new Paragraph(letra, categoryFont);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(1);
 
                         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph("COD. 01", extraSmall);
+                        String comS=String.valueOf(comF);
+                        comS=String.format("%0" + (2 - comS.length()) + "d%s", 0, comS);
+                        parrafo = new Paragraph("COD. "+comS, extraSmall);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -280,14 +350,16 @@ public class pdfFactura {
                     case 2:
                         tabla2 = new PdfPTable(1);
                         tabla2.getDefaultCell().setBorder(0);
-                        parrafo = new Paragraph("FACTURA A", paragraphFont);
+                        parrafo = new Paragraph(descComprobante, paragraphFont);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
                         celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
+                        String puntoS=String.valueOf(punto);
+                        puntoS=String.format("%0" + (4 - puntoS.length()) + "d%s", 0, puntoS);
                         String numNro = String.format("%0" + (8 - num.length()) + "d%s", 0, num);
-                        parrafo = new Paragraph("000" + this.punto + "-" + numNro, paragraphFontBold);
+                        parrafo = new Paragraph(puntoS + "-" + numNro, paragraphFontBold);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
                         celda.setPaddingLeft(30);
@@ -300,7 +372,7 @@ public class pdfFactura {
                         String dia = fechaCae.substring(6);
                         fechaCae = dia + "/" + mes + "/" + ano;
 
-                        parrafo = new Paragraph("Fecha" + fechaCae, paragraphFont);
+                        parrafo = new Paragraph("Fecha: " + fechaCae, paragraphFont);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
                         celda.setPaddingLeft(30);
@@ -361,6 +433,7 @@ public class pdfFactura {
                         
                         //paragraphE=new Paragraph(tabla2);
                         columnHeader = new PdfPCell(tabla2);
+                        columnHeader.setPaddingBottom(5);
                         columnHeader.setBorder(0);
                         columnHeader.setBorderWidthLeft(0.5f);
                         columnHeader.setBorderWidthTop(0.5f);
@@ -449,26 +522,7 @@ public class pdfFactura {
             celdaGral=new PdfPCell(table);
             tableGral.addCell(celdaGral);
             //final pie de pagina
-            //inicio codigo de barra
-            table=new PdfPTable(1);
-            if (codeEAN != null) {
-
-            } else {
-                codeEAN = new Barcode128();
-                codeEAN.setCodeType(Barcode.CODE128);
-
-                String ccuit = encabezado.getCuit().replace("-", "");
-                codigoB = ccuit + doc.getNumeroPuntoDeVenta() + comF + doc.getCae() + doc.getCaeVto() + "3";
-            }
-            codeEAN.setCode(codigoB);
-            img = codeEAN.createImageWithBarcode(cb, null, null);
             
-            celda=new PdfPCell(img);
-            table.addCell(celda);
-            celdaGral=new PdfPCell(table);
-            celdaGral.setHorizontalAlignment(Element.ALIGN_CENTER);
-            tableGral.addCell(celdaGral);
-            //fin codigo de barra
             chapter.add(tableGral);
             documento.add(chapter);
 
@@ -480,6 +534,13 @@ public class pdfFactura {
             if (f.exists()) {
 
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + arch);
+                String destinoMail=FEJoe.mail;
+                Mail mail=new Mail();
+                System.out.println("direccion archivo "+f.getAbsolutePath());
+                mail.setDireccionFile(f.getAbsolutePath());
+                mail.setAsunto("factura electrónica");
+                mail.setDetalleListado(nombreArch);
+                mail.enviarMailFacturaElectronica(destinoMail,f.getAbsolutePath());
             }
             int confirmacion = 0;
             /*
@@ -499,6 +560,8 @@ public class pdfFactura {
 
         } catch (DocumentException | IOException ex) {
             Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(pdfFactura.class.getName()).log(Level.SEVERE, null, ex);
         }
         return arch;
 
@@ -506,7 +569,7 @@ public class pdfFactura {
 
     private void nuevaPagina() {
         try {
-            imprimirPie();
+            //imprimirPie();
             cb.endText();
             documento.newPage();
 
@@ -519,7 +582,7 @@ public class pdfFactura {
             SE DIBUJA TODO EL FORMULARIO Y LUEGO SE COMPLETA
             
              */
-            imprimirEncabezado();
+            //imprimirEncabezado();
             renglon = 610;
 
             //aca empieza la iteracion
@@ -539,582 +602,13 @@ public class pdfFactura {
             renglon = renglon - 20;
 
             //fin encabezados
-            imprimirCuerpo();
+            //imprimirCuerpo();
         } catch (DocumentException | IOException ex) {
             Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private Paragraph imprimirEncabezado() {
-        Paragraph parrafo1 = new Paragraph();
-
-        try {
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-
-            cb.rectangle(recta);
-
-            recta = new Rectangle(20, 700, 580, 800);
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-            cb.rectangle(recta);
-            recta = new Rectangle(270, 760, 330, 800);
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-            cb.rectangle(recta);
-            //linea.drawLine(cb,300,45,700);
-            recta = new Rectangle(20, 680, 580, 697);
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-            cb.rectangle(recta);
-            recta = new Rectangle(20, 625, 580, 677);
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-            cb.rectangle(recta);
-            /*
-            recta = new Rectangle(20, 70, 580, 190);
-            recta.setBorder(Rectangle.BOX);
-            recta.setBorderWidth((float) 0.1);
-            cb.rectangle(recta);
-             */
-            cb.setTextMatrix(270, 810);
-            if (copia == 0) {
-                cb.showText("ORIGINAL");
-            }
-            if (copia == 1) {
-                cb.showText("DUPLICADO");
-            }
-            if (copia == 2) {
-                cb.showText("TRIPLICADO");
-            }
-            cb.setFontAndSize(bf, 19);
-            cb.setTextMatrix(25, 770);
-            String nombreCom = encabezado.getNombreComercio();
-            if (nombreCom.length() > 21) {
-                nombreCom = encabezado.getNombreComercio().substring(0, 19);
-            }
-            cb.showText(nombreCom);
-            //cb.setTextMatrix(90,750);
-            //cb.showText("ANTONIO");
-            //cb.showText("eR&Re");
-            //cb.add(imagen);
-            cb.setFontAndSize(bf, 9);
-            cb.setTextMatrix(25, 740);
-            cb.showText("Razón Social: " + encabezado.getRazonSocial());
-            cb.setTextMatrix(25, 730);
-            cb.showText("Domicilio Comercial: " + encabezado.getDireccion());
-            //cb.showText("PAPELES");
-            //bf = BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-            //cb.setFontAndSize(bf,10);
-            cb.setTextMatrix(25, 720);
-            cb.showText("Telefono: " + encabezado.getTelefono());
-            cb.setTextMatrix(25, 710);
-            String condIvaTxt = "";
-            if (encabezado.getCondicionIva().equals("1")) {
-                condIvaTxt = "Resp. Inscripto";
-            }
-            if (encabezado.getCondicionIva().equals("4")) {
-                condIvaTxt = "Sujeto Exento";
-            }
-            if (encabezado.getCondicionIva().equals("5")) {
-                condIvaTxt = "Cons Final";
-            }
-            if (encabezado.getCondicionIva().equals("6")) {
-                condIvaTxt = "Resp. Monotributo";
-            }
-
-            cb.showText("Condición frente la IVA: " + condIvaTxt);
-
-            //cb.showText("de Rivadeneira Enrique y Rivadeneira Jorge S.H.");
-            //bf = BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 22);
-            cb.setTextMatrix(360, 770);
-
-            comF = 0;
-            if (doc.getTipoComprobante().equals("tcFacturaA")) {
-                comF = 1;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaDebitoA")) {
-                comF = 2;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaCreditoA")) {
-                comF = 3;
-            }
-            if (doc.getTipoComprobante().equals("tcFacturaB")) {
-                comF = 6;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaDebitoB")) {
-                comF = 7;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaCreditoB")) {
-                comF = 8;
-            }
-            if (doc.getTipoComprobante().equals("tcFacturaC")) {
-                comF = 11;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaDebitoC")) {
-                comF = 12;
-            }
-            if (doc.getTipoComprobante().equals("tcNotaCreditoC")) {
-                comF = 13;
-            }
-            String len = doc.getAfipPlastCbte();
-            int cantiL = len.length();
-            String cero = "0";
-            int reemplazo = 8 - cantiL;
-            int finall = reemplazo + 1;
-            reemplazo = reemplazo - 1;
-            String numero = "0";
-            for (int a = 1; a < finall; a++) {
-                numero += cero;
-                if (a == reemplazo) {
-                    a = finall;
-                    numero += len;
-                }
-
-            }
-
-            switch (comF) {
-                case 1:
-                    cb.showText("FACTURA A");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("A");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-
-                    break;
-                case 2:
-                    cb.showText("N DE DEBITO A");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("A");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 3:
-                    cb.showText("N DE CREDITO A");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("A");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 6:
-                    cb.showText("FACTURA B");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("B");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 7:
-                    cb.showText("N DE DEBITO B");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("B");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 8:
-                    cb.showText("N DE CREDITO B");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("B");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 11:
-                    cb.showText("FACTURA C");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("C");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 12:
-                    cb.showText("N DE DEBITO C");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("C");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-                case 13:
-                    cb.showText("N DE CREDITO C");
-                    cb.setTextMatrix(290, 775);
-                    cb.setFontAndSize(bf, 26);
-                    cb.showText("C");
-                    cb.setFontAndSize(bf, 8);
-                    cb.setTextMatrix(285, 765);
-                    cb.showText("COD. 0" + comF);
-                    break;
-            }
-            bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 9);
-            cb.setTextMatrix(360, 755);
-            String numNro = String.format("%0" + (8 - num.length()) + "d%s", 0, num);
-            cb.showText("Punto de Venta: 000" + this.punto + " Nro:" + numNro);
-            //bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 9);
-            cb.setTextMatrix(360, 745);
-            String fechaCae = doc.getFechaCae();
-            String ano = fechaCae.substring(0, 4);
-            String mes = fechaCae.substring(4, 6);
-            String dia = fechaCae.substring(6);
-            fechaCae = dia + "/" + mes + "/" + ano;
-            cb.showText("Fecha de emisión: " + fechaCae);
-            cb.setTextMatrix(360, 730);
-            cb.showText("CUIT: " + encabezado.getCuit());
-            cb.setTextMatrix(360, 720);
-            cb.showText("Ing. Brutos: " + encabezado.getIngresosBrutos());
-            cb.setTextMatrix(360, 710);
-            cb.showText("Inicio Activ.: " + encabezado.getInicioActividades());
-            //cb.setTextMatrix(380,740);
-            //cb.showText("Fecha "+doc.getFechaCae());
-            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 9);
-            cb.setTextMatrix(25, 685);
-
-            cb.showText("Período Facturado Desde: " + fechaCae);
-            cb.setTextMatrix(240, 685);
-            cb.showText("Hasta: " + fechaCae);
-            cb.setTextMatrix(360, 685);
-            cb.showText("Fecha de Vto. para el pago: " + fechaCae);
-
-            //fin segundo recuadro
-            cb.setTextMatrix(40, 660);
-            cb.showText("Razon Social :" + cliente.getRazonSocial());
-            cb.setTextMatrix(380, 660);
-            String condV = "";
-            if (doc.getEstado() == 1) {
-                condV = "CONTADO";
-            } else {
-                condV = "CTA CTE";
-            }
-            cb.showText("Cond. Vta: " + condV);
-            cb.setTextMatrix(380, 650);
-            try {
-                Integer condIvv = Integer.parseInt(cliente.getCondicionIva());
-                switch (condIvv) {
-                    case 1:
-                        cb.showText("Cond. Iva: Consumidor Final");
-                        break;
-                    case 2:
-                        cb.showText("Cond. Iva: Responsable Inscripto");
-                        break;
-                    case 3:
-                        cb.showText("Cond. Iva: Exento");
-                        break;
-                    default:
-                        cb.showText("Cond. Iva: Consumidor Final");
-                        break;
-                }
-            } catch (java.lang.NumberFormatException ex) {
-                cb.showText("Cond. Iva: " + cliente.getCondicionIva());
-            }
-            //cb.showText("Cond. Iva: "+cliente.getCondicionIva());
-            cb.setTextMatrix(40, 650);
-            cb.showText("Direccion: " + cliente.getDireccion());
-            cb.setTextMatrix(40, 640);
-
-            //localidad=per.buscarPorNumero(cliente.getLocalidad())
-            //cb.showText("Localidad :("+cliente.getCodigoPostal()+") - "+cliente.getLocalidad());
-            //cb.setTextMatrix(40,650);
-            //cb.showText("Telefono: "+cliente.getTelefono());
-            cb.setTextMatrix(380, 640);
-            Integer tipo = Integer.parseInt(String.valueOf(doc.getCustomerTypeDoc()));
-            switch (tipo) {
-                case 80:
-                    cb.showText("Cuit: " + doc.getCustomerId());
-                    break;
-                case 86:
-                    cb.showText("Cuil: " + doc.getCustomerId());
-                    break;
-                case 96:
-                    cb.showText("Dni: " + doc.getCustomerId());
-                    break;
-            }
-            parrafo1.add((Element) cb);
-        } catch (DocumentException ex) {
-            Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return parrafo1;
-    }
-
-    private void imprimirCuerpo() {
-        try {
-            String descripcion;
-            String monto;
-            String recargo;
-            String total;
-            String totalFinal;
-            Double tot = 0.00;
-            Double totalD = 0.00;
-            Double grav = 0.00;
-            Double totalS = 0.00;
-            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 8);
-
-            String descripcionArt = null;
-            int items = 0;
-            Integer renItem = 1;
-            while (itl.hasNext()) {
-                saldo = (DetalleFacturas) itl.next();
-                //vencimiento=saldo.getVencimientoString();
-
-                descripcion = "Numero Resumen de cta ";
-
-                monto = Numeros.ConvertirNumero(saldo.getPrecioUnitario());
-                recargo = "";
-                total = "nada";
-                //recargo=String.valueOf(saldo.getRecargo());
-                //tot=tot + saldo.getTotal();
-                //total=String.valueOf(saldo.getTotal());
-
-                if (saldo.getIdArticulo() == 0) {
-                    items = 1;
-                }
-                if (items == 1) {
-                    cb.setTextMatrix(70, renglon);
-
-                    if (saldo.getDescripcion().length() > 40) {
-                        descripcionArt = saldo.getDescripcion().substring(0, 40);
-                    } else {
-                        descripcionArt = saldo.getDescripcion();
-                    }
-                    cb.showText(descripcionArt);
-                    renglon = renglon - 10;
-                } else {
-                    cb.setTextMatrix(40, renglon);
-
-                    cb.showText(String.valueOf(saldo.getIdArticulo()));
-                    cb.setTextMatrix(70, renglon);
-                    if (saldo.getDescripcion() != null) {
-                        if (saldo.getDescripcion().length() > 40) {
-                            descripcionArt = saldo.getDescripcion().substring(0, 40);
-                        } else {
-                            descripcionArt = saldo.getDescripcion();
-                        }
-                    } else {
-                        descripcionArt = "";
-                    }
-                    cb.showText(descripcionArt);
-                    cb.setTextMatrix(370, renglon);
-                    cb.showText(String.valueOf(saldo.getCantidad()));
-                    tot = saldo.getCantidad() * saldo.getPrecioUnitario();
-                    //tot=tot * 1.21;
-                    if (comF == 1 || comF == 2 || comF == 3) {
-
-                        cb.setTextMatrix(450, renglon);
-                        if (saldo.getDescuento() != null) {
-                            cb.showText(String.valueOf(saldo.getDescuento()));
-                            totalD = totalD + saldo.getDescuento();
-                        } else {
-                            cb.showText("0.00");
-                        }
-                        cb.setTextMatrix(500, renglon);
-                        cb.showText(Numeros.ConvertirNumero(tot));
-                        grav = grav + tot;
-                        totalS = totalS + (tot);
-                        //cb.setTextMatrix(440,renglon);
-
-                        //cb.showText(Numeros.ConvertirNumero(tot));
-                        renglon = renglon - 10;
-                        //System.out.println("renglon " + renglon);
-
-                    } else {
-                        //tot=tot * 1.21;
-                        cb.setTextMatrix(370, renglon);
-                        cb.showText(Numeros.ConvertirNumero(saldo.getPrecioUnitario()));
-                        cb.setTextMatrix(450, renglon);
-                        if (saldo.getDescuento() != null) {
-                            cb.showText(String.valueOf(saldo.getDescuento()));
-                            totalD = totalD + saldo.getDescuento();
-                        } else {
-                            cb.showText("0.00");
-                        }
-                        cb.setTextMatrix(500, renglon);
-                        cb.showText(Numeros.ConvertirNumero(tot));
-                        grav = grav + tot;
-                        totalS = totalS + (tot);
-                        //cb.setTextMatrix(440,renglon);
-
-                        //cb.showText(Numeros.ConvertirNumero(tot));
-                        renglon = renglon - 10;
-                        //System.out.println("renglon " + renglon);
-                    }
-                }
-                items = 0;
-                if (renItem == 25) {
-                    nuevaPagina();
-                    renItem = 0;
-                }
-
-                renItem++;
-
-            }
-        } catch (DocumentException | IOException ex) {
-            Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void imprimirPie() {
-        try {
-            String totalF = Numeros.ConvertirNumero(doc.getImporteTotal());
-            renglon = 120;
-            //String letras=NumberToLetterConverter.convertNumberToLetter(factura.getTotal());
-            bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 8);
-
-            if (imagen1 != null) {
-
-            } else {
-                imagen1 = Image.getInstance(doc.getNombreQr());
-            }
-            renglon = renglon - 70;
-            imagen1.scaleAbsolute(100, 100);
-            //renglon=renglon + 40;
-            imagen1.setAbsolutePosition(30, renglon);
-            documento.add(imagen1);
-
-            renglon = renglon + 60;
-            if (comF == 1 || comF == 2 || comF == 3) {
-
-                renglon = renglon - 10;
-                cb.setTextMatrix(380, renglon);
-                cb.showText("Importe Neto Grav.");
-                cb.setTextMatrix(480, renglon);
-                //cb.showText(letras);
-
-                // cb.setTextMatrix(40,renglon);
-                Double sub = doc.getImporteNeto();
-                Double iva = doc.getImpuestoLiquido();
-                cb.showText("$ " + Numeros.ConvertirNumero(sub));
-
-                if (doc.getListadoIva() != null) {
-                    Iterator iIva = doc.getListadoIva().listIterator();
-                    TiposIva tipos;
-                    while (iIva.hasNext()) {
-                        tipos = (TiposIva) iIva.next();
-                        renglon = renglon - 10;
-                        cb.setTextMatrix(380, renglon);
-                        cb.showText(tipos.getDescripcion());
-                        cb.setTextMatrix(480, renglon);
-                        cb.showText("$ " + Numeros.ConvertirNumero(tipos.getImporte()));
-                    }
-
-                    //renglon = renglon - 10;
-                }
-                if (doc.getListadoTributos() != null) {
-                    Iterator iTri = doc.getListadoTributos().listIterator();
-                    Tributos tributo;
-                    while (iTri.hasNext()) {
-                        tributo = (Tributos) iTri.next();
-                        cb.setTextMatrix(380, renglon);
-                        cb.showText(tributo.getDescripcion());
-                        cb.setTextMatrix(480, renglon);
-                        cb.showText("$ " + String.valueOf(tributo.getImporte()));
-                    }
-                    //renglon = renglon - 10;
-                }
-                renglon = renglon - 10;
-
-                cb.setTextMatrix(380, renglon);
-                cb.showText("Importe Total");
-                cb.setTextMatrix(480, renglon);
-                cb.showText("$ " + totalF);
-                renglon = renglon - 10;
-
-            } else {
-
-                renglon = renglon - 10;
-                cb.setTextMatrix(380, renglon);
-                cb.showText("Subtotal.");
-                cb.setTextMatrix(480, renglon);
-                cb.showText("$ " + totalF);
-
-                renglon = renglon - 10;
-
-                cb.setTextMatrix(380, renglon);
-                cb.showText("Importe Otros Tributos");
-                cb.setTextMatrix(480, renglon);
-                cb.showText("$ 0.00");
-                renglon = renglon - 10;
-                cb.setTextMatrix(380, renglon);
-                cb.showText("Importe Total");
-                cb.setTextMatrix(480, renglon);
-                cb.showText("$ " + totalF);
-            }
-
-            //pie de documento
-            bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.setFontAndSize(bf, 9);
-            renglon = renglon - 10;
-            cb.setTextMatrix(380, renglon);
-            cb.showText(vencimiento);
-            renglon = renglon - 10;
-            cb.setTextMatrix(380, renglon);
-            cb.showText(vencimiento1);
-            renglon = renglon - 10;
-            cb.setTextMatrix(20, renglon);
-
-            if (imagen1 != null) {
-
-            } else {
-                imagen1 = Image.getInstance(doc.getNombreQr());
-            }
-
-            //imagen.scaleAbsolute(84, 410);
-            //renglon=renglon + 40;
-            //imagen1.setAbsolutePosition(30, renglon);
-            //documento.add(imagen1);
-            renglon = renglon - 30;
-            //System.out.println("renglon imagenes afip " + renglon);
-            if (imagen != null) {
-
-            } else {
-                imagen = Image.getInstance("imagenes/afip.JPG");
-            }
-            //imagen.scaleAbsolute(84, 410);
-            imagen.setAbsolutePosition(20, renglon);
-            documento.add(imagen);
-            if (codeEAN != null) {
-
-            } else {
-                codeEAN = new Barcode128();
-                codeEAN.setCodeType(Barcode.CODE128);
-
-                String ccuit = encabezado.getCuit().replace("-", "");
-                codigoB = ccuit + doc.getNumeroPuntoDeVenta() + comF + doc.getCae() + doc.getCaeVto() + "3";
-            }
-            codeEAN.setCode(codigoB);
-            
-            //codeEAN.setSize(5);
-            if (img != null) {
-
-            } else {
-                //img = codeEAN.createImageWithBarcode(cb, Color.BLACK, Color.black);
-            }
-
-            img.setAbsolutePosition(360, renglon);
-            documento.add(img);
-        } catch (DocumentException | IOException ex) {
-            Logger.getLogger(pdfsJavaGenerador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
     private Paragraph EncabezadoTabla() {
         Paragraph parrafo1 = new Paragraph();
@@ -1146,35 +640,35 @@ public class pdfFactura {
         //encabezado de detalle
         PdfPCell columnHeader;
             // Fill table rows (rellenamos las filas de la tabla).                
-                parrafo=new Paragraph("COD",smallBold);
+                parrafo=new Paragraph("ART",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
                 parrafo=new Paragraph("DESCRIPCION",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
                 parrafo=new Paragraph("CANT.",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
                 parrafo=new Paragraph("P. UNIT.",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
                 parrafo=new Paragraph("IVA",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
                 parrafo=new Paragraph("TOTAL",smallBold);
                 columnHeader = new PdfPCell(parrafo);
                 columnHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-                columnHeader.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                columnHeader.setBackgroundColor(new BaseColor(247, 243,242));
                 tablaD.addCell(columnHeader);
             
             tablaD.setHeaderRows(1);
@@ -1190,14 +684,17 @@ public class pdfFactura {
             Double totalS = 0.00;
             
             
-            
+            int tama=listado.size();
+            int renglones=34;
+            int restantes=renglones - tama;
             itl=listado.listIterator();
             String descripcionArt = null;
             int items = 0;
             Integer renItem = 1;
             while (itl.hasNext()) {
                 saldo = (DetalleFacturas) itl.next();
-                //vencimiento=saldo.getVencimientoString();
+                
+//vencimiento=saldo.getVencimientoString();
 
                 descripcion = "";
 
@@ -1254,12 +751,208 @@ public class pdfFactura {
                 tablaD.addCell(celda);
                 grav = grav + tot;
                         totalS = totalS + (tot);
-                
+                //renglones++;
+            }
+            for(int resto=0;resto < restantes;resto++){
+                for(int colu=0;colu < 6;colu++){
+                    parrafo=new Paragraph(" ",smallNormal);
+                celda=new PdfPCell(parrafo);
+                celda.setBorder(0);
+                celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+                tablaD.addCell(celda);
+                }
             }
         return tablaD;
     }
     private PdfPTable CargarPie(){
-        PdfPTable tablaP=new PdfPTable(2);
+        PdfPTable tablaP=new PdfPTable(2);//table del pie de documento
+        float[] medida={20.5f,8f};
+        try {
+            tablaP.setWidths(medida);
+        } catch (DocumentException ex) {
+            Logger.getLogger(pdfFactura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PdfPCell celdaG;//celda general del pie
+        PdfPTable tablaQr=new PdfPTable(2);
+        tablaQr.getDefaultCell().setBorder(0);
+        float[] medi={7f,13.5f};
+        try {
+            tablaQr.setWidths(medi);
+        } catch (DocumentException ex) {
+            Logger.getLogger(pdfFactura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PdfPCell celdaQr;
+        PdfPTable tablaTo=new PdfPTable(2);
+        PdfPCell celdaTo;
+        Paragraph parrafoP;
+        //inicio QR y total
+        String totalF = Numeros.ConvertirNumero(doc.getImporteTotal());
+        String totalFF=totalF.replace(",", ".");
+            try {
+                if (imagen1 != null) {
+
+            } else {
+                imagen1 = Image.getInstance(doc.getNombreQr());
+                }
+                imagen1.scaleAbsolute(80, 80);
+                celdaQr=new PdfPCell(imagen1);
+                celdaQr.setPaddingTop(10);
+                celdaQr.setPaddingLeft(10);
+                celdaQr.setPaddingBottom(10);
+                celdaQr.setPaddingRight(10);
+                celdaQr.setBorder(0);
+                tablaQr.addCell(celdaQr);
+                parrafoP=new Paragraph("SON PESOS:"+NumberToLetterConverter.convertNumberToLetter(totalFF),extraSmallBold);
+                celdaQr=new PdfPCell(parrafoP);
+                celdaQr.setHorizontalAlignment(Element.ALIGN_LEFT);
+                celdaQr.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                celdaQr.setPaddingBottom(10);
+                celdaQr.setPaddingLeft(10);
+                celdaQr.setBorder(0);
+                tablaQr.addCell(celdaQr);
+                
+                
+            } catch (BadElementException ex) {
+                Logger.getLogger(pdfFactura.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(pdfFactura.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            celdaG=new PdfPCell(tablaQr);
+            tablaP.addCell(celdaG);//primer celda superior izquierda (contiene QR y total en letras
+            //inicio totales
+            
+            
+            
+            
+            parrafoP=new Paragraph("SUB TOTAL",smallBold);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            celdaTo.setBorderWidthRight(1);
+            celdaTo.setPaddingTop(20);
+            celdaTo.setPaddingRight(5);
+            celdaTo.setBackgroundColor(new BaseColor(247, 243,242));
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+            
+            Double sub = doc.getImporteNeto();
+                Double iva = doc.getImpuestoLiquido();
+                
+            parrafoP=new Paragraph("$ " + Numeros.ConvertirNumero(sub),smallNormal);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            celdaTo.setPaddingTop(20);
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+            
+            if (doc.getListadoIva() != null) {
+                    Iterator iIva = doc.getListadoIva().listIterator();
+                    TiposIva tipos;
+                    while (iIva.hasNext()) {
+                        tipos = (TiposIva) iIva.next();
+                        
+                    
+
+                    //renglon = renglon - 10;
+                
+            
+            parrafoP=new Paragraph(tipos.getDescripcion(),smallBold);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            celdaTo.setPaddingTop(20);
+            celdaTo.setPaddingBottom(10);
+            celdaTo.setPaddingRight(5);
+            celdaTo.setBorderWidthRight(1);
+            celdaTo.setBackgroundColor(new BaseColor(247, 243,242));
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+            
+            parrafoP=new Paragraph("$ " + Numeros.ConvertirNumero(tipos.getImporte()),smallNormal);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            celdaTo.setPaddingTop(20);
+            celdaTo.setPaddingBottom(10);
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+                    }
+            }
+            parrafoP=new Paragraph("TOTAL",smallBold);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            
+            celdaTo.setBorderWidthTop(1);
+            celdaTo.setBorderWidthRight(1);
+            celdaTo.setPaddingTop(10);
+            celdaTo.setPaddingRight(5);
+            celdaTo.setBackgroundColor(new BaseColor(247, 243,242));
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+            
+            parrafoP=new Paragraph("$ "+totalF,smallBold);
+            celdaTo=new PdfPCell(parrafoP);
+            celdaTo.setBorder(0);
+            
+            celdaTo.setBorderWidthTop(1);
+            celdaTo.setPaddingTop(10);
+            celdaTo.setBackgroundColor(new BaseColor(247, 243,242));
+            celdaTo.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            tablaTo.addCell(celdaTo);
+            
+            
+            //final totales
+            celdaG=new PdfPCell(tablaTo);
+            celdaG.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaP.addCell(celdaG);
+            
+            
+        //
+        //inicio codigo de barra
+            PdfPTable table=new PdfPTable(1);
+            table.setWidthPercentage(100);
+            PdfPCell celda;
+            if (codeEAN != null) {
+
+            } else {
+                codeEAN = new Barcode128();
+                codeEAN.setCodeType(Barcode.CODE128);
+
+                String ccuit = encabezado.getCuit().replace("-", "");
+                codigoB = ccuit + doc.getNumeroPuntoDeVenta() + comF + doc.getCae() + doc.getCaeVto() + "3";
+            }
+            codeEAN.setCode(codigoB);
+            img = codeEAN.createImageWithBarcode(cb, BaseColor.BLACK, BaseColor.BLACK);
+            img.scaleAbsolute(300,35);
+            celda=new PdfPCell(img);
+            celda.setPaddingTop(10);
+            celda.setPaddingBottom(10);
+            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell(celda);
+            celdaG=new PdfPCell(table);
+            celdaG.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaP.addCell(celdaG);
+            //fin codigo de barra
+            //inicio datos cae
+            PdfPTable tableCae=new PdfPTable(1);
+            parrafoP=new Paragraph(vencimiento,smallBold);
+            celda=new PdfPCell(parrafoP);
+            celda.setBorder(0);
+            tableCae.addCell(celda);
+            parrafoP=new Paragraph(vencimiento1,extraSmall);
+            celda=new PdfPCell(parrafoP);
+            celda.setBorder(0);
+            tableCae.addCell(celda);
+            parrafoP=new Paragraph("Datos de Facturación Electrónica",extraSmall);
+            celda=new PdfPCell(parrafoP);
+            celda.setBorder(0);
+            tableCae.addCell(celda);
+            
+            //fin datos cae
+            
+            celdaG=new PdfPCell(tableCae);
+            celdaG.setPaddingLeft(20);
+            celdaG.setPaddingTop(10);
+            celdaG.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tablaP.addCell(celdaG);
+            
         
         return tablaP;
     }

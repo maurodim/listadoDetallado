@@ -45,6 +45,41 @@ public class Propiedades {
     static String TIPODEVENTA;
     static String WEB;
     static String LINK;
+    static String SERVIDORMAIL;
+    static int PUERTOMAIL;
+    static String MAIL;
+    static String USUARIOMAIL;
+    static String CLAVEMAIL;
+    static Boolean AUTENTICACION;
+    static Boolean STARTT;
+
+    public static String getSERVIDORMAIL() {
+        return SERVIDORMAIL;
+    }
+
+    public static int getPUERTOMAIL() {
+        return PUERTOMAIL;
+    }
+
+    public static String getMAIL() {
+        return MAIL;
+    }
+
+    public static String getUSUARIOMAIL() {
+        return USUARIOMAIL;
+    }
+
+    public static String getCLAVEMAIL() {
+        return CLAVEMAIL;
+    }
+
+    public static Boolean getAUTENTICACION() {
+        return AUTENTICACION;
+    }
+
+    public static Boolean getSTARTT() {
+        return STARTT;
+    }
 
     public static String getWEB() {
         return WEB;
@@ -53,7 +88,6 @@ public class Propiedades {
     public static String getLINK() {
         return LINK;
     }
-    
 
     public static String getNOMBRECOMERCIO() {
         return NOMBRECOMERCIO;
@@ -175,8 +209,29 @@ public class Propiedades {
             CONDICIONIVA = p.getProperty("CONDICIONIVA");
             PUNTODEVENTA = p.getProperty("PUNTODEVENTA");
             TIPODEVENTA = p.getProperty("TIPODEVENTA");
-            WEB=p.getProperty("WEB");
-            LINK=p.getProperty("LINK");
+            WEB = p.getProperty("WEB");
+            LINK = p.getProperty("LINK");
+            
+            
+            SERVIDORMAIL = p.getProperty("SERVIDORMAIL");
+            String pto=p.getProperty("PUERTOMAIL");
+            System.out.println("puerto "+pto);
+            PUERTOMAIL = Integer.parseInt(pto);
+            MAIL = p.getProperty("MAIL");
+            USUARIOMAIL = p.getProperty("USUARIOMAIL");
+            CLAVEMAIL=p.getProperty("CLAVEMAIL");
+            String aute = p.getProperty("AUTENTICACION");
+            if (aute.equals("0")) {
+                AUTENTICACION = false;
+            } else {
+                AUTENTICACION = true;
+            }
+            String sta = p.getProperty("STARTT");
+            if (sta.equals("0")) {
+                STARTT = false;
+            } else {
+                STARTT = true;
+            }
 
             //System.out.println(renglon+" // "+linea);
             // if(tra.guardarRegistro(linea));

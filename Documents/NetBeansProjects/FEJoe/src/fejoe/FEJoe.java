@@ -31,7 +31,8 @@ import pantallas.IngresoDni;
  * @author Usuario
  */
 public class FEJoe {
-
+    public static String mail;
+    
     public static void main(String[] args) {
         File carpeta = new File("Facturas Electronicas");
         File configuracion = new File("Configuracion");
@@ -68,6 +69,8 @@ public class FEJoe {
                 Double montoI = null;// = 24.67;
                 String razon = null;// = "CONFEDERACION ARGENTINA DE LA MED EMPRESA (CAME)";
                 String direc = null;// = "L. N. ALEM 452 - 1003 CABA";
+                mail=null;//=direccion de mail para envio de comprobante
+                
                 String condicionIvaC = null;// = "1";//tipo iva comprador 1-responsable inscripto 4- exento 5-consumidor final
 
                 ArrayList<DetalleFacturas> lstDetalle = new ArrayList();
@@ -131,6 +134,9 @@ public class FEJoe {
                             case 9:
                                 direc=linea;
                                 break;
+                            case 10:
+                                mail=linea;
+                                break;
                         }
 
                     }
@@ -177,6 +183,7 @@ public class FEJoe {
                         pw.close();
                     }
                 }
+                
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(FEJoe.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

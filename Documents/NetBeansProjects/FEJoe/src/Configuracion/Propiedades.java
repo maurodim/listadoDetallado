@@ -6,12 +6,10 @@
 package Configuracion;
 
 import Conversores.Numeros;
-import interfaces.Transaccionable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +43,17 @@ public class Propiedades {
     static String CONDICIONIVA;
     static String PUNTODEVENTA;
     static String TIPODEVENTA;
+    static String WEB;
+    static String LINK;
+
+    public static String getWEB() {
+        return WEB;
+    }
+
+    public static String getLINK() {
+        return LINK;
+    }
+    
 
     public static String getNOMBRECOMERCIO() {
         return NOMBRECOMERCIO;
@@ -166,6 +175,8 @@ public class Propiedades {
             CONDICIONIVA = p.getProperty("CONDICIONIVA");
             PUNTODEVENTA = p.getProperty("PUNTODEVENTA");
             TIPODEVENTA = p.getProperty("TIPODEVENTA");
+            WEB=p.getProperty("WEB");
+            LINK=p.getProperty("LINK");
 
             //System.out.println(renglon+" // "+linea);
             // if(tra.guardarRegistro(linea));

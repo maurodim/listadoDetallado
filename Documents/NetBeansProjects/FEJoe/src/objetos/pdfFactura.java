@@ -5,8 +5,7 @@
  */
 package objetos;
 
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
+import Configuracion.Propiedades;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Chunk;
@@ -16,12 +15,8 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.List;
-import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.Barcode;
 import com.itextpdf.text.pdf.Barcode128;
 import com.itextpdf.text.pdf.BaseFont;
@@ -29,9 +24,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import conversiones.Numeros;
-import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -86,6 +79,7 @@ public class pdfFactura {
     private String razonSocialVendedor;
 
     // Fonts definitions (Definición de fuentes).
+    
     private static final Font chapterFont = FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLDITALIC, BaseColor.RED);
     private static final Font paragraphFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL);
     private static final Font paragraphFontBold = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD);
@@ -209,7 +203,8 @@ public class pdfFactura {
             Paragraph parrafo;
             PdfPTable tabla2;
             PdfPCell celda;
-            
+            chunk=new Chunk(Propiedades.getWEB(), smallBold);
+            chunk.setAnchor(Propiedades.getLINK());
             
             //comienzo renglon 1
             for (int column = 0; column < numColumns; column++) {
@@ -217,27 +212,33 @@ public class pdfFactura {
                     case 0:
                         tabla2 = new PdfPTable(1);
                         tabla2.getDefaultCell().setBorder(0);
+                        chapterFont.setColor(189, 61, 33);
                         parrafo = new Paragraph(nombreVendedor, chapterFont);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph(razonSocialVendedor, smallBold);
+                        parrafo = new Paragraph(chunk);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph(direccionVendedor, smallBold);
+                        parrafo = new Paragraph(razonSocialVendedor, extraSmallBold);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph(telefonoVendedor, smallBold);
+                        parrafo = new Paragraph(direccionVendedor, extraSmallBold);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph("IVA: Responsable Inscripto", smallBold);
+                        parrafo = new Paragraph(telefonoVendedor, extraSmallBold);
+                        celda = new PdfPCell(parrafo);
+                        celda.setBorder(0);
+                        celda.setPaddingLeft(5);
+                        tabla2.addCell(celda);
+                        parrafo = new Paragraph("IVA: Responsable Inscripto", extraSmallBold);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
@@ -282,14 +283,14 @@ public class pdfFactura {
                         parrafo = new Paragraph("FACTURA A", paragraphFont);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
                         String numNro = String.format("%0" + (8 - num.length()) + "d%s", 0, num);
                         parrafo = new Paragraph("000" + this.punto + "-" + numNro, paragraphFontBold);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
 
@@ -302,25 +303,25 @@ public class pdfFactura {
                         parrafo = new Paragraph("Fecha" + fechaCae, paragraphFont);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
                         parrafo = new Paragraph("C.U.I.T.: " + cVendedor, extraSmall);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
                         parrafo = new Paragraph("ING BRUTOS: " + iBrutos, extraSmall);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
                         parrafo = new Paragraph("INICIO DE ACTIVIDADES" + incioActividades, extraSmall);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-                        celda.setPaddingLeft(20);
+                        celda.setPaddingLeft(30);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
 

@@ -534,6 +534,7 @@ public class pdfFactura {
             if (f.exists()) {
 
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + arch);
+                
                 String destinoMail=FEJoe.mail;
                 Mail mail=new Mail();
                 System.out.println("direccion archivo "+f.getAbsolutePath());
@@ -541,6 +542,7 @@ public class pdfFactura {
                 mail.setAsunto("factura electrónica");
                 mail.setDetalleListado(nombreArch);
                 mail.enviarMailFacturaElectronica(destinoMail,f.getAbsolutePath());
+                
             }
             int confirmacion = 0;
             /*

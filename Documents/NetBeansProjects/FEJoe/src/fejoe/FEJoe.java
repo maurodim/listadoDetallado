@@ -112,6 +112,7 @@ public class FEJoe {
                                 break;
                             case 1:
                                 cuitCliente=linea;
+                                cuitCliente=cuitCliente.replace("-","");
                                 break;
                             case 2:
                                 tipoC=Integer.parseInt(linea);

@@ -58,7 +58,7 @@ public class FEJoe {
                 int condicion = 1;
                 int idCliente = 1;
                 int tVta = 1;//SI ES SERVICIO=2 O PRODUCTO=1
-                int idPed = 1;//si es homologacion o produccion
+                int idPed = 0;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
                 String cuitCliente = "30538872128";

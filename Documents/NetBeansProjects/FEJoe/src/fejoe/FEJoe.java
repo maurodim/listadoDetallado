@@ -61,7 +61,7 @@ public class FEJoe {
                 int idPed = 0;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
-                String cuitCliente = "30538872128";
+                String cuitCliente = "";
                 int tipoD = 80;//80- cuit 96- dni
                 int tipoC = 0;// = 1; // tipo comprobante segun excel de la tabla
                 Double montoT = null;// = 142.17;

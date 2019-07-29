@@ -548,10 +548,17 @@ public class NotaDeDebito extends javax.swing.JInternalFrame implements KeyListe
 
         if (evt.getKeyCode() == KeyEvent.VK_F7) {
             //System.out.println("ENTRO CON EL ENTER¡¡¡¡¡¡");
-            CargarCantidad carga = new CargarCantidad(null, true);
-            carga.setCoefi(cliT.getCoeficienteListaDeprecios());
-            carga.setVisible(true);
-            arti = carga.arti;
+            if (jTextField1.getText().equals("")) {
+                CargarCantidad carga = new CargarCantidad(null, true);
+                carga.setCoefi(cliT.getCoeficienteListaDeprecios());
+                carga.setVisible(true);
+                arti = carga.arti;
+            } else {
+                listadoDeBusqueda.clear();
+                Facturar fart = new Articulos();
+                arti = new Articulos();
+                arti = (Articulos) fart.cargarPorCodigoDeBarraFacturacion(jTextField1.getText(), cliT.getCoeficienteListaDeprecios());
+            }
             /*
             listadoDeBusqueda.clear();
             Facturar fart = new Articulos();

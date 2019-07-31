@@ -529,12 +529,17 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
                 comprobanteTipo = 6;
             }
             if (cliT.getTipoIva() == 1) {
-                comprobanteTipo = 1;
+                comprobanteTipo = 6;
             }
             if (cliT.getTipoIva() == 4) {
                 comprobanteTipo = 6;
             }
-
+            
+            if(Propiedades.getCONDICIONIVA().equals("1")){
+            }else{
+                comprobanteTipo=11;
+            }
+            System.out.println("condicion iva "+Propiedades.getCONDICIONIVA());
             Comprobantes comprobante = new Comprobantes();
             comprobante.setFe(true);
             comprobante.setImpacta(true);

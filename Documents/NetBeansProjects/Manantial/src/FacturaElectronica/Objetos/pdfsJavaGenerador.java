@@ -330,9 +330,9 @@ public class pdfsJavaGenerador {
             }
             cb.setFontAndSize(bf, 19);
             cb.setTextMatrix(25, 770);
-            String nombreCom = encabezado.getNombreComercio();
+            String nombreCom = encabezado.getRazonSocial();
             if (nombreCom.length() > 21) {
-                nombreCom = encabezado.getNombreComercio().substring(0, 19);
+                nombreCom = encabezado.getRazonSocial().substring(0, 19);
             }
             cb.showText(nombreCom);
             //cb.setTextMatrix(90,750);
@@ -341,7 +341,7 @@ public class pdfsJavaGenerador {
             //cb.add(imagen);
             cb.setFontAndSize(bf, 9);
             cb.setTextMatrix(25, 740);
-            cb.showText("Razón Social: " + encabezado.getRazonSocial());
+            cb.showText("Razón Social: " + encabezado.getNombreComercio());
             cb.setTextMatrix(25, 730);
             cb.showText("Domicilio Comercial: " + encabezado.getDireccion());
             //cb.showText("PAPELES");
@@ -840,7 +840,7 @@ public class pdfsJavaGenerador {
 
     private void imprimirPie() {
         try {
-            String totalF = Numeros.ConvertirNumero(doc.getImporteTotal());
+            String totalF = Numeros.ConvetirNumeroDosDigitos(doc.getImporteTotal());
 
             //String letras=NumberToLetterConverter.convertNumberToLetter(factura.getTotal());
             bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);

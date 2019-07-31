@@ -242,7 +242,7 @@ public class ImprimirComprobantes {
         //formatoCliente.setTelefonoCliente(doc.get);
         formatoCliente.setDireccionCliente(doc.getDireccionCliente());
 
-        String totalF = Numeros.ConvertirNumero(doc.getImporteTotal());
+        String totalF = Numeros.ConvetirNumeroDosDigitos(doc.getImporteTotal());
         Double sub = doc.getImporteNeto();
         Double iva = doc.getImpuestoLiquido();
         String subTotal = "$ " + Numeros.ConvertirNumero(sub);
@@ -429,7 +429,7 @@ public class ImprimirComprobantes {
         //formatoCliente.setTelefonoCliente(doc.get);
         formatoCliente.setDireccionCliente(doc.getDireccionCliente());
 
-        String totalF = Numeros.ConvertirNumero(doc.getImporteTotal());
+        String totalF = Numeros.ConvetirNumeroDosDigitos(doc.getImporteTotal());
         Double sub = doc.getImporteNeto();
         Double iva = doc.getImpuestoLiquido();
         String subTotal = Numeros.ConvertirNumero(sub);

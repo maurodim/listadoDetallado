@@ -72,8 +72,8 @@ public class ArchivoImpl implements Archivo{
         
         System.out.println("RutaOriginal: "+rutaOriginal);
         
-        if(rutaOriginal.contains(".jar")){ // Desde un jar
-            rutaReal = rutaOriginal.substring(0, rutaOriginal.indexOf(".jar")).concat(nombreArchivo);
+        if(rutaOriginal.contains(".exe")){ // Desde un jar
+            rutaReal = rutaOriginal.substring(0, rutaOriginal.indexOf(".exe")).concat(nombreArchivo);
         }else{ // desde netbeans
             rutaReal = "file:"+rutaOriginal.substring(0, rutaOriginal.indexOf("ArchivoImpl.class")).concat(nombreArchivo);
         }

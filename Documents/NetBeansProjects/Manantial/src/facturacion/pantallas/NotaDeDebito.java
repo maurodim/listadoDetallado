@@ -720,7 +720,7 @@ public class NotaDeDebito extends javax.swing.JInternalFrame implements KeyListe
             int comprobanteTipo = 31;
             //cliT.setCondicionIva("1");
             if (cliT.getTipoIva() == 5) {
-                comprobanteTipo = 12;
+                comprobanteTipo = 7;
             }
             if (cliT.getTipoIva() == 1) {
                 comprobanteTipo = 2;
@@ -728,7 +728,10 @@ public class NotaDeDebito extends javax.swing.JInternalFrame implements KeyListe
             if (cliT.getTipoIva() == 4) {
                 comprobanteTipo = 7;
             }
-
+            if(Propiedades.getCONDICIONIVA().equals("1")){
+            }else{
+                comprobanteTipo=12;
+            }
             Comprobantes comprobante = new Comprobantes();
             comprobante.setFe(true);
             comprobante.setImpacta(true);

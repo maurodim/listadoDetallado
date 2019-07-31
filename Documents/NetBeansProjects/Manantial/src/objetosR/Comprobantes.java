@@ -370,12 +370,12 @@ public class Comprobantes implements Facturar {
 
             int tipoComp = tipoComprobante;
 
-            String sql = "select * from tipocomprobantes where id=" + tipoComp;
+            String sql = "select * from tipocomprobantes where numeroafip=" + tipoComp;
             ResultSet rs = tra.leerConjuntoDeRegistros(sql);
             try {
                 while (rs.next()) {
                     numeroComprobante = rs.getInt("numeroActivo");
-                    idComp = rs.getInt("id");
+                    idComp = rs.getInt("numeroafip");
                 }
                 rs.close();
             } catch (SQLException ex) {
@@ -399,7 +399,8 @@ public class Comprobantes implements Facturar {
             String sql = "update movimientoscaja set numerocomprobante=" + numero + ",tipocomprobante=" + tipo + " where numero=" + registro;
             System.out.println(sql);
             tra.guardarRegistro(sql);
-            sql = "update tipocomprobantes set numeroactivo=" + numero + " where id=" + tipo;
+            //sql="update movimientosclientes set "
+            sql = "update tipocomprobantes set numeroactivo=" + numero + " where numeroafip=" + tipo;
             tra.guardarRegistro(sql);
             sql = "";//MOVIMIENTOS ARTICULOS
             sql = "";//MOVIMIENTOS CLIENTES
@@ -524,7 +525,7 @@ public class Comprobantes implements Facturar {
             }
         
         System.out.println("SE RECEPCIONO BARBARO");
-        sql = "update tipocomprobantes set numeroActivo=" + numeroComprobante + " where id=" + idComp;
+        sql = "update tipocomprobantes set numeroActivo=" + numeroComprobante + " where numeroafip=" + idComp;
         try {
             System.out.println("tipo de comprobante " + sql);
             tra = new Conecciones();

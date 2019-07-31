@@ -748,7 +748,7 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
         String fecha=dia+"/"+mes+"/"+ano;
         String fecha2=ano+"-"+mes+"-"+dia;
         int comprobanteTipo=8;
-        if(cliT.getTipoIva()==1)comprobanteTipo=10;
+        if(cliT.getTipoIva()==1)comprobanteTipo=3;
         if(cliT.getTipoIva()==5){
             if(montoTotal > 1000){
              if(cliT.getRazonSocial().equals("CONSUMIDOR FINAL") || cliT.getNumeroDeCuit().equals("0"))   {
@@ -762,7 +762,10 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
         }
         
         if(cliT.getTipoIva()==4)comprobanteTipo=8;
-        
+        if(Propiedades.getCONDICIONIVA().equals("1")){
+            }else{
+                comprobanteTipo=13;
+            }
         Comprobantes comprobante=new Comprobantes();
         comprobante.setFe(true);
         comprobante.setImpacta(true);

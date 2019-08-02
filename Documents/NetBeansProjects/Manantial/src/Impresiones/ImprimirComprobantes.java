@@ -552,7 +552,7 @@ public class ImprimirComprobantes {
     }
 
     public void ReImprimirFiscalB(Integer idCotizacion, Integer tipo) {
-        
+
         Facturable cotizable = new MovimientosClientes();
         MovimientosClientes cotizacion = new MovimientosClientes();
         cotizacion = (MovimientosClientes) cotizable.cargarEncabezadoFactura(idCotizacion, tipo);
@@ -960,10 +960,16 @@ public class ImprimirComprobantes {
                 case 1:
                     totalVentas = totalVentas + caja.getMontoMovimiento();
                     idFormaP = caja.getIdForma1();
-                    idFormaP = idFormaP - 1;
+                    double montoF=0.00;
+                    if (idFormaP > 0) {
+                        idFormaP = idFormaP - 1;
+                        montoF=caja.getMonto1();
+                    }else{
+                        montoF=caja.getMontoMovimiento();
+                    }
                     formaP = listadoF.get(idFormaP);
                     montoForma = formaP.getMonto();
-                    montoForma = montoForma + caja.getMonto1();
+                    montoForma = montoForma + montoF;
                     formaP.setMonto(montoForma);
                     if (caja.getMonto2() > 0) {
                         idFormaP = caja.getIdForma2();
@@ -1011,21 +1017,21 @@ public class ImprimirComprobantes {
             listaFormas.add(new FormatoFormas(String.format("%-27s", formaP.getDescripcionFormaDePago()), String.format("%9s", formaP.getMonto())));
         }
 
-        String monto = "$"+String.format("%9s", saldoInicial);
+        String monto = "$" + String.format("%9s", saldoInicial);
         formatoPie.setSaldoInicial(monto);
-        monto = "$"+String.format("%9s", totalVentas);
+        monto = "$" + String.format("%9s", totalVentas);
         formatoPie.setTotalVentas(monto);
-        monto = "$"+String.format("%9s", totalGtos);
+        monto = "$" + String.format("%9s", totalGtos);
         formatoPie.setTotlaGastos(monto);
-        monto = "$"+String.format("%9s", totalRetiros);
+        monto = "$" + String.format("%9s", totalRetiros);
         formatoPie.setRetiros(monto);
-        monto = "$"+String.format("%9s", pagoProveedores);
+        monto = "$" + String.format("%9s", pagoProveedores);
         formatoPie.setPagos(monto);
         Double saldo = saldoInicial + totalVentas + totalGtos + pagoProveedores + saldoCaja + totalRetiros;
-        monto = "$"+String.format("%9s", saldo);
+        monto = "$" + String.format("%9s", saldo);
         formatoPie.setSaldo(monto);
 
-        monto = "$"+String.format("%9s", saldoInicial);
+        monto = "$" + String.format("%9s", saldoInicial);
 
         modeloTicket.setFormatoComerciante(formatoComerciante);
         modeloTicket.setFormatoCliente(formatoCliente);

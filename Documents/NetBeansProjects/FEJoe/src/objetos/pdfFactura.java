@@ -415,22 +415,23 @@ public class pdfFactura {
                     case 0:
                         tabla2 = new PdfPTable(1);
                         tabla2.getDefaultCell().setBorder(0);
-                        parrafo = new Paragraph(nombreVendedor, smallNormal);
+                        parrafo = new Paragraph(cliente.getRazonSocial(), smallNormal);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph(razonSocialVendedor, smallNormal);
+                        parrafo = new Paragraph(cliente.getDireccion(), smallNormal);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        parrafo = new Paragraph(direccionVendedor, smallNormal);
+                        /*
+                        parrafo = new Paragraph(cliente.get, smallNormal);
                         celda = new PdfPCell(parrafo);
                         celda.setBorder(0);
                         celda.setPaddingLeft(5);
                         tabla2.addCell(celda);
-                        
+                        */
                         //paragraphE=new Paragraph(tabla2);
                         columnHeader = new PdfPCell(tabla2);
                         columnHeader.setPaddingBottom(5);
@@ -457,14 +458,14 @@ public class pdfFactura {
                     case 2:
                         tabla2 = new PdfPTable(1);
                         tabla2.getDefaultCell().setBorder(0);
-                        parrafo = new Paragraph("IVA.:", smallNormal);
+                        parrafo = new Paragraph("IVA.: Responsable Inscripto", smallNormal);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
                         celda.setPaddingLeft(20);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
-                        String numNro = String.format("%0" + (8 - num.length()) + "d%s", 0, num);
-                        parrafo = new Paragraph("000" + this.punto + "-" + numNro, smallNormal);
+                        //String numNro = String.format("%0" + (8 - num.length()) + "d%s", 0, num);
+                        parrafo = new Paragraph("CUIT.: "+doc.getCustomerId(), smallNormal);
                         celda = new PdfPCell(parrafo);
                         celda.setHorizontalAlignment(Element.ALIGN_LEFT);
                         celda.setPaddingLeft(20);
@@ -476,6 +477,7 @@ public class pdfFactura {
                         String mes = fechaCae.substring(4, 6);
                         String dia = fechaCae.substring(6);
                         fechaCae = dia + "/" + mes + "/" + ano;
+                        /*
 
                         parrafo = new Paragraph("Fecha" + fechaCae, smallNormal);
                         celda = new PdfPCell(parrafo);
@@ -483,7 +485,7 @@ public class pdfFactura {
                         celda.setPaddingLeft(20);
                         celda.setBorder(0);
                         tabla2.addCell(celda);
-                        
+                        */
 
                         columnHeader = new PdfPCell(tabla2);
                         columnHeader.setBorder(0);

@@ -58,7 +58,7 @@ public class FEJoe {
                 int condicion = 1;
                 int idCliente = 1;
                 int tVta = 1;//SI ES SERVICIO=2 O PRODUCTO=1
-                int idPed = 0;//si es 1-homologacion o 0-produccion
+                int idPed = 1;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
                 String cuitCliente = "";
@@ -70,6 +70,7 @@ public class FEJoe {
                 String razon = null;// = "CONFEDERACION ARGENTINA DE LA MED EMPRESA (CAME)";
                 String direc = null;// = "L. N. ALEM 452 - 1003 CABA";
                 mail=null;//=direccion de mail para envio de comprobante
+                boolean calcular=false;
                 
                 String condicionIvaC = null;// = "1";//tipo iva comprador 1-responsable inscripto 4- exento 5-consumidor final
 
@@ -122,6 +123,7 @@ public class FEJoe {
                                 break;
                             case 4:
                                 montoI=Numeros.ConvertirStringADouble(linea);
+                                if(montoI==0)calcular=true;
                                 break;
                             case 5:
                                 montoB=Numeros.ConvertirStringADouble(linea);
@@ -157,7 +159,12 @@ public class FEJoe {
 
                 ArrayList listadoI = new ArrayList();
                 ArrayList listadoT = new ArrayList();
-                
+                if(calcular){
+                    montoB=montoT / 1.21;
+                    montoB=Math.round(montoB * 100.0)/ 100.0;
+                    montoI=montoB * 0.21;
+                    montoI=Math.round(montoI * 100.0)/ 100.0;
+                }
                 //TiposIva iva=new TiposIva(5,50,10.5f,21);
                 TiposIva iva = new TiposIva(5, montoB, montoI, 21);
                 listadoI.add(iva);

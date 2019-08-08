@@ -746,7 +746,7 @@ public class pdfFactura {
                 celda.setHorizontalAlignment(Element.ALIGN_CENTER);
                 tablaD.addCell(celda);
                 tot = saldo.getCantidad() * saldo.getPrecioUnitario();
-                
+                //tot = saldo.getPrecioUnitario();
                 //precio total unitario s/iva
                 parrafo=new Paragraph(Numeros.ConvertirNumero(tot),smallNormal);
                 celda=new PdfPCell(parrafo);

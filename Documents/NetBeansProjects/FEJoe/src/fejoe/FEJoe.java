@@ -58,7 +58,7 @@ public class FEJoe {
                 int condicion = 1;
                 int idCliente = 1;
                 int tVta = 1;//SI ES SERVICIO=2 O PRODUCTO=1
-                int idPed = 1;//si es 1-homologacion o 0-produccion
+                int idPed = 0;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
                 String cuitCliente = "";
@@ -78,9 +78,12 @@ public class FEJoe {
                 DetalleFacturas detalleF=null;
 
                 String linea;
+                String linea1;
                 Boolean detalle = false;
                 int renglon = 0;
                 int renglonI = 0;
+                double precioUni=0.00;
+                int canti=0;
                 while ((linea = br.readLine()) != null) {
                     //linea=br.readLine();
                     if (detalle) {
@@ -95,13 +98,17 @@ public class FEJoe {
                                 detalleF.setDescripcion(linea);
                                 break;
                             case 3:
+                                canti=Integer.parseInt(linea);
                                 detalleF.setCantidadS(linea);
                                 break;
                             case 4:
                                 detalleF.setDescuentoS(linea);
                                 break;
                             case 5:
-                                detalleF.setPrecioUnitarioS(linea);
+                                //linea=linea.replace(",", ".");
+                                precioUni=Double.parseDouble(linea.replace(",", "."));
+                                precioUni=Math.round((precioUni / canti) * 100.0) / 100.0;
+                                detalleF.setPrecioUnitarioS(String.valueOf(precioUni));
                                
                         }
                         
@@ -119,14 +126,17 @@ public class FEJoe {
                                 tipoC=Integer.parseInt(linea);
                                 break;
                             case 3:
-                                montoT=Numeros.ConvertirStringADouble(linea);
+                                linea1=linea.replace(".","");
+                                montoT=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 break;
                             case 4:
-                                montoI=Numeros.ConvertirStringADouble(linea);
+                                linea1=linea.replace(".","");
+                                montoI=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 if(montoI==0)calcular=true;
                                 break;
                             case 5:
-                                montoB=Numeros.ConvertirStringADouble(linea);
+                                linea1=linea.replace(".","");
+                                montoB=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 break;
                             case 7:
                                 razon=linea;

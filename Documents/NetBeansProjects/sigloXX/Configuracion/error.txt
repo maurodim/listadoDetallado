@@ -1,0 +1,11 @@
+com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+java.sql.SQLException: Access denied for user 'sistema'@'localhost' (using password: YES)
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'sistema'@'%' to database 'siglox'
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'sistema'@'localhost' to database 'siglox'
+
+
+
+
+could not retrieve transation read-only status server

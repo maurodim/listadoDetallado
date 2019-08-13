@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -133,6 +134,7 @@ public class FEJoe {
                                 linea1=linea.replace(".","");
                                 montoI=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 if(montoI==0)calcular=true;
+                                //calcular=true;
                                 break;
                             case 5:
                                 linea1=linea.replace(".","");
@@ -169,11 +171,41 @@ public class FEJoe {
 
                 ArrayList listadoI = new ArrayList();
                 ArrayList listadoT = new ArrayList();
+                
+                double montoCalculado=montoB + montoI;
                 if(calcular){
-                    montoB=montoT / 1.21;
+                    if(montoB == 0){
+                        montoB=montoT / 1.21;
+                    }
                     montoB=Math.round(montoB * 100.0)/ 100.0;
                     montoI=montoB * 0.21;
                     montoI=Math.round(montoI * 100.0)/ 100.0;
+                    montoT=montoB + montoI;
+                }
+                double resultado=0.00;
+                if(montoT < montoCalculado){
+                    resultado=montoT / montoCalculado;
+                    //resultado=Math.round(resultado * 100.0) / 100.0;
+                    
+                }
+                if(resultado == 0){
+                    
+                }else{
+                    montoB=montoB * resultado;
+                    montoB=Math.round(montoB * 100.0) / 100.0;
+                    montoI=montoI * resultado;
+                    montoI=Math.round(montoI * 100.0) / 100.0;
+                    Iterator itDet=lstDetalle.listIterator();
+                    double preURes=0.00;
+                    resultado=Math.round(resultado * 100.0) / 100.0;
+                    while(itDet.hasNext()){
+                        detalleF=(DetalleFacturas) itDet.next();
+                        preURes=detalleF.getPrecioUnitario();
+                        preURes=preURes * resultado;
+                        //preURes=Math.round(preURes * 100.0)/ 100.0;
+                        detalleF.setPrecioUnitarioS(String.valueOf(preURes));
+                        System.out.println("codigo "+detalleF.getIdArticulo()+" cantidad "+detalleF.getCantidad()+" precio unitario "+preURes);
+                    }
                 }
                 //TiposIva iva=new TiposIva(5,50,10.5f,21);
                 TiposIva iva = new TiposIva(5, montoB, montoI, 21);

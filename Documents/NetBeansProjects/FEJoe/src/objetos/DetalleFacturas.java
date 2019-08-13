@@ -33,6 +33,11 @@ public class DetalleFacturas{
     private Double precioTotal;
     private Integer idArticulo;
 
+    public String getPrecioUnitarioS() {
+        return precioUnitarioS;
+    }
+
+    
     public String getDescripcion() {
         return descripcion;
     }

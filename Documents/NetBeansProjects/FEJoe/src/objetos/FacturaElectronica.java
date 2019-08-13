@@ -399,6 +399,7 @@ public class FacturaElectronica implements FacturableE, Instalable {
         //JOptionPane.showMessageDialog(null,"Fecha "+FechaComp);
         wsfev1.url(URLWSW);
         //System.out.println(URLWSW + " wsaa " + URLWSAA);
+        System.out.println("direcciones de certificados crt: "+this.archivoCrt+" archivo key "+this.archivoKey);
         if (wsfev1.login(this.archivoCrt, this.archivoKey, URLWSAA)) {
             if (!wsfev1.sfRecuperaLastCMP(ptoVta, this.tipoComp.comEnumValue())) {
                 JOptionPane.showMessageDialog(null, wsfev1.errorDesc());

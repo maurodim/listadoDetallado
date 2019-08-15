@@ -70,8 +70,10 @@ public class Mail {
             asunto=Propiedades.getNOMBRECOMERCIO()+" le envía su comprobante electrónico";
             MimeMessage mensaje=new MimeMessage(sesion);
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
+            if(mailCliente != null){
             mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(mailCliente));
-            //mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("comercial@sidercon.com"));
+            }
+            mensaje.addRecipient(Message.RecipientType.BCC,new InternetAddress(Propiedades.getCORREOCC()));
             mensaje.setSubject(asunto);
             //System.out.println("mail en envio "+asunto+" clave: "+password);
             BodyPart texto=new MimeBodyPart();

@@ -53,13 +53,13 @@ public class FEJoe {
                 FacturableE factu = new FacturaElectronica();
                 FileReader fr = new FileReader(archivo);
                 BufferedReader br = new BufferedReader(fr);
-                FileWriter fw=new FileWriter("respuesta.dat");
+                
                 PrintWriter pw;
 
                 int condicion = 1;
                 int idCliente = 1;
                 int tVta = 1;//SI ES SERVICIO=2 O PRODUCTO=1
-                int idPed = 0;//si es 1-homologacion o 0-produccion
+                int idPed = 1;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
                 String cuitCliente = "";
@@ -85,6 +85,7 @@ public class FEJoe {
                 int renglonI = 0;
                 double precioUni=0.00;
                 int canti=0;
+                int alerta=0;
                 while ((linea = br.readLine()) != null) {
                     //linea=br.readLine();
                     if (detalle) {
@@ -124,30 +125,56 @@ public class FEJoe {
                                 cuitCliente=cuitCliente.replace("-","");
                                 break;
                             case 2:
-                                tipoC=Integer.parseInt(linea);
+                                try{
+                                    tipoC=Integer.parseInt(linea);
+                                }catch(java.lang.NumberFormatException ex){
+                                    tipoC=3;
+                                    alerta=1;
+                                    linea1=linea.replace(".","");
+                                montoT=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
+                                }
                                 break;
                             case 3:
+                                if(alerta==0){
                                 linea1=linea.replace(".","");
                                 montoT=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
+                                }else{
+                                   linea1=linea.replace(".","");
+                                montoI=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
+                                if(montoI==0)calcular=true; 
+                                }
                                 break;
                             case 4:
+                                if(alerta==0){
                                 linea1=linea.replace(".","");
                                 montoI=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 if(montoI==0)calcular=true;
+                                }else{
+                                    linea1=linea.replace(".","");
+                                montoB=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
+                                }
                                 //calcular=true;
                                 break;
                             case 5:
+                                if(alerta==0){
                                 linea1=linea.replace(".","");
                                 montoB=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
+                                }
                                 break;
                             case 7:
+                                
                                 razon=linea;
+                                
                                 break;
                             case 8:
+                                
                                 condicionIvaC=linea;
+                                
                                 break;
                             case 9:
+                                
                                 direc=linea;
+                                
                                 break;
                             case 10:
                                 mail=linea;
@@ -220,11 +247,16 @@ public class FEJoe {
                 opcion.setTexto(ingreso.getExcepcionS());
                 ArrayList<Opcionales> lstOpcionales = new ArrayList();
                 lstOpcionales.add(opcion);
-
-                Integer nro = factu.generar(null, condicion, Propiedades.getARCHIVOKEY(), Propiedades.getARCHIVOCRT(), idCliente, cuitCliente, tipoC, montoT, montoB, montoI, ptoVta, Propiedades.getCUIT(), tVta, listadoI, listadoT, razon, direc, condicionIvaC, lstDetalle, idPed, Propiedades.getNOMBRECOMERCIO(), Propiedades.getRAZONSOCIAL(), "resp inscripto", Propiedades.getDIRECCION(), Propiedades.getTELEFONO(), Propiedades.getINGBRUTOS(), Propiedades.getINICIOACT(), lstOpcionales);
+                Integer nro = null;
+                if(tipoC== 2 || tipoC== 3)mail=null;
+                if(razon !=null){
+                nro = factu.generar(null, condicion, Propiedades.getARCHIVOKEY(), Propiedades.getARCHIVOCRT(), idCliente, cuitCliente, tipoC, montoT, montoB, montoI, ptoVta, Propiedades.getCUIT(), tVta, listadoI, listadoT, razon, direc, condicionIvaC, lstDetalle, idPed, Propiedades.getNOMBRECOMERCIO(), Propiedades.getRAZONSOCIAL(), "resp inscripto", Propiedades.getDIRECCION(), Propiedades.getTELEFONO(), Propiedades.getINGBRUTOS(), Propiedades.getINICIOACT(), lstOpcionales);
                 System.out.println("comprobante n° " + nro);
                 fr.close();
+                }
+                FileWriter fw=new FileWriter("respuesta.dat");
                 if(nro != null){
+                    
                     pw=new PrintWriter(fw);
                     pw.println(String.valueOf(ptoVta));
                     pw.println(String.valueOf(nro));

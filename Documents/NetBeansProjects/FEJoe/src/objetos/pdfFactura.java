@@ -140,12 +140,12 @@ public class pdfFactura {
         int nume = num.length();
         nume = nume - 2;
         num = num.substring(0, nume);
-        String arch = "Facturas Electronicas\\" + num + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
+        String arch = "Facturas Electronicas\\"+this.punto+"_" + num + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
         String nombreArch=num + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
         File fich = new File(arch);
         while (fich.exists()) {
             i++;
-            arch = "Facturas Electronicas\\" + num + i + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
+            arch = "Facturas Electronicas\\"+this.punto+"_" + num + i + "_" + doc.getDescripcionTipoComprobante() + ".pdf";
             fich = new File(arch);
         }
         FileOutputStream fichero;
@@ -531,7 +531,7 @@ public class pdfFactura {
             // Second page - some elements
             // Segunda página - Algunos elementos
             documento.close();
-
+            
             File f = new File(arch);
             if (f.exists()) {
 

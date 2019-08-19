@@ -14,7 +14,7 @@ import java.nio.file.Path;
 public interface ArchivoPdf {
     public void crearDocumento(float margenIzquierdo, float margenDerecho, float margenSuperior, float margenInferior);
     public void nombrePdf(String nombreArchivo, Path directorio);
-    public void nuevaEtiqueta(String contenido, int cantidadRequerida, float altoBarra, float factorGrosorBarra );
+    public void nuevaEtiqueta(String contenido, int cantidadRequerida, float altoBarra, float factorGrosorBarra,int ancho,int alto );
     public void generandoGridConEtiquetas(int columnasGrid);
     public Path getRutaArchivo();
 }

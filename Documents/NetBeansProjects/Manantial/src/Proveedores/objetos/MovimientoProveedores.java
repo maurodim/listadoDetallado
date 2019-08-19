@@ -390,7 +390,7 @@ public class MovimientoProveedores implements FacturableE {
         modelo.addColumn("TIPO");
         modelo.addColumn("NUMERO");
         modelo.addColumn("MONTO");
-        modelo.addColumn("ORIGEN");
+        modelo.addColumn(" ");
         Object[] fila = new Object[5];
         Iterator it = listado.listIterator();
         MovimientoProveedores mov;

@@ -20,7 +20,7 @@ public interface CodigosDeBarra {
      */
     public Image barraCode128(String texto);
     
-    public com.itextpdf.text.Image barraCode128Pdf(String texto, float altoBarra, float factorGrosorBarra, PdfContentByte cb);
+    public com.itextpdf.text.Image barraCode128Pdf(String texto, float altoBarra, float factorGrosorBarra, PdfContentByte cb,int ancho,int alto);
     
     /**Este metodo permite redimensionar la imagen original a los nuevos valores de interes mediante un escalamiento Smooth 
      * 

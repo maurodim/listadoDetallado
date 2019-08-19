@@ -14,13 +14,17 @@ import com.itextpdf.text.Image;
 public class FormatoCodigoBarras {
     private Image imagen;
     private int cantidadRequerida;
+    private int ancho;
+    private int alto;
 
     public FormatoCodigoBarras() {
     }
 
-    public FormatoCodigoBarras(Image imagen, int cantidadRequerida) {
+    public FormatoCodigoBarras(Image imagen, int cantidadRequerida,int ancho,int alto) {
         this.imagen = imagen;
         this.cantidadRequerida = cantidadRequerida;
+        this.ancho=ancho;
+        this.alto=alto;
     }
 
     public Image getImagen() {

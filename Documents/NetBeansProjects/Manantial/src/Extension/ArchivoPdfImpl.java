@@ -133,12 +133,11 @@ public class ArchivoPdfImpl implements ArchivoPdf{
     }
     
     @Override
-    public void nuevaEtiqueta(String contenido, int cantidadRequerida, float altoBarra, float factorGrosorBarra ){
+    public void nuevaEtiqueta(String contenido, int cantidadRequerida, float altoBarra, float factorGrosorBarra,int ancho,int alto ){
         listado.add(
                 new FormatoCodigoBarras(
-                        codigoBarra.barraCode128Pdf(contenido,altoBarra, factorGrosorBarra, escritor.getDirectContent()),
-                        cantidadRequerida)
-        );
+                        codigoBarra.barraCode128Pdf(contenido,altoBarra, factorGrosorBarra, escritor.getDirectContent(),ancho,alto),cantidadRequerida,ancho,alto));
+        
     }
     
     @Override

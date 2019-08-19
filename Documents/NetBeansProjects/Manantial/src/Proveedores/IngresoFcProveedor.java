@@ -99,7 +99,8 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
         detIva=detIva+"<br>Monto Gravado: $ "+Numeros.ConvertirNumero(tipI.getBaseImponible())+" Monto Iva: $"+Numeros.ConvertirNumero(tipI.getImporte())+" "+tipI.getDescripcion();
             this.detalle_iva_lbl.setText("<html>"+detIva+"</html>");
         }
-        String total = "Total Comprobante : $ " + Numeros.ConvertirNumero(pedido.getMonto());
+        double totalR=Math.round(pedido.getMonto() * 100.0) /100.0;
+        String total = "Total Comprobante : $ " + totalR;
         this.total_lbl.setText(total);
        this.jLabel1.setVisible(false);
        this.jButton2.setVisible(false);
@@ -671,7 +672,7 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
         //String ptoVta=String.format("%05d", this.numeroPuntoDeVenta);
         compras.setTipo(String.format("%03d", tipoComp));
         compras.setPto(String.format("%05d", puntoDeVenta));
-        compras.setNumero(String.format("%0" + (20 - numero.length()) + "d%s", 0, numero));
+        compras.setNumero(String.format("%0" + (10 - numero.length()) + "d%s", 0, numero));
         alicuota=String.format("%04d",tipoIva.getId());
         compras.setGravado(montoGravado);
         compras.setAlicuota(alicuota);
@@ -799,7 +800,8 @@ public class IngresoFcProveedor extends javax.swing.JInternalFrame {
         montoTotal=montoGravado+montoIva+netoNoGravado+exento+percepcionIva+impuestosNacionales+percepcionIb+impuestosMunicipales+impuestosInternos+otros;
 
         String total1 = Numeros.ConvertirNumero(montoTotal);
-        String total = "Total Comprobante : $ " + montoTotal;
+        double totalR=Math.round(montoTotal * 100.0) / 100.0;
+        String total = "Total Comprobante : $ " + totalR;
         /*
     if(cliT.getTipoIva()==1){
         String bruto=Numeros.ConvertirNumero( montoTotal /1.21);

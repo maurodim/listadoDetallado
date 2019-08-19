@@ -65,14 +65,15 @@ public class CodigosDeBarraImpl implements CodigosDeBarra{
     }
 
     @Override
-    public com.itextpdf.text.Image barraCode128Pdf(String texto, float altoBarra, float factorGrosorBarra, PdfContentByte cb) {
+    public com.itextpdf.text.Image barraCode128Pdf(String texto, float altoBarra, float factorGrosorBarra, PdfContentByte cb,int anch,int altt) {
        Barcode128 b128 = this.barraGrafica(texto, altoBarra, factorGrosorBarra);
        //b128.setGuardBars(true);
        b128.setX(0.70f);
        
        com.itextpdf.text.Image imagen = b128.createImageWithBarcode(cb, BaseColor.BLACK, BaseColor.GRAY);
+       //imagen=redimensionar(imagen,50,20);
        //imagen.setAnnotation(new Annotation("B128", texto));
-       
+       imagen.scaleAbsolute(anch, altt);
       return imagen;
     }
     

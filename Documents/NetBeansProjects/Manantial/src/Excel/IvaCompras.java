@@ -30,7 +30,7 @@ public class IvaCompras {
     public void GenerrarInformeIvaCompras(String desde,String hasta) throws SQLException, FileNotFoundException{
         try {
             HSSFWorkbook libro=new HSSFWorkbook();
-            HSSFSheet hoja=libro.createSheet("Iva Ventas");
+            HSSFSheet hoja=libro.createSheet("Iva Compras");
             /*
             * GENERAR LAS SIGUIENTES HOJAS
             * 1- DETALLE DE MOVIMIENTOS DE CAJA - LEE EN MOVIMIENTOS CAJA INDENTIFICANDO EL TIPO DE MOVIMIENTO, USUARIOS Y
@@ -56,7 +56,7 @@ public class IvaCompras {
             fuente.setFontName(fuente.FONT_ARIAL);
             fuente.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
             String form=null;
-            String sql="SELECT fecha,tipo,numero,razon,(gravado) as gravadoR,(iva) as impuestoR,(total) as totalR FROM comprasfiscal where fechaRegistro between '"+desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000' order by numero";
+            String sql="SELECT fecha,tipo,numero,pto,alicuota,razon,(gravado) as gravadoR,(iva) as impuestoR,(total) as totalR FROM comprasfiscal where fechaRegistro between '"+desde+" 00:00:00.000' and '"+hasta+" 00:00:00.000' order by numero";
             //String sql="SELECT *,round(gravado,2)as gravadoR,round(impuesto,2)as impuestoR,round(total,2)as totalR FROM fiscal where fecha like '201607%' group by numero order by numero";
             System.out.println(sql);
             Transaccionable tra=new Conecciones();
@@ -85,7 +85,7 @@ public class IvaCompras {
                 celda3.setCellValue("Gravado");
                 celda4=fila.createCell(4);
                 celda4.setCellStyle(titulo);
-                celda4.setCellValue("Impuesto");
+                celda4.setCellValue("Iva");
                 celda5=fila.createCell(5);
                 celda5.setCellStyle(titulo);
                 celda5.setCellValue("Total");
@@ -115,7 +115,7 @@ public class IvaCompras {
                 celda1.setCellValue(rs.getInt("tipo"));
                 celda2=fila.createCell(2);
                 celda2.setCellType(HSSFCell.CELL_TYPE_STRING);
-                String numero=rs.getString("numero").replaceFirst("80","00");
+                String numero=rs.getString("pto")+"-"+rs.getString("numero").replaceFirst("80","00");
                 celda2.setCellValue(numero);
                 celda3=fila.createCell(3);
                 celda3.setCellType(HSSFCell.CELL_TYPE_NUMERIC);

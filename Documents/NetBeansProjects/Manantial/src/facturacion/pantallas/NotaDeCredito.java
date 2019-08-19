@@ -690,6 +690,12 @@ public class NotaDeCredito extends javax.swing.JInternalFrame {
                     articul.setPrecioDeCosto(arti.getPrecioDeCosto());
                     articul.setPrecioUnitario(arti.getPrecioUnitarioNeto());
                     articul.setPrecioUnitarioNeto(arti.getPrecioUnitarioNeto());
+                    articul.setSubTotal(arti.getSubTotal());
+                    articul.setIva(arti.getIva());
+                articul.setCoeficienteIva(arti.getCoeficienteIva());
+                articul.setTipoIva(arti.getTipoIva());
+                articul.setPrecioSubTotal(arti.getPrecioSubTotal());
+                    
                     articul.setIdCombo(arti.getIdCombo());
                     articul.setCombo(arti.getCombo());
             detalleDelPedido.add(articul);
@@ -1411,9 +1417,11 @@ private void CargarCantidad(){
                     articul.setPrecioDeCosto(arti.getPrecioDeCosto());
                     articul.setPrecioUnitario(arti.getPrecioUnitarioNeto());
                     articul.setPrecioUnitarioNeto(arti.getPrecioUnitarioNeto());
+                    articul.setPrecioSubTotal(arti.getPrecioSubTotal());
                     articul.setIdCombo(arti.getIdCombo());
                     articul.setCombo(arti.getCombo());
                     articul.setSubTotal(arti.getSubTotal());
+                    
             articul.setIva(arti.getIva());
             articul.setCoeficienteIva(arti.getCoeficienteIva());
             articul.setTipoIva(arti.getTipoIva());

@@ -559,12 +559,16 @@ public class ArticulosMod extends javax.swing.JInternalFrame {
             String serialCodigoBarra = textoTemporal;
             CodigosDeBarra codigosDeBarra = new CodigosDeBarraImpl();
             Image imagen = codigosDeBarra.barraCode128(serialCodigoBarra);
+            int ancho = 0;
+            int alto = 0;
+            
             imagen = codigosDeBarra.redimensionar(imagen, 100, 30);
             
             // Imagen desde la memoria
             ImpresoraServiceImpl impresoraServicio = new ImpresoraServiceImpl();
             
                 String serialCodigoBarraImp = this.jTextField1.getText();
+                
                 int cantidadCopias=Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE COPIAS A IMPRIMIR"));
                 int cantidaPorLinea=Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE ETIQUETAS POR LINEA QUE DESEA IMPRIMIR"));
            /* CodigosDeBarra codigosDeBarra = new CodigosDeBarraImpl();
@@ -586,11 +590,13 @@ public class ArticulosMod extends javax.swing.JInternalFrame {
         }
         
         ArchivoPdf apdf = new ArchivoPdfImpl();
+        
+        //apdf.crearDocumento(0, 0, 5, 0);
         apdf.crearDocumento(0, 0, 5, 0);
         apdf.nombrePdf(rutaArchivo.getFileName().toString(),Paths.get("Etiquetas"));
         //apdf.nombrePdf(rutaArchivo.getFileName().toString(),  rutaArchivo.getParent()); // Ruta raiz del proyecto.
         //apdf.nombrePdf("Etiquetas-"+System.currentTimeMillis()+".pdf", Paths.get("/home/andy/PDF")); // Ejemplo para cualquier otra ruta
-        apdf.nuevaEtiqueta(serialCodigoBarra,cantidadCopias, 0, 0);
+        apdf.nuevaEtiqueta(serialCodigoBarra,cantidadCopias, 0, 0,ancho,alto);
         //apdf.nuevaEtiqueta("865521548", 25, 0, 0);
         //apdf.nuevaEtiqueta("967741213", 30, 0, 0);
         //apdf.nuevaEtiqueta("885544771", 15, 0, 0);       

@@ -15,6 +15,7 @@ import Articulos.Articulos;
 import Articulos.Rubrable;
 import Articulos.Rubros;
 import Articulos.SubRubros;
+import Etiquetador.Pantallas.ConfiguraEtiqueta;
 import Extension.Archivo;
 import Extension.ArchivoImpl;
 import Extension.ArchivoPdf;
@@ -568,9 +569,13 @@ public class ArticulosMod extends javax.swing.JInternalFrame {
             ImpresoraServiceImpl impresoraServicio = new ImpresoraServiceImpl();
             
                 String serialCodigoBarraImp = this.jTextField1.getText();
+                ConfiguraEtiqueta eti=new ConfiguraEtiqueta(null,true);
+                eti.setVisible(true);
                 
-                int cantidadCopias=Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE COPIAS A IMPRIMIR"));
-                int cantidaPorLinea=Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE ETIQUETAS POR LINEA QUE DESEA IMPRIMIR"));
+                int cantidadCopias=eti.getCantidad();//Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE COPIAS A IMPRIMIR"));
+                int cantidaPorLinea=eti.getRenglon();//Integer.parseInt(JOptionPane.showInputDialog("INGRESE LA CANTIDAD DE ETIQUETAS POR LINEA QUE DESEA IMPRIMIR"));
+                ancho=eti.getAncho();
+                alto=eti.getAlto();
            /* CodigosDeBarra codigosDeBarra = new CodigosDeBarraImpl();
             Image imagen = codigosDeBarra.barraCode128(serialCodigoBarra); // Imagen Original
             //imagen = codigosDeBarra.redimensionar(imagen, 38, 21); // Escalamiento de la imagen (opcional)

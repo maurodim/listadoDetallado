@@ -517,22 +517,49 @@ public class Proveedores implements Personalizable{
     @Override
     public ArrayList listar() {
         ArrayList listado=new ArrayList();
-        /*
-         * Enumeration<Articulos> elementos=listadoNom.elements();
-       * while(elementos.hasMoreElements()){
-        *    articulo=(Articulos)elementos.nextElement();
-         */
-            Enumeration<Proveedores> elementos=listadoProv.elements();
-            //System.out.println(" ELEMENTOS PROVEEDORES "+listadoProv.size());
-            while(elementos.hasMoreElements()){
-                Proveedores prov=(Proveedores)elementos.nextElement();
-                //System.out.println(" PROVEEDORES "+prov.getNombre());
+        String sql="";
+            Transaccionable tra;
+        try {
+            //if(Inicio.coneccionRemota){
+            tra=new Conecciones();
+            sql="select id,nombre,domicilio,localidad,telefono,inhabilitado,mail,saldo1,responsable,celular,cuit,anexo,(SELECT sum(movimientosproveedores.monto) FROM movimientosproveedores WHERE movimientosproveedores.numeroProveedor=proveedores.ID)as saldo,(proveedores.localidad)as nomL from proveedores order by NOMBRE";
+
+//}else{
+                //tra=new Conecciones();
+                //sql="select * from proveedores order by NOMBRE";
+            //}
+            ResultSet rr=tra.leerConjuntoDeRegistros(sql);
+            while(rr.next()){
+                Proveedores prov=new Proveedores();
+                prov.setNumero(rr.getInt("ID"));
+                prov.setNombre(rr.getString("NOMBRE"));
+                prov.setDireccion(rr.getString("DOMICILIO"));
+                prov.setLocalidad(rr.getString("LOCALIDAD"));
+                prov.setMail(rr.getString("mail"));
+                prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setSaldo(rr.getDouble("saldo"));
+                prov.setResponsable(rr.getString("responsable"));
+                prov.setCelular(rr.getString("celular"));
+                prov.setDescripcionLocalidad(rr.getString("nomL"));
+                prov.setCuit(rr.getString("cuit"));
+                prov.setAnexo(rr.getString("anexo"));
+              //  if(Inicio.coneccionRemota)prov.setSaldo(rr.getDouble("saldo"));
                 //prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 //prov.setNumeroDeCuit(rr.getString("numeroCuit"));
                 //prov.setCondicionIngresosBrutos(rr.getInt("condicionIb"));
                 //prov.setNumeroIngresosBrutos(rr.getString("numeroIb"));
+                //System.err.println("PROV "+prov.getNombre());
                 listado.add(prov);
             }
+            rr.close();
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
             //Collections.sort(listado);
         return listado;
     }

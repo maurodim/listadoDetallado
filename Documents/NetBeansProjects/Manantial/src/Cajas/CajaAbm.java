@@ -428,12 +428,14 @@ public class CajaAbm extends javax.swing.JInternalFrame {
             case 11:
                 Proveedores fact = new Proveedores();
                 fact = (Proveedores) listadoP.get(posicion);
-                this.jTextField1.setText(String.valueOf(fact.getSaldo()));
+                double saldoP=Numeros.Redondear(fact.getSaldo());
+                this.jTextField1.setText(String.valueOf(saldoP));
                 break;
             case 13:
                 Clientes cliente = new Clientes();
                 cliente = (Clientes) listadoP.get(posicion);
-                this.jTextField1.setText(String.valueOf(cliente.getSaldo()));
+                double saldoC=Numeros.Redondear(cliente.getSaldo());
+                this.jTextField1.setText(String.valueOf(saldoC));
                 break;
             default:
 

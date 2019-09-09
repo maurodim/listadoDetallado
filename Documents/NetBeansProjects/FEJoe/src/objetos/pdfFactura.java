@@ -717,8 +717,8 @@ public class pdfFactura {
                 celda.setHorizontalAlignment(Element.ALIGN_CENTER);
                 tablaD.addCell(celda);
                 //descripcion
-                if (saldo.getDescripcion().length() > 40) {
-                        descripcionArt = saldo.getDescripcion().substring(0, 40);
+                if (saldo.getDescripcion().length() > 50) {
+                        descripcionArt = saldo.getDescripcion().substring(0, 50);
                     } else {
                         descripcionArt = saldo.getDescripcion();
                     }
@@ -806,10 +806,19 @@ public class pdfFactura {
                 celdaQr.setPaddingRight(10);
                 celdaQr.setBorder(0);
                 tablaQr.addCell(celdaQr);
-                parrafoP=new Paragraph("SON PESOS:"+NumberToLetterConverter.convertNumberToLetter(totalFF),extraSmallBold);
+                String infoPie;
+                if(FEJoe.nombreVendedor !=null){
+                    infoPie="USTED FUE ATENDIDO POR:"+FEJoe.nombreVendedor+"\n"+"SON PESOS:"+NumberToLetterConverter.convertNumberToLetter(totalFF);
+                }else{
+                    infoPie="SON PESOS:"+NumberToLetterConverter.convertNumberToLetter(totalFF);
+                }
+                //parrafoP=new Paragraph("USTED FUE ATENDIDO POR:"+FEJoe.nombreVendedor,extraSmallBold);
+                //celdaQr=new PdfPCell(parrafoP);
+                //tablaQr.addCell(celdaQr);
+                parrafoP=new Paragraph(infoPie,extraSmallBold);
                 celdaQr=new PdfPCell(parrafoP);
                 celdaQr.setHorizontalAlignment(Element.ALIGN_LEFT);
-                celdaQr.setVerticalAlignment(Element.ALIGN_BOTTOM);
+                celdaQr.setVerticalAlignment(Element.ALIGN_TOP);
                 celdaQr.setPaddingBottom(10);
                 celdaQr.setPaddingLeft(10);
                 celdaQr.setBorder(0);

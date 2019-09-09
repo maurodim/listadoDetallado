@@ -22,7 +22,7 @@ public interface FacturableE {
     public DefaultTableModel mostrarListado(ArrayList listado);
     public Object reEnviar(Object fe);
     public void eliminar(Object fe);
-    public String reimprimir(Object fe);
+    public String reimprimir(int Condicion, Integer idCliente, String cuitCliente, int tipoComprobante, Double montoTotal, Double montoBruto, Double montoIva, int ptoDeVenta, String cuitVendedor, int tipoV, ArrayList lstI, ArrayList lstT, String razonSocial, String direccion, String condicionIvaCliente, ArrayList lstDetalle, Integer idPedido, String nombreVendedor, String razonSocialVend, String condIvaVendedor, String direccionVendedor, String telefonoVendedor, String ingBrutosVendedor, String inicioActVendedor,String cae,String numero,String fecha);
     public String imprimir(Object fe);
 
     /**

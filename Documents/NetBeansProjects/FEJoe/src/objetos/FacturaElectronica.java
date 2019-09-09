@@ -590,8 +590,191 @@ public class FacturaElectronica implements FacturableE, Instalable {
     }
 
     @Override
-    public String reimprimir(Object fe) {
+    public String reimprimir(int Condicion, Integer idCliente, String cuitCliente, int tipoComprobante, Double montoTotal, Double montoBruto, Double montoIva, int ptoDeVenta, String cuitVendedor, int tipoV, ArrayList lstI, ArrayList lstT, String razonSocial, String direccion, String condicionIvaCliente, ArrayList lstDetalle, Integer idPedido, String nombreVendedor, String razonSocialVend, String condIvaVendedor, String direccionVendedor, String telefonoVendedor, String ingBrutosVendedor, String inicioActVendedor,String cae,String numero,String fecha) {
+        
+        FacturaElectronica fE = new FacturaElectronica();
+        
+        fE.listadoIva = new ArrayList();
+        fE.listadoTributos = new ArrayList();
+        fE.conexion = conexion;
+        fE.condicionIvaVendedor = String.valueOf(Condicion);
+        fE.archivoKey = archivoKey;
+        fE.archivoCrt = archivoCrt;
+        fE.idPedido = idPedido;
+        //fE.archivoKey="clave.key";
+        //fE.archivoCrt="certificado.crt";
+        //fE.idPedido = 1;
+        fE.idCliente = idCliente;
+        fE.nombreV = nombreVendedor;
+        fE.razonSocialVendedor = razonSocialVend;
+        fE.cIvaV = condIvaVendedor;
+        fE.direccionV = direccionVendedor;
+        fE.telefonoV = telefonoVendedor;
+        fE.ingBrutosV = ingBrutosVendedor;
+        fE.inicioActV = inicioActVendedor;
+        //System.out.println("cantidad " + cuitCliente.length());
+        if (cuitCliente.length() == 8 || cuitCliente.length() == 11 || cuitCliente.length() == 1 || cuitCliente.length() == 7) {
+            if (cuitCliente.length() == 1) {
+                cuitCliente = "0";
+            }
+        } else {
 
+            cuitCliente = JOptionPane.showInputDialog(null, "Ingrese numero de CUIT/CUIL o DNI Sin puntos ni guiones ", cuitCliente);
+            if (idCliente.equals("0")) {
+                cuitCliente = "0";
+            }
+        }
+        cuitCliente = cuitCliente.replace("-", "");
+        cuitCliente = cuitCliente.trim();
+        Integer cantCuit = cuitCliente.length();
+        int tipDocumento = 0;
+        switch (cantCuit) {
+            case 1:
+                cuitCliente = "0";
+                tipDocumento = 99;//SIN INDETIFICAR
+                break;
+            case 11:
+
+                tipDocumento = 80;//CUIT
+
+                break;
+            case 8:
+                tipDocumento = 96;//DNI
+                break;
+            case 7:
+                tipDocumento = 96;//DNI
+                break;
+        }
+        String tipoDocumentoCliente = String.valueOf(tipDocumento);
+
+        fE.customerId = cuitCliente;
+        fE.customerTypeDoc = String.valueOf(tipoDocumentoCliente);
+        fE.numeroPuntoDeVenta = ptoDeVenta;
+        fE.importeTotal = montoTotal;
+        fE.importeNeto = montoBruto;
+        fE.impuestoLiquido = montoIva;
+        fE.tipoCompro = tipoComprobante;
+        fE.cuitVendedor = cuitVendedor;
+        fE.tipoVta = tipoV;
+        fE.listadoIva = lstI;
+        fE.listadoTributos = lstT;
+        //fE.lstOpcionales=listadoOpcionales;
+        fE.razonSocial = razonSocial;
+        fE.direccionCliente = direccion;
+        fE.condicionIvaCliente = condicionIvaCliente;
+        fE.listadoDetalle = lstDetalle;
+        
+        
+        //if (fE.condicionIvaVendedor.equals("1") || fE.condicionIvaVendedor.equals("4")) { //segun tabla de tipos de contribuyentes - resp inscripto
+
+        if (fE.tipoCompro == 6) {//antes 1
+            fE.tipoComp = TipoComprobante.tcFacturaB;//factura B a consumidor final
+        }
+        if (fE.tipoCompro == 1) {//antes 2
+            fE.tipoComp = TipoComprobante.tcFacturaA;//1 FACTURA A 
+        }
+        if (fE.tipoCompro == 2) {//antes 9
+            fE.tipoComp = TipoComprobante.tcNotaDebitoA;//2
+        }
+        if (fE.tipoCompro == 3) {// antes 10
+            fE.tipoComp = TipoComprobante.tcNotaCreditoA;//3 NOTA DE CREDITO A
+        }
+        if (fE.tipoCompro == 7) { // antes 11
+            fE.tipoComp = TipoComprobante.tcNotaDebitoB;
+        }
+        if (fE.tipoCompro == 8) { // antes 12
+            fE.tipoComp = TipoComprobante.tcNotaCreditoB;//tipComprobante=8;
+        }
+        if (fE.tipoCompro == 8) { // antes 8
+            fE.tipoComp = TipoComprobante.tcNotaCreditoB;//NTA DE CREDITO B A CONS FINAL y exento
+        }
+        if (fE.tipoCompro == 6) { // antes 3
+            fE.tipoComp = TipoComprobante.tcFacturaB;// factura B A EXENTO
+        }
+        // } else {
+        if (fE.tipoCompro == 11) { // antes 1
+            fE.tipoComp = TipoComprobante.tcFacturaC;
+        }
+        /*
+            if (fE.tipoCompro == 11) { // antes 2
+                fE.tipoComp = TipoComprobante.tcFacturaC;//1
+            }
+         */
+        if (fE.tipoCompro == 12) { // antes 9
+            fE.tipoComp = TipoComprobante.tcNotaDebitoC;//2
+        }
+        if (fE.tipoCompro == 13) { // antes 10
+            fE.tipoComp = TipoComprobante.tcNotaCreditoC;//3
+        }
+        /*
+            if (fE.tipoCompro == 11) { // antes 11
+                fE.tipoComp = TipoComprobante.tcNotaDebitoC;
+            }
+            if (fE.tipoCompro == 12) { // antes 12
+                fE.tipoComp = TipoComprobante.tcNotaCreditoC;
+            }
+         */
+        //}
+        if (fE.tipoComp.equals(TipoComprobante.tcFacturaA)) {
+            fE.numeroTipoComprobante = 1;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaDebitoA)) {
+            fE.numeroTipoComprobante = 2;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaCreditoA)) {
+            fE.numeroTipoComprobante = 3;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcFacturaB)) {
+            fE.numeroTipoComprobante = 6;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaDebitoB)) {
+            fE.numeroTipoComprobante = 7;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaCreditoB)) {
+            fE.numeroTipoComprobante = 8;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcFacturaC)) {
+            fE.numeroTipoComprobante = 11;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaDebitoC)) {
+            fE.numeroTipoComprobante = 12;
+        }
+        if (fE.tipoComp.equals(TipoComprobante.tcNotaCreditoC)) {
+            fE.numeroTipoComprobante = 13;
+        }
+
+        fE.descripcionTipoComprobante = fE.tipoComp.name();
+        
+        //VALORES DE APROBACION DEL COMPROBANTE
+        
+        fE.cae = cae;
+                        fE.caeVto = fecha;
+                        String num = "000"+numero;
+                        int nume = num.length();
+                        nume = nume - 2;
+                        num = num.substring(0, nume);
+                        fE.afipPlastId = num;
+                        fE.afipPlastCbte = num;
+                        fE.tipoComprobante = String.valueOf((TipoComprobante) fE.tipoComp);
+                        fE.fechaCae = fecha;
+        
+        String dato = "Vendedor: " + fE.cuitVendedor + " customerId:" + fE.customerId + "cae:" + cae + "vto:" + fE.caeVto + " Punto de venta:" + fE.numeroPuntoDeVenta;
+                        String nombreQr = "imagenes/" + numero + "_" + fE.descripcionTipoComprobante + ".gif";
+                        GenerarQr qr = new GenerarQr(dato, nombreQr);
+                        fE.nombreQr = nombreQr;
+                        //pdfsJavaGenerador pdf = new pdfsJavaGenerador(this.razonSocialVendedor, this.nombreV, this.cuitVendedor, this.condicionIvaVendedor, this.direccionV, this.telefonoV, this.ingBrutosV, this.inicioActV);
+                        pdfFactura pdf = new pdfFactura(fE.razonSocialVendedor, fE.nombreV, fE.cuitVendedor, fE.condicionIvaVendedor, fE.direccionV, fE.telefonoV, fE.ingBrutosV, fE.inicioActV);
+                        //EncabezadoPdf encab=new EncabezadoPdf();
+                        pdf.setDoc(fE);
+                        pdf.setPunto(fE.numeroPuntoDeVenta);
+                        double nro=Double.parseDouble(numero);
+                        pdf.setNumero(nro);
+                        try {
+                            fE.archivoPdf = pdf.run();
+                        } catch (DocumentException ex) {
+                            Logger.getLogger(FacturaElectronica.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+        
         return null;
 
     }

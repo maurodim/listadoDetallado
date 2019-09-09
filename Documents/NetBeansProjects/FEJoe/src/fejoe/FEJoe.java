@@ -33,16 +33,38 @@ import pantallas.IngresoDni;
  */
 public class FEJoe {
     public static String mail;
+    public static String nombreVendedor;
     
     public static void main(String[] args) {
         File carpeta = new File("Facturas Electronicas");
         File configuracion = new File("Configuracion");
         File archivo = new File("OPG.dat");
+        File fwO=new File("respuesta.dat");
+        FileWriter fw;
+        PrintWriter pw;
+        nombreVendedor=null;
         if (!carpeta.isDirectory()) {
             carpeta.mkdirs();
         }
         if (!configuracion.isDirectory()) {
             configuracion.mkdirs();
+        }
+        if(!fwO.isFile()){
+            
+        }else{
+            try {
+                //fwO.delete();
+                fw=new FileWriter("respuesta.dat");
+                pw=new PrintWriter(fw);
+                    pw.println("");
+                    pw.println("");
+                    
+                    if(null != pw){
+                        pw.close();
+                    }
+            } catch (IOException ex) {
+                Logger.getLogger(FEJoe.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (!archivo.isFile()) {
             JOptionPane.showMessageDialog(null, "NO EXISTE EL ARCHIVO CONECTOR, POR FAVOR INFORME DEL ERROR. GRACIAS");
@@ -54,12 +76,12 @@ public class FEJoe {
                 FileReader fr = new FileReader(archivo);
                 BufferedReader br = new BufferedReader(fr);
                 
-                PrintWriter pw;
+                
 
                 int condicion = 1;
                 int idCliente = 1;
                 int tVta = 1;//SI ES SERVICIO=2 O PRODUCTO=1
-                int idPed = 1;//si es 1-homologacion o 0-produccion
+                int idPed = 0;//si es 1-homologacion o 0-produccion
                 int ptoVta = Integer.parseInt(Propiedades.getPTO());
 
                 String cuitCliente = "";
@@ -81,11 +103,14 @@ public class FEJoe {
                 String linea;
                 String linea1;
                 Boolean detalle = false;
+                StringBuilder sb;
                 int renglon = 0;
                 int renglonI = 0;
                 double precioUni=0.00;
                 int canti=0;
                 int alerta=0;
+                int sbPos=0;
+                String ddetalle;
                 while ((linea = br.readLine()) != null) {
                     //linea=br.readLine();
                     if (detalle) {
@@ -97,7 +122,12 @@ public class FEJoe {
                                 detalleF.setCodigo(linea);
                                 break;
                             case 2:
-                                detalleF.setDescripcion(linea);
+                                sb=new StringBuilder(linea.replace("_"," "));
+                                //ddetalle=sb;
+                                sbPos=sb.indexOf("   ");
+                                detalleF.setDescripcion(sb.toString());
+                                
+                                System.out.println("renglon "+sb.toString()+" cantidad: "+sb.length());
                                 break;
                             case 3:
                                 canti=Integer.parseInt(linea);
@@ -161,23 +191,39 @@ public class FEJoe {
                                 montoB=Numeros.ConvertirStringADouble(linea1.replace(",", "."));
                                 }
                                 break;
+                            case 6:
+                                if(alerta==0){
+                                    
+                                }else{
+                                    razon=linea;
+                                }
+                                break;
                             case 7:
-                                
+                                if(alerta==0){
                                 razon=linea;
+                                }else{
+                                    condicionIvaC=linea;
+                                }
                                 
                                 break;
                             case 8:
-                                
+                                if(alerta==0){
                                 condicionIvaC=linea;
+                                }else{
+                                    direc=linea;
+                                }
                                 
                                 break;
                             case 9:
-                                
-                                direc=linea;
-                                
+                                if(alerta==0){
+                                    direc=linea;
+                                }
                                 break;
                             case 10:
                                 mail=linea;
+                                break;
+                            case 11:
+                                nombreVendedor=linea;
                                 break;
                         }
 
@@ -237,6 +283,10 @@ public class FEJoe {
                 //TiposIva iva=new TiposIva(5,50,10.5f,21);
                 TiposIva iva = new TiposIva(5, montoB, montoI, 21);
                 listadoI.add(iva);
+                
+                if(args.length == 0){
+                    
+                
                 IngresoDni ingreso = new IngresoDni(null, true);
                 ingreso.setLocationRelativeTo(null);
                 ingreso.setVisible(true);
@@ -251,10 +301,11 @@ public class FEJoe {
                 if(tipoC== 2 || tipoC== 3)mail=null;
                 if(razon !=null){
                 nro = factu.generar(null, condicion, Propiedades.getARCHIVOKEY(), Propiedades.getARCHIVOCRT(), idCliente, cuitCliente, tipoC, montoT, montoB, montoI, ptoVta, Propiedades.getCUIT(), tVta, listadoI, listadoT, razon, direc, condicionIvaC, lstDetalle, idPed, Propiedades.getNOMBRECOMERCIO(), Propiedades.getRAZONSOCIAL(), "resp inscripto", Propiedades.getDIRECCION(), Propiedades.getTELEFONO(), Propiedades.getINGBRUTOS(), Propiedades.getINICIOACT(), lstOpcionales);
+                //nro=null;
                 System.out.println("comprobante n° " + nro);
                 fr.close();
                 }
-                FileWriter fw=new FileWriter("respuesta.dat");
+                fw=new FileWriter("respuesta.dat");
                 if(nro != null){
                     
                     pw=new PrintWriter(fw);
@@ -264,6 +315,16 @@ public class FEJoe {
                     if(null != pw){
                         pw.close();
                     }
+                }
+                
+                }else{
+                    FacturaElectronica facturaE=new FacturaElectronica();
+                    String cae = args[0];
+                    String vencimiento=args[1];
+                    String numero = args[2];
+                    mail=null;
+                    factu.reimprimir(condicion, idCliente, cuitCliente, tipoC, montoT, montoB, montoI, ptoVta, Propiedades.getCUIT(), tVta, listadoI, listadoT, razon, direc, condicionIvaC, lstDetalle, idPed, Propiedades.getNOMBRECOMERCIO(), Propiedades.getRAZONSOCIAL(), "resp inscripto", Propiedades.getDIRECCION(), Propiedades.getTELEFONO(), Propiedades.getINGBRUTOS(), Propiedades.getINICIOACT(), cae,numero,vencimiento);
+                    
                 }
                 
             } catch (FileNotFoundException ex) {
